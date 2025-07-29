@@ -1,10 +1,11 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { LimitChunkCountPlugin } = require('webpack').optimize;
 
 module.exports = {
   entry: './src/js/app.js',
   output: {
-    filename: '[name].bundle.js',
+    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '',
     clean: true
@@ -15,7 +16,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
       inject: 'body'
-    })
+    }),
+    new LimitChunkCountPlugin({ maxChunks: 1 })
   ],
   module: {
     rules: [
@@ -35,16 +37,8 @@ module.exports = {
     extensions: ['.js']
   },
   optimization: {
-    splitChunks: {
-      cacheGroups: {
-        three: {
-          test: /[\\/]node_modules[\\/]three[\\/]/,
-          name: 'vendors-three',
-          chunks: 'all',
-          enforce: true
-        }
-      }
-    }
+    splitChunks: false,       // Disable all chunk splitting
+    runtimeChunk: false       // Inline the runtime
   },
   target: ['web']
 };
