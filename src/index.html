@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>3D Terénní vizualizace z OSM dlaždic</title>
+</head>
+<body>
+  <!-- Hamburger Menu Button -->
+  <div id="hamburger-btn" class="hamburger-btn" style="display: none;">
+    <div class="hamburger-line"></div>
+    <div class="hamburger-line"></div>
+    <div class="hamburger-line"></div>
+  </div>
+
+  <div id="upload-container" class="menu-container">
+    <h1>3D Terénní vizualizace</h1>
+    
+    <label>DEM GeoTIFF: <input type="file" id="demFile" accept=".tif,.tiff" title="Doporučená cesta: leaflet/elevation/elevationCZE.tif"></label><br>
+    
+    <label>Složka s OSM dlaždicemi: 
+      <input type="file" id="tileFolder" webkitdirectory directory multiple title="Doporučená cesta: leaflet/imagery">
+      <span id="folderStatus">Žádná složka nevybrána</span>
+    </label><br>
+    
+    <div id="coordinates-container">
+      <label>Zeměpisná šířka (lat): <input type="number" id="latitude" step="0.000001" value="49.16661"></label><br>
+      <label>Zeměpisná délka (lon): <input type="number" id="longitude" step="0.000001" value="16.12393"></label><br>
+      <label>Velikost modelu (km): <input type="number" id="modelSize" step="1" min="1" max="50" value="10" placeholder="10"></label><br>
+      <label>Zoom level: 
+        <select id="zoomLevel">
+          <option value="auto" selected>Automaticky</option>
+        </select>
+      </label><br>
+    </div>
+    
+    <label>Výšková exagerace: 
+      <select id="heightScale">
+        <option value="1">1x (realistická)</option>
+        <option value="2" selected>2x (mírně zvýrazněná)</option>
+        <option value="3">3x (zvýrazněná)</option>
+        <option value="5">5x (silně zvýrazněná)</option>
+        <option value="10">10x (velmi dramatická)</option>
+      </select>
+    </label><br>
+    
+    <label>Rozlišení terénu: 
+      <select id="terrainResolution" disabled>
+        <option value="">Načtěte DEM pro analýzu rozlišení...</option>
+      </select>
+    </label><br>
+    
+    <button id="renderBtn">Zobrazit terén</button>
+    
+    <!-- Progress Bar -->
+    <div id="progress-container" class="progress-container" style="display: none;">
+      <div class="progress-text" id="progress-text">Načítám...</div>
+      <div class="progress-bar-wrapper">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div class="progress-percentage" id="progress-percentage">0%</div>
+    </div>
+  </div>
+
+  <div id="viewer-container">
+    <canvas id="three-canvas"></canvas>
+    
+    <!-- Movement Speed Control (Bottom Left) -->
+    <div id="speed-control" class="speed-control" style="display: none;">
+      <label>Rychlost pohybu (klávesnice): 
+        <input type="range" id="movementSpeed" min="0.001" max="0.01" step="0.001" value="0.005">
+        <span id="speedValue">0.005</span>
+      </label>
+      <br>
+      <label>Rychlost otáčení (klávesnice): 
+        <input type="range" id="rotationSpeed" min="0.001" max="0.01" step="0.001" value="0.01">
+        <span id="rotationSpeedValue">0.01</span>
+      </label>
+    </div>
+    
+    <!-- North Arrow Overlay -->
+    <div id="north-arrow" class="north-arrow">
+      <div class="compass-rose">
+        <div class="arrow-shaft"></div>
+        <div class="arrow-head"></div>
+        <div class="north-label">N</div>
+      </div>
+    </div>
+    
+    <!-- Controls Legend -->
+    <div id="controls-legend" class="controls-legend">
+      <h4>Ovládání</h4>
+      <div class="legend-section">
+        <strong>Pohyb:</strong>
+        <div>W - Vpřed</div>
+        <div>S - Vzad</div>
+        <div>A - Vlevo</div>
+        <div>D - Vpravo</div>
+        <div>T - Stoupání</div>
+        <div>G - Klesání</div>
+      </div>
+      <div class="legend-section">
+        <strong>Otáčení:</strong>
+        <div>Q - Zatočit vlevo</div>
+        <div>E - Zatočit vpravo</div>
+        <div>R - Pohled nahoru</div>
+        <div>F - Pohled dolů</div>
+      </div>
+      <div class="legend-note">
+        Klikněte myší pro obnovení ovládání myší
+      </div>
+    </div>
+  </div>
+
+  <!-- Vložený bundle z Webpacku -->
+  <script src="bundle.js"></script>
+</body>
+</html>
