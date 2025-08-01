@@ -924,6 +924,7 @@ canvas#three-canvas {
   align-items: center;
   gap: 4px;
   transition: background-color 0.3s ease;
+  pointer-events: auto;
 }
 
 .hamburger-btn:hover {
@@ -964,10 +965,11 @@ canvas#three-canvas {
   overflow-y: auto;
   z-index: 1000;
   transition: transform 0.3s ease;
+  transform: translateX(0px);
 }
 
 .menu-container.collapsed {
-  transform: translateX(-100%);
+  transform: translateX(-370px) !important;
 }
 
 .menu-container h1 {
@@ -1100,6 +1102,224 @@ canvas#three-canvas {
 input[title], button[title] {
   position: relative;
   cursor: help;
+}
+
+/* Settings Sections */
+.settings-section {
+  margin-bottom: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.settings-section h3 {
+  margin: 0;
+  padding: 12px 15px;
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.settings-section > div:not(.settings-header) {
+  padding: 15px;
+}
+
+/* Advanced Settings Button */
+#advancedBtn {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  width: 100%;
+  transition: background 0.2s ease;
+}
+
+#advancedBtn:hover {
+  background: linear-gradient(135deg, #45a049, #3d8b40);
+}
+
+/* Advanced Settings Dialog */
+.advanced-dialog {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 350px;
+  max-height: calc(100vh - 40px);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  z-index: 1002;
+  overflow: hidden;
+  animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.dialog-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dialog-content {
+  padding: 20px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+/* Setting Groups */
+.setting-group {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #4CAF50;
+}
+
+.setting-group:last-child {
+  margin-bottom: 0;
+}
+
+.setting-group h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.setting-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #555;
+}
+
+.setting-group select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 13px;
+}
+
+.setting-group select:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+/* Preset Buttons */
+.setting-group button {
+  margin: 5px 5px 5px 0;
+  padding: 8px 12px;
+  background: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.setting-group button:hover {
+  background: #1976D2;
+}
+
+.setting-group button:active {
+  transform: translateY(1px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 800px) {
+  .advanced-dialog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    animation: slideInUp 0.3s ease;
+  }
+  
+  @keyframes slideInUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .menu-container {
+    width: 100vw;
+    padding: 15px;
+  }
+  
+  .setting-group {
+    padding: 10px;
+  }
+  
+  .setting-group button {
+    width: 100%;
+    margin: 3px 0;
+  }
 }
 `, ""]);
 // Exports
@@ -97915,7 +98135,7 @@ let cameraDirection = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
 let cameraRight = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
 let cameraUp = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
 
-function generateTerrain(demData, textureImageData, heightScaleMultiplier = 1, terrainResolution = 30) {
+function generateTerrain(demData, textureImageData, heightScaleMultiplier = 1, terrainResolution = 30, adjustedZoomLevel = null, sceneResolution = 1, maxTerrainDimension = 1024, textureDownsample = 1, antialiasing = 'auto') {
   const { width, height, rasters, geoTransform, samplesPerPixel, bbox } = demData;
 
   // Ochrany proti špatným datům
@@ -97976,15 +98196,16 @@ function generateTerrain(demData, textureImageData, heightScaleMultiplier = 1, t
   console.log(`Geografické rozměry: ${geographicWidth.toFixed(0)}m x ${geographicHeight.toFixed(0)}m`);
   console.log(`Rozlišení terénu: ${terrainResolution}m -> mřížka ${terrainWidth}x${terrainHeight}`);
   
-  // Limit maximum terrain dimensions for performance
-  const MAX_TERRAIN_DIMENSION = 1024;
+  // Use provided advanced settings instead of deriving from complexity
+  console.log(`Pokročilé nastavení: rozlišení scény ${(sceneResolution * 100).toFixed(0)}%, max rozměr ${maxTerrainDimension}, texture downsample ${textureDownsample}x, antialiasing ${antialiasing}`);
+  
   let finalTerrainWidth = terrainWidth;
   let finalTerrainHeight = terrainHeight;
   
-  if (terrainWidth > MAX_TERRAIN_DIMENSION || terrainHeight > MAX_TERRAIN_DIMENSION) {
+  if (terrainWidth > maxTerrainDimension || terrainHeight > maxTerrainDimension) {
     const scaleFactor = Math.min(
-      MAX_TERRAIN_DIMENSION / terrainWidth,
-      MAX_TERRAIN_DIMENSION / terrainHeight
+      maxTerrainDimension / terrainWidth,
+      maxTerrainDimension / terrainHeight
     );
     finalTerrainWidth = Math.floor(terrainWidth * scaleFactor);
     finalTerrainHeight = Math.floor(terrainHeight * scaleFactor);
@@ -97996,10 +98217,18 @@ function generateTerrain(demData, textureImageData, heightScaleMultiplier = 1, t
     console.log(`Omezuji rozměry terénu na ${finalTerrainWidth}x${finalTerrainHeight} (skutečné rozlišení: ${actualResolution.toFixed(1)}m)`);
   }
 
-  initThree();
+  // Determine antialiasing setting
+  let useAntialiasing;
+  if (antialiasing === 'auto') {
+    useAntialiasing = sceneResolution >= 0.75;
+  } else {
+    useAntialiasing = antialiasing === 'true';
+  }
 
-  // Create texture from ImageData
-  const texture = new three__WEBPACK_IMPORTED_MODULE_0__.CanvasTexture(imageDataToCanvas(textureImageData));
+  initThree(sceneResolution, useAntialiasing);
+
+  // Create texture from ImageData with specified downsampling
+  const texture = new three__WEBPACK_IMPORTED_MODULE_0__.CanvasTexture(imageDataToCanvas(downsampleImageData(textureImageData, textureDownsample)));
   texture.needsUpdate = true;
 
   // Create high-resolution terrain geometry
@@ -98101,7 +98330,7 @@ function sampleDEMAtCoordinate(elevationData, width, height, geoTransform, bbox,
   return (isFinite(elevation) && elevation > -1000 && elevation < 10000) ? elevation : 0;
 }
 
-function initThree() {
+function initThree(sceneResolutionScale = 1, useAntialiasing = true) {
   if (scene) {
     // Scene already exists, but ensure keyboard controls are initialized
     if (!keyboardControlsInitialized) {
@@ -98117,11 +98346,28 @@ function initThree() {
   camera = new three__WEBPACK_IMPORTED_MODULE_0__.PerspectiveCamera(60, aspect, 0.1, 10000);
   camera.position.set(0, 100, 100);
 
+  const canvas = document.getElementById('three-canvas');
   renderer = new three__WEBPACK_IMPORTED_MODULE_1__.WebGLRenderer({
-    canvas: document.getElementById('three-canvas'),
-    antialias: true
+    canvas: canvas,
+    antialias: useAntialiasing
   });
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  
+  // Calculate actual render size based on resolution scale
+  const renderWidth = Math.floor(window.innerWidth * sceneResolutionScale);
+  const renderHeight = Math.floor(window.innerHeight * sceneResolutionScale);
+  
+  // Set renderer size to the scaled resolution
+  renderer.setSize(renderWidth, renderHeight, false);
+  
+  // Scale canvas to full window size via CSS
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
+  
+  // Adjust pixel ratio for performance
+  const pixelRatio = Math.min(window.devicePixelRatio * sceneResolutionScale, 2);
+  renderer.setPixelRatio(pixelRatio);
+  
+  console.log(`Scene resolution: ${renderWidth}x${renderHeight} (${(sceneResolutionScale * 100).toFixed(0)}% scale, antialiasing: ${useAntialiasing})`);
 
   controls = new three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_2__.OrbitControls(camera, renderer.domElement);
   controls.target.set(0, 0, 0);
@@ -98194,6 +98440,12 @@ function initKeyboardControls() {
 
   // Mouse click event to restore mouse controls
   renderer.domElement.addEventListener('mousedown', (event) => {
+    // Don't interfere with hamburger button clicks
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    if (hamburgerBtn && (event.target === hamburgerBtn || hamburgerBtn.contains(event.target))) {
+      return;
+    }
+    
     if (isKeyboardControlActive) {
       // Check if no movement keys are currently pressed
       const movementKeys = ['KeyW', 'KeyS', 'KeyA', 'KeyD', 'KeyQ', 'KeyE', 'KeyR', 'KeyF', 'KeyT', 'KeyG'];
@@ -98574,6 +98826,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const zoomLevelSelect = document.getElementById('zoomLevel');
   const heightScaleSelect = document.getElementById('heightScale');
   const terrainResolutionSelect = document.getElementById('terrainResolution');
+  const graphicsSettingsSelect = document.getElementById('graphicsSettings');
   const renderBtn = document.getElementById('renderBtn');
 
   // Progress bar elements
@@ -98584,17 +98837,66 @@ window.addEventListener('DOMContentLoaded', () => {
 
   let selectedFiles = null;
   let availableZoomLevels = [];
+  let isUpdatingGraphicsSettings = false; // Flag to prevent infinite loops
+  let detectedNativeResolution = null; // Store the detected native resolution from DEM analysis
+
+  // Initialize zoom level dropdown as disabled until OSM tiles are loaded
+  zoomLevelSelect.disabled = true;
+  zoomLevelSelect.innerHTML = '<option value="">Načtěte OSM dlaždice pro výběr zoom levelu...</option>';
 
   // Initialize hamburger menu functionality
   const hamburgerBtn = document.getElementById('hamburger-btn');
   const menuContainer = document.getElementById('upload-container');
   const speedControl = document.getElementById('speed-control');
 
+  console.log('Hamburger button element:', hamburgerBtn);
+  console.log('Menu container element:', menuContainer);
+
   // Hamburger menu toggle
-  hamburgerBtn.addEventListener('click', () => {
-    hamburgerBtn.classList.toggle('active');
-    menuContainer.classList.toggle('collapsed');
-  });
+  if (hamburgerBtn && menuContainer) {
+    // Remove any existing event listeners to prevent duplicates
+    hamburgerBtn.removeEventListener('click', handleHamburgerClick);
+    
+    function handleHamburgerClick(event) {
+      console.log('Hamburger button clicked!');
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      
+      // Log current state before toggle
+      console.log('Before toggle - Menu classes:', menuContainer.className);
+      console.log('Before toggle - Computed transform:', window.getComputedStyle(menuContainer).transform);
+      
+      const isCollapsed = menuContainer.classList.contains('collapsed');
+      
+      if (isCollapsed) {
+        // Show menu
+        menuContainer.classList.remove('collapsed');
+        hamburgerBtn.classList.add('active');
+        console.log('Showing menu');
+      } else {
+        // Hide menu
+        menuContainer.classList.add('collapsed');
+        hamburgerBtn.classList.remove('active');
+        console.log('Hiding menu');
+      }
+      
+      // Log state after toggle
+      console.log('After toggle - Menu classes:', menuContainer.className);
+      console.log('After toggle - Hamburger classes:', hamburgerBtn.className);
+      
+      // Force a reflow and check computed styles
+      setTimeout(() => {
+        console.log('After reflow - Computed transform:', window.getComputedStyle(menuContainer).transform);
+        console.log('After reflow - Menu visibility:', window.getComputedStyle(menuContainer).visibility);
+        console.log('After reflow - Menu display:', window.getComputedStyle(menuContainer).display);
+      }, 100);
+    }
+    
+    hamburgerBtn.addEventListener('click', handleHamburgerClick, { once: false, passive: false });
+  } else {
+    console.error('Hamburger button or menu container not found!');
+  }
 
   // Initialize speed slider immediately
   const speedSlider = document.getElementById('movementSpeed');
@@ -98640,6 +98942,11 @@ window.addEventListener('DOMContentLoaded', () => {
     progressPercentage.textContent = `${Math.round(percentage)}%`;
   }
 
+  // Set loading cursor when user clicks on OSM folder input
+  tileFolderInput.addEventListener('click', () => {
+    document.body.style.cursor = 'wait';
+  });
+
   // Handle folder selection
   tileFolderInput.addEventListener('change', async (event) => {
     try {
@@ -98661,26 +98968,81 @@ window.addEventListener('DOMContentLoaded', () => {
         
         // Update zoom level dropdown
         updateZoomLevelOptions(availableZoomLevels);
+        
+        // Reset cursor after successful processing
+        document.body.style.cursor = 'default';
       } else {
         selectedFiles = null;
         folderStatus.textContent = 'Žádná složka nevybrána';
         folderStatus.style.color = '';
         availableZoomLevels = [];
         updateZoomLevelOptions([]);
+        
+        // Reset cursor when no files are selected (user canceled)
+        document.body.style.cursor = 'default';
       }
     } catch (error) {
       console.error('Chyba při výběru složky:', error);
       folderStatus.textContent = 'Chyba při výběru složky';
       folderStatus.style.color = 'red';
+      
+      // Reset cursor on error
+      document.body.style.cursor = 'default';
     }
   });
 
+  // Get description for zoom level
+  function getZoomDescription(zoom) {
+    if (zoom <= 10) return 'nízké rozlišení';
+    if (zoom <= 12) return 'střední rozlišení';
+    if (zoom <= 14) return 'vysoké rozlišení';
+    return 'velmi vysoké rozlišení';
+  }
+
+  // Sync zoom level with graphics settings
+  function syncZoomLevelWithGraphicsSettings(graphicsSettings, availableZooms) {
+    // Get all available zoom levels
+    const availableZoomLevels = availableZooms.map(zoom => parseInt(zoom));
+    
+    if (availableZoomLevels.length > 0) {
+      let targetZoomIndex;
+      
+      // Map 5 graphics settings to available zoom levels more intelligently
+      switch (graphicsSettings) {
+        case 'veryVeryLow':
+          // Use lowest available zoom (index 0)
+          targetZoomIndex = 0;
+          break;
+        case 'veryLow':
+          // Use 25% through the available range
+          targetZoomIndex = Math.floor(availableZoomLevels.length * 0.25);
+          break;
+        case 'low':
+          // Use 50% through the available range (middle)
+          targetZoomIndex = Math.floor(availableZoomLevels.length * 0.5);
+          break;
+        case 'medium':
+          // Use 75% through the available range
+          targetZoomIndex = Math.floor(availableZoomLevels.length * 0.75);
+          break;
+        case 'high':
+          // Use highest available zoom (last index)
+          targetZoomIndex = availableZoomLevels.length - 1;
+          break;
+        default:
+          targetZoomIndex = Math.floor(availableZoomLevels.length * 0.5);
+      }
+      
+      const targetZoom = availableZoomLevels[targetZoomIndex];
+      zoomLevelSelect.value = targetZoom.toString();
+      console.log(`Graphics setting ${graphicsSettings}: Set zoom level to ${targetZoom} (index ${targetZoomIndex}/${availableZoomLevels.length - 1}, available: ${availableZoomLevels.join(', ')})`);
+    }
+  }
+
   // Update zoom level dropdown based on available levels
   function updateZoomLevelOptions(availableZooms) {
-    // Clear existing options except "auto"
-    const autoOption = zoomLevelSelect.querySelector('option[value="auto"]');
+    // Clear existing options
     zoomLevelSelect.innerHTML = '';
-    zoomLevelSelect.appendChild(autoOption);
     
     if (availableZooms.length > 0) {
       // Add available zoom levels
@@ -98691,6 +99053,15 @@ window.addEventListener('DOMContentLoaded', () => {
         zoomLevelSelect.appendChild(option);
       });
       
+      // Enable zoom level dropdown
+      zoomLevelSelect.disabled = false;
+      
+      // Sync zoom level with current graphics settings directly
+      const currentGraphicsSettings = graphicsSettingsSelect.value;
+      if (currentGraphicsSettings) {
+        syncZoomLevelWithGraphicsSettings(currentGraphicsSettings, availableZooms);
+      }
+      
       // Enable render button when valid zoom levels are available
       renderBtn.disabled = false;
       renderBtn.textContent = 'Zobrazit terén';
@@ -98699,17 +99070,8 @@ window.addEventListener('DOMContentLoaded', () => {
       renderBtn.disabled = true;
       renderBtn.textContent = 'Nejprve vyberte platnou složku s OSM dlaždicemi';
       
-      // Clear zoom level dropdown (keep only auto option)
-      // Don't add default levels if no OSM tiles are detected
+      // Clear zoom level dropdown
     }
-  }
-
-  // Get description for zoom level
-  function getZoomDescription(zoom) {
-    if (zoom <= 10) return 'nízké rozlišení';
-    if (zoom <= 12) return 'střední rozlišení';
-    if (zoom <= 14) return 'vysoké rozlišení';
-    return 'velmi vysoké rozlišení';
   }
 
   // Analyze DEM resolution and populate terrain resolution options
@@ -98720,9 +99082,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const METERS_PER_DEGREE = 111000;
     const pixelSizeXMeters = Math.abs(geoTransform.pixelSizeX) * METERS_PER_DEGREE;
     const pixelSizeYMeters = Math.abs(geoTransform.pixelSizeY) * METERS_PER_DEGREE;
-    const demResolution = Math.max(pixelSizeXMeters, pixelSizeYMeters);
+    const nativeResolution = Math.max(pixelSizeXMeters, pixelSizeYMeters);
     
-    console.log(`DEM rozlišení: ${demResolution.toFixed(1)}m per pixel`);
+    console.log(`DEM rozlišení: ${nativeResolution.toFixed(1)}m per pixel`);
     
     // Calculate geographic area
     const [west, south, east, north] = bbox;
@@ -98731,71 +99093,40 @@ window.addEventListener('DOMContentLoaded', () => {
     
     console.log(`Oblast: ${areaWidthMeters.toFixed(0)}m x ${areaHeightMeters.toFixed(0)}m`);
     
-    // Generate resolution options based on DEM quality
-    const resolutionOptions = [];
+    // Store native resolution
+    detectedNativeResolution = Math.round(nativeResolution);
     
-    // Start with DEM native resolution, then add multiples and fractions
-    const baseResolution = Math.round(demResolution);
-    
-    // Add finer resolutions (if DEM supports it)
-    if (baseResolution > 20) {
-      resolutionOptions.push(Math.round(baseResolution / 4));
-      resolutionOptions.push(Math.round(baseResolution / 2));
-    } else if (baseResolution > 10) {
-      resolutionOptions.push(Math.round(baseResolution / 2));
-    }
-    
-    // Add native resolution
-    resolutionOptions.push(baseResolution);
-    
-    // Add coarser resolutions
-    resolutionOptions.push(baseResolution * 2);
-    resolutionOptions.push(baseResolution * 4);
-    
-    // Add some standard options
-    const standardOptions = [10, 20, 30, 50, 100];
-    standardOptions.forEach(option => {
-      if (!resolutionOptions.includes(option)) {
-        resolutionOptions.push(option);
-      }
-    });
-    
-    // Sort and remove duplicates
-    const uniqueOptions = [...new Set(resolutionOptions)].sort((a, b) => a - b);
+    // Create terrain resolution options based on graphics settings
+    const resolutionOptions = [
+      { value: Math.round(nativeResolution * 2), label: 'Ultra nízká (2x nativní)', setting: 'veryVeryLow' },
+      { value: Math.round(nativeResolution), label: 'Velmi nízká (nativní)', setting: 'veryLow' },
+      { value: Math.round(nativeResolution * 0.5), label: 'Nízká (0.5x nativní)', setting: 'low' },
+      { value: Math.round(nativeResolution * 0.25), label: 'Střední (0.25x nativní)', setting: 'medium' },
+      { value: Math.round(nativeResolution * 0.1), label: 'Vysoká (0.1x nativní)', setting: 'high' }
+    ];
     
     // Populate the select element
-    const terrainResolutionSelect = document.getElementById('terrainResolution');
     terrainResolutionSelect.innerHTML = '';
     terrainResolutionSelect.disabled = false;
     
-    uniqueOptions.forEach(resolution => {
-      const option = document.createElement('option');
-      option.value = resolution;
-      
-      let description = '';
-      if (resolution <= baseResolution / 2) {
-        description = 'velmi vysoké rozlišení';
-      } else if (resolution <= baseResolution) {
-        description = 'vysoké rozlišení (nativní DEM)';
-      } else if (resolution <= baseResolution * 2) {
-        description = 'střední rozlišení';
-      } else {
-        description = 'nízké rozlišení';
-      }
-      
-      option.textContent = `${resolution}m (${description})`;
-      
-      // Set as selected if it matches or is close to DEM resolution
-      if (resolution === baseResolution) {
-        option.selected = true;
-      }
-      
-      terrainResolutionSelect.appendChild(option);
+    resolutionOptions.forEach(option => {
+      const optionElement = document.createElement('option');
+      optionElement.value = option.value;
+      optionElement.textContent = `${option.value}m (${option.label})`;
+      optionElement.dataset.setting = option.setting;
+      terrainResolutionSelect.appendChild(optionElement);
     });
     
-    console.log(`Nastaveny možnosti rozlišení terénu: [${uniqueOptions.join(', ')}]m`);
-    console.log(`Výchozí rozlišení: ${baseResolution}m (nativní DEM)`);
+    console.log(`Terrain resolution options created for native ${detectedNativeResolution}m`);
+    
+    // Set initial selection based on current graphics setting
+    updateTerrainResolutionForGraphicsSetting(graphicsSettingsSelect.value);
   }
+
+  // Set loading cursor when user clicks on DEM file input
+  demInput.addEventListener('click', () => {
+    document.body.style.cursor = 'wait';
+  });
 
   // Handle DEM file selection - analyze resolution immediately
   demInput.addEventListener('change', async (event) => {
@@ -98804,6 +99135,10 @@ window.addEventListener('DOMContentLoaded', () => {
       // Reset terrain resolution if no file selected
       terrainResolutionSelect.innerHTML = '<option value="">Načtěte DEM pro analýzu rozlišení...</option>';
       terrainResolutionSelect.disabled = true;
+      detectedNativeResolution = null; // Reset native resolution
+      console.log('DEBUG: detectedNativeResolution reset to null');
+      // Reset cursor when no file is selected (user canceled)
+      document.body.style.cursor = 'default';
       return;
     }
 
@@ -98816,11 +99151,27 @@ window.addEventListener('DOMContentLoaded', () => {
       const demMetadata = await (0,_geotiff_utils_js__WEBPACK_IMPORTED_MODULE_1__.analyzeGeoTIFFMetadata)(file);
       analyzeDEMAndSetResolutionOptions(demMetadata);
       
+      // Trigger graphics settings sync now that terrain resolution options are available
+      const currentGraphicsSettings = graphicsSettingsSelect.value;
+      if (currentGraphicsSettings && detectedNativeResolution) {
+        console.log(`DEBUG: About to trigger graphics sync with native resolution: ${detectedNativeResolution}m`);
+        // Manually trigger the graphics settings change event to sync terrain resolution
+        graphicsSettingsSelect.dispatchEvent(new Event('change'));
+      }
+      
+      // Reset cursor after successful analysis
+      document.body.style.cursor = 'default';
+      
     } catch (error) {
       console.error('Chyba při analýze DEM souboru:', error);
       terrainResolutionSelect.innerHTML = '<option value="">Chyba při analýze DEM</option>';
       terrainResolutionSelect.disabled = true;
+      detectedNativeResolution = null; // Reset on error
+      console.log('DEBUG: detectedNativeResolution reset to null due to error');
       alert('Chyba při analýze DEM souboru. Zkontrolujte, že je soubor platný GeoTIFF.');
+      
+      // Reset cursor on error
+      document.body.style.cursor = 'default';
     }
   });
 
@@ -98838,6 +99189,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const zoomLevel = zoomLevelSelect.value;
     const heightScaleMultiplier = parseFloat(heightScaleSelect.value);
     const terrainResolution = parseFloat(terrainResolutionSelect.value);
+    const graphicsSettings = graphicsSettingsSelect.value;
 
     // Validation
     if (!demFile) {
@@ -98930,12 +99282,62 @@ window.addEventListener('DOMContentLoaded', () => {
       console.log(`Rozlišení terénu: ${terrainResolution}m`);
       console.log('Generuji 3D terén...');
 
+      // Adjust terrain generation parameters based on graphics settings
+      let adjustedTerrainResolution;
+      let adjustedZoomLevel;
+      
+      // Use the detected native resolution from DEM analysis
+      if (!detectedNativeResolution) {
+        console.error('Native resolution not detected. Using fallback.');
+        detectedNativeResolution = 30; // Fallback value
+      }
+      
+      switch (graphicsSettings) {
+        case 'veryVeryLow':
+          adjustedTerrainResolution = detectedNativeResolution * 2;
+          adjustedZoomLevel = Math.max(finalZoomLevel - 2, 0);
+          break;
+        case 'veryLow':
+          adjustedTerrainResolution = detectedNativeResolution;
+          adjustedZoomLevel = Math.max(finalZoomLevel - 1, 0);
+          break;
+        case 'low':
+          adjustedTerrainResolution = detectedNativeResolution * 0.5;
+          adjustedZoomLevel = finalZoomLevel;
+          break;
+        case 'medium':
+          adjustedTerrainResolution = detectedNativeResolution * 0.25;
+          adjustedZoomLevel = finalZoomLevel;
+          break;
+        case 'high':
+          adjustedTerrainResolution = detectedNativeResolution * 0.1;
+          adjustedZoomLevel = Math.min(finalZoomLevel + 1, 18);
+          break;
+        default:
+          adjustedTerrainResolution = detectedNativeResolution;
+          adjustedZoomLevel = finalZoomLevel;
+      }
+      
+      console.log(`Rozlišení terénu: ${adjustedTerrainResolution}m (native: ${detectedNativeResolution}m, graphics: ${graphicsSettings})`);
+      console.log('Generuji 3D terén...');
+      
+      // Get advanced settings
+      const sceneResolutionSelect = document.getElementById('sceneResolution');
+      const maxTerrainDimensionSelect = document.getElementById('maxTerrainDimension');
+      const textureDownsampleSelect = document.getElementById('textureDownsample');
+      const antialiasingSelect = document.getElementById('antialiasing');
+
+      const sceneResolution = parseFloat(sceneResolutionSelect.value);
+      const maxTerrainDimension = parseFloat(maxTerrainDimensionSelect.value);
+      const textureDownsample = parseFloat(textureDownsampleSelect.value);
+      const antialiasing = antialiasingSelect.value === 'true';
+
       // Hide menu and show hamburger button after successful model load
       menuContainer.classList.add('collapsed');
       hamburgerBtn.style.display = 'flex';
       speedControl.style.display = 'block';
 
-      (0,_terrain_js__WEBPACK_IMPORTED_MODULE_2__.generateTerrain)(resampledDemData, textureImageData, heightScaleMultiplier, terrainResolution);
+      (0,_terrain_js__WEBPACK_IMPORTED_MODULE_2__.generateTerrain)(resampledDemData, textureImageData, heightScaleMultiplier, adjustedTerrainResolution, adjustedZoomLevel, sceneResolution, maxTerrainDimension, textureDownsample, antialiasing);
       
       updateProgress(100, 'Hotovo!');
       
@@ -98954,101 +99356,284 @@ window.addEventListener('DOMContentLoaded', () => {
       renderBtn.textContent = 'Zobrazit terén';
     }
   });
-});
 
-/**
- * Resample DEM data to match texture dimensions and geographic bounds
- * @param {Object} demData - Original DEM data
- * @param {ImageData} textureImageData - Tile texture data
- * @param {Array} tileBounds - Geographic bounds [west, south, east, north]
- * @returns {Object} Resampled DEM data structure
- */
-function resampleDEMToTexture(demData, textureImageData, tileBounds) {
-  const { rasters, width: demWidth, height: demHeight, geoTransform: demGeoTransform, bbox: demBbox } = demData;
-  const elevationData = rasters[0] || rasters;
-  
-  const textureWidth = textureImageData.width;
-  const textureHeight = textureImageData.height;
-  
-  console.log(`Převzorkování DEM z ${demWidth}x${demHeight} na ${textureWidth}x${textureHeight}`);
-  console.log('DEM bbox:', demBbox);
-  console.log('Tile bounds:', tileBounds);
-  
-  // Create new elevation array matching texture dimensions
-  const newElevationData = new Float32Array(textureWidth * textureHeight);
-  
-  // Calculate geographic bounds and pixel sizes for the tile area
-  const [west, south, east, north] = tileBounds;
-  const tilePixelSizeX = (east - west) / textureWidth;
-  const tilePixelSizeY = (north - south) / textureHeight;
-  
-  // Fill the new elevation array by sampling from the original DEM
-  for (let row = 0; row < textureHeight; row++) {
-    for (let col = 0; col < textureWidth; col++) {
-      // Calculate geographic coordinates for this pixel in the tile texture
-      const lon = west + col * tilePixelSizeX;
-      const lat = north - row * tilePixelSizeY; // Note: north - row because image coordinates are flipped
-      
-      // Sample elevation from the original DEM at this geographic location
-      const elevation = sampleDEMAtCoordinate(elevationData, demWidth, demHeight, demGeoTransform, demBbox, lon, lat);
-      
-      const index = row * textureWidth + col;
-      newElevationData[index] = elevation;
-    }
-  }
-  
-  // Create new DEM data structure matching the tile texture
-  return {
-    ...demData,
-    rasters: [newElevationData],
-    width: textureWidth,
-    height: textureHeight,
-    bbox: tileBounds,
-    geoTransform: {
-      originX: west,
-      originY: north,
-      pixelSizeX: tilePixelSizeX,
-      pixelSizeY: -tilePixelSizeY // Negative because Y increases downward in image coordinates
+  // Advanced settings elements
+  const sceneResolutionSelect = document.getElementById('sceneResolution');
+  const maxTerrainDimensionSelect = document.getElementById('maxTerrainDimension');
+  const textureDownsampleSelect = document.getElementById('textureDownsample');
+  const antialiasingSelect = document.getElementById('antialiasing');
+
+  // Advanced settings toggle functionality
+  window.toggleAdvancedDialog = function() {
+    const advancedDialog = document.getElementById('advanced-dialog');
+    
+    if (advancedDialog.style.display === 'none' || advancedDialog.style.display === '') {
+      advancedDialog.style.display = 'block';
+    } else {
+      advancedDialog.style.display = 'none';
     }
   };
-}
 
-/**
- * Sample elevation from DEM at a specific geographic coordinate
- * @param {TypedArray} elevationData - DEM elevation data
- * @param {number} width - DEM width
- * @param {number} height - DEM height
- * @param {Object} geoTransform - DEM geotransform
- * @param {Array} bbox - DEM bounding box [west, south, east, north]
- * @param {number} lon - Longitude to sample
- * @param {number} lat - Latitude to sample
- * @returns {number} Elevation value or 0 if outside bounds
- */
-function sampleDEMAtCoordinate(elevationData, width, height, geoTransform, bbox, lon, lat) {
-  // Check if coordinate is within DEM bounds
-  if (lon < bbox[0] || lon > bbox[2] || lat < bbox[1] || lat > bbox[3]) {
-    return 0; // Outside DEM bounds
+  // Sync graphics settings with advanced settings
+  graphicsSettingsSelect.addEventListener('change', function() {
+    if (isUpdatingGraphicsSettings) return; // Prevent infinite loops
+    
+    const graphicsSettings = this.value;
+    
+    // Update advanced settings based on graphics settings
+    switch (graphicsSettings) {
+      case 'veryVeryLow':
+        sceneResolutionSelect.value = '0.25';
+        maxTerrainDimensionSelect.value = '128';
+        textureDownsampleSelect.value = '4';
+        antialiasingSelect.value = 'false';
+        break;
+      case 'veryLow':
+        sceneResolutionSelect.value = '0.5';
+        maxTerrainDimensionSelect.value = '256';
+        textureDownsampleSelect.value = '3';
+        antialiasingSelect.value = 'false';
+        break;
+      case 'low':
+        sceneResolutionSelect.value = '0.75';
+        maxTerrainDimensionSelect.value = '512';
+        textureDownsampleSelect.value = '2';
+        antialiasingSelect.value = 'auto';
+        break;
+      case 'medium':
+        sceneResolutionSelect.value = '1';
+        maxTerrainDimensionSelect.value = '1024';
+        textureDownsampleSelect.value = '1';
+        antialiasingSelect.value = 'auto';
+        break;
+      case 'high':
+        sceneResolutionSelect.value = '1';
+        maxTerrainDimensionSelect.value = '2048';
+        textureDownsampleSelect.value = '1';
+        antialiasingSelect.value = 'true';
+        break;
+    }
+    
+    // Update terrain resolution display (if available and native resolution detected)
+    if (terrainResolutionSelect.options.length > 1 && detectedNativeResolution) {
+      console.log(`DEBUG: Using detectedNativeResolution = ${detectedNativeResolution}m for graphics setting ${graphicsSettings}`);
+      
+      // Get all available terrain resolution options sorted by value
+      const availableResolutions = Array.from(terrainResolutionSelect.options)
+        .map(option => parseFloat(option.value))
+        .filter(value => !isNaN(value))
+        .sort((a, b) => a - b);
+      
+      console.log(`DEBUG: Available terrain resolutions: [${availableResolutions.join(', ')}]m`);
+      
+      let targetResolutionIndex;
+      
+      // Map 5 graphics settings to available terrain resolutions intelligently
+      // Lower graphics = higher resolution values (less detailed)
+      // Higher graphics = lower resolution values (more detailed)
+      switch (graphicsSettings) {
+        case 'veryVeryLow':
+          // Use highest resolution value (least detailed) - last 20% of options
+          targetResolutionIndex = Math.floor(availableResolutions.length * 0.8);
+          break;
+        case 'veryLow':
+          // Use 60% through the range
+          targetResolutionIndex = Math.floor(availableResolutions.length * 0.6);
+          break;
+        case 'low':
+          // Use middle (50%)
+          targetResolutionIndex = Math.floor(availableResolutions.length * 0.5);
+          break;
+        case 'medium':
+          // Use 30% through the range (more detailed)
+          targetResolutionIndex = Math.floor(availableResolutions.length * 0.3);
+          break;
+        case 'high':
+          // Use lowest resolution value (most detailed) - first 10%
+          targetResolutionIndex = Math.floor(availableResolutions.length * 0.1);
+          break;
+        default:
+          targetResolutionIndex = Math.floor(availableResolutions.length * 0.5);
+      }
+      
+      // Ensure index is within bounds
+      targetResolutionIndex = Math.max(0, Math.min(targetResolutionIndex, availableResolutions.length - 1));
+      const targetResolution = availableResolutions[targetResolutionIndex];
+      
+      // Find the option with this resolution value
+      let selectedOption = null;
+      for (let option of terrainResolutionSelect.options) {
+        if (parseFloat(option.value) === targetResolution) {
+          selectedOption = option;
+          break;
+        }
+      }
+      
+      if (selectedOption) {
+        terrainResolutionSelect.value = selectedOption.value;
+        console.log(`Graphics setting ${graphicsSettings}: Set terrain resolution to ${selectedOption.value}m (index ${targetResolutionIndex}/${availableResolutions.length - 1}, native: ${detectedNativeResolution}m)`);
+      }
+    } else {
+      console.log(`DEBUG: Terrain resolution sync skipped - options: ${terrainResolutionSelect.options.length}, native: ${detectedNativeResolution}`);
+    }
+    
+    // Update zoom level display (if available)
+    if (zoomLevelSelect.options.length > 0) {
+      // Get all available zoom levels
+      const availableZooms = Array.from(zoomLevelSelect.options)
+        .map(option => option.value)
+        .filter(value => value !== '' && !isNaN(parseInt(value)))
+        .map(value => parseInt(value))
+        .sort((a, b) => a - b);
+      
+      if (availableZooms.length > 0) {
+        let targetZoomIndex;
+        
+        // Map 5 graphics settings to available zoom levels more intelligently
+        switch (graphicsSettings) {
+          case 'veryVeryLow':
+            // Use lowest available zoom (index 0)
+            targetZoomIndex = 0;
+            break;
+          case 'veryLow':
+            // Use 25% through the available range
+            targetZoomIndex = Math.floor(availableZooms.length * 0.25);
+            break;
+          case 'low':
+            // Use 50% through the available range (middle)
+            targetZoomIndex = Math.floor(availableZooms.length * 0.5);
+            break;
+          case 'medium':
+            // Use 75% through the available range
+            targetZoomIndex = Math.floor(availableZooms.length * 0.75);
+            break;
+          case 'high':
+            // Use highest available zoom (last index)
+            targetZoomIndex = availableZooms.length - 1;
+            break;
+          default:
+            targetZoomIndex = Math.floor(availableZooms.length * 0.5);
+        }
+        
+        const targetZoom = availableZooms[targetZoomIndex];
+        zoomLevelSelect.value = targetZoom.toString();
+        console.log(`Graphics setting ${graphicsSettings}: Set zoom level to ${targetZoom} (index ${targetZoomIndex}/${availableZooms.length - 1}, available: ${availableZooms.join(', ')})`);
+      }
+    }
+    
+    isUpdatingGraphicsSettings = true; // Set flag to prevent infinite loops
+    setTimeout(() => {
+      isUpdatingGraphicsSettings = false; // Reset flag after a short delay
+    }, 100);
+  });
+
+  // Update terrain resolution based on graphics setting
+  function updateTerrainResolutionForGraphicsSetting(graphicsSetting) {
+    const resolutionOptions = Array.from(terrainResolutionSelect.options)
+      .map(option => ({ value: parseFloat(option.value), label: option.textContent, setting: option.dataset.setting }));
+    
+    const matchingOption = resolutionOptions.find(option => option.setting === graphicsSetting);
+    
+    if (matchingOption) {
+      terrainResolutionSelect.value = matchingOption.value;
+      console.log(`Set terrain resolution to ${matchingOption.value}m for graphics setting ${graphicsSetting}`);
+    }
   }
-  
-  // Convert geographic coordinates to pixel coordinates
-  const x = (lon - geoTransform.originX) / geoTransform.pixelSizeX;
-  const y = (lat - geoTransform.originY) / geoTransform.pixelSizeY;
-  
-  const col = Math.floor(x);
-  const row = Math.floor(y);
-  
-  // Check pixel bounds
-  if (col < 0 || col >= width || row < 0 || row >= height) {
-    return 0;
+
+  /**
+   * Resample DEM data to match texture dimensions and geographic bounds
+   * @param {Object} demData - Original DEM data
+   * @param {ImageData} textureImageData - Tile texture data
+   * @param {Array} tileBounds - Geographic bounds [west, south, east, north]
+   * @returns {Object} Resampled DEM data structure
+   */
+  function resampleDEMToTexture(demData, textureImageData, tileBounds) {
+    const { rasters, width: demWidth, height: demHeight, geoTransform: demGeoTransform, bbox: demBbox } = demData;
+    const elevationData = rasters[0] || rasters;
+
+    const textureWidth = textureImageData.width;
+    const textureHeight = textureImageData.height;
+
+    console.log(`Převzorkování DEM z ${demWidth}x${demHeight} na ${textureWidth}x${textureHeight}`);
+    console.log('DEM bbox:', demBbox);
+    console.log('Tile bounds:', tileBounds);
+
+    // Create new elevation array matching texture dimensions
+    const newElevationData = new Float32Array(textureWidth * textureHeight);
+
+    // Calculate geographic bounds and pixel sizes for the tile area
+    const [west, south, east, north] = tileBounds;
+    const tilePixelSizeX = (east - west) / textureWidth;
+    const tilePixelSizeY = (north - south) / textureHeight;
+
+    // Fill the new elevation array by sampling from the original DEM
+    for (let row = 0; row < textureHeight; row++) {
+      for (let col = 0; col < textureWidth; col++) {
+        // Calculate geographic coordinates for this pixel in the tile texture
+        const lon = west + col * tilePixelSizeX;
+        const lat = north - row * tilePixelSizeY; // Note: north - row because image coordinates are flipped
+      
+        // Sample elevation from the original DEM at this geographic location
+        const elevation = sampleDEMAtCoordinate(elevationData, demWidth, demHeight, demGeoTransform, demBbox, lon, lat);
+      
+        const index = row * textureWidth + col;
+        newElevationData[index] = elevation;
+      }
+    }
+
+    // Create new DEM data structure matching the tile texture
+    return {
+      ...demData,
+      rasters: [newElevationData],
+      width: textureWidth,
+      height: textureHeight,
+      bbox: tileBounds,
+      geoTransform: {
+        originX: west,
+        originY: north,
+        pixelSizeX: tilePixelSizeX,
+        pixelSizeY: -tilePixelSizeY // Negative because Y increases downward in image coordinates
+      }
+    };
   }
+
+  /**
+   * Sample elevation from DEM at a specific geographic coordinate
+   * @param {TypedArray} elevationData - DEM elevation data
+   * @param {number} width - DEM width
+   * @param {number} height - DEM height
+   * @param {Object} geoTransform - DEM geotransform
+   * @param {Array} bbox - DEM bounding box [west, south, east, north]
+   * @param {number} lon - Longitude to sample
+   * @param {number} lat - Latitude to sample
+   * @returns {number} Elevation value or 0 if outside bounds
+   */
+  function sampleDEMAtCoordinate(elevationData, width, height, geoTransform, bbox, lon, lat) {
+    // Check if coordinate is within DEM bounds
+    if (lon < bbox[0] || lon > bbox[2] || lat < bbox[1] || lat > bbox[3]) {
+      return 0; // Outside DEM bounds
+    }
   
-  // Simple nearest neighbor sampling
-  const index = row * width + col;
-  const elevation = elevationData[index];
+    // Convert geographic coordinates to pixel coordinates
+    const x = (lon - geoTransform.originX) / geoTransform.pixelSizeX;
+    const y = (lat - geoTransform.originY) / geoTransform.pixelSizeY;
   
-  // Return elevation or 0 for invalid values
-  return (isFinite(elevation) && elevation > -1000 && elevation < 10000) ? elevation : 0;
-}
+    const col = Math.floor(x);
+    const row = Math.floor(y);
+  
+    // Check pixel bounds
+    if (col < 0 || col >= width || row < 0 || row >= height) {
+      return 0;
+    }
+  
+    // Simple nearest neighbor sampling
+    const index = row * width + col;
+    const elevation = elevationData[index];
+  
+    // Return elevation or 0 for invalid values
+    return (isFinite(elevation) && elevation > -1000 && elevation < 10000) ? elevation : 0;
+  }
+});
 
 })();
 

@@ -17,7 +17,7 @@ let cameraDirection = new THREE.Vector3();
 let cameraRight = new THREE.Vector3();
 let cameraUp = new THREE.Vector3();
 
-export function generateTerrain(demData, textureImageData, heightScaleMultiplier = 1, terrainResolution = 30) {
+export function generateTerrain(demData, textureImageData, heightScaleMultiplier = 1, terrainResolution = 30, adjustedZoomLevel = null, sceneResolution = 1, maxTerrainDimension = 1024, textureDownsample = 1, antialiasing = 'auto') {
   const { width, height, rasters, geoTransform, samplesPerPixel, bbox } = demData;
 
   // Ochrany proti špatným datům
@@ -78,15 +78,16 @@ export function generateTerrain(demData, textureImageData, heightScaleMultiplier
   console.log(`Geografické rozměry: ${geographicWidth.toFixed(0)}m x ${geographicHeight.toFixed(0)}m`);
   console.log(`Rozlišení terénu: ${terrainResolution}m -> mřížka ${terrainWidth}x${terrainHeight}`);
   
-  // Limit maximum terrain dimensions for performance
-  const MAX_TERRAIN_DIMENSION = 1024;
+  // Use provided advanced settings instead of deriving from complexity
+  console.log(`Pokročilé nastavení: rozlišení scény ${(sceneResolution * 100).toFixed(0)}%, max rozměr ${maxTerrainDimension}, texture downsample ${textureDownsample}x, antialiasing ${antialiasing}`);
+  
   let finalTerrainWidth = terrainWidth;
   let finalTerrainHeight = terrainHeight;
   
-  if (terrainWidth > MAX_TERRAIN_DIMENSION || terrainHeight > MAX_TERRAIN_DIMENSION) {
+  if (terrainWidth > maxTerrainDimension || terrainHeight > maxTerrainDimension) {
     const scaleFactor = Math.min(
-      MAX_TERRAIN_DIMENSION / terrainWidth,
-      MAX_TERRAIN_DIMENSION / terrainHeight
+      maxTerrainDimension / terrainWidth,
+      maxTerrainDimension / terrainHeight
     );
     finalTerrainWidth = Math.floor(terrainWidth * scaleFactor);
     finalTerrainHeight = Math.floor(terrainHeight * scaleFactor);
@@ -98,10 +99,18 @@ export function generateTerrain(demData, textureImageData, heightScaleMultiplier
     console.log(`Omezuji rozměry terénu na ${finalTerrainWidth}x${finalTerrainHeight} (skutečné rozlišení: ${actualResolution.toFixed(1)}m)`);
   }
 
-  initThree();
+  // Determine antialiasing setting
+  let useAntialiasing;
+  if (antialiasing === 'auto') {
+    useAntialiasing = sceneResolution >= 0.75;
+  } else {
+    useAntialiasing = antialiasing === 'true';
+  }
 
-  // Create texture from ImageData
-  const texture = new THREE.CanvasTexture(imageDataToCanvas(textureImageData));
+  initThree(sceneResolution, useAntialiasing);
+
+  // Create texture from ImageData with specified downsampling
+  const texture = new THREE.CanvasTexture(imageDataToCanvas(downsampleImageData(textureImageData, textureDownsample)));
   texture.needsUpdate = true;
 
   // Create high-resolution terrain geometry
@@ -203,7 +212,7 @@ function sampleDEMAtCoordinate(elevationData, width, height, geoTransform, bbox,
   return (isFinite(elevation) && elevation > -1000 && elevation < 10000) ? elevation : 0;
 }
 
-function initThree() {
+function initThree(sceneResolutionScale = 1, useAntialiasing = true) {
   if (scene) {
     // Scene already exists, but ensure keyboard controls are initialized
     if (!keyboardControlsInitialized) {
@@ -219,11 +228,28 @@ function initThree() {
   camera = new THREE.PerspectiveCamera(60, aspect, 0.1, 10000);
   camera.position.set(0, 100, 100);
 
+  const canvas = document.getElementById('three-canvas');
   renderer = new THREE.WebGLRenderer({
-    canvas: document.getElementById('three-canvas'),
-    antialias: true
+    canvas: canvas,
+    antialias: useAntialiasing
   });
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  
+  // Calculate actual render size based on resolution scale
+  const renderWidth = Math.floor(window.innerWidth * sceneResolutionScale);
+  const renderHeight = Math.floor(window.innerHeight * sceneResolutionScale);
+  
+  // Set renderer size to the scaled resolution
+  renderer.setSize(renderWidth, renderHeight, false);
+  
+  // Scale canvas to full window size via CSS
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
+  
+  // Adjust pixel ratio for performance
+  const pixelRatio = Math.min(window.devicePixelRatio * sceneResolutionScale, 2);
+  renderer.setPixelRatio(pixelRatio);
+  
+  console.log(`Scene resolution: ${renderWidth}x${renderHeight} (${(sceneResolutionScale * 100).toFixed(0)}% scale, antialiasing: ${useAntialiasing})`);
 
   controls = new OrbitControls(camera, renderer.domElement);
   controls.target.set(0, 0, 0);
@@ -296,6 +322,12 @@ function initKeyboardControls() {
 
   // Mouse click event to restore mouse controls
   renderer.domElement.addEventListener('mousedown', (event) => {
+    // Don't interfere with hamburger button clicks
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    if (hamburgerBtn && (event.target === hamburgerBtn || hamburgerBtn.contains(event.target))) {
+      return;
+    }
+    
     if (isKeyboardControlActive) {
       // Check if no movement keys are currently pressed
       const movementKeys = ['KeyW', 'KeyS', 'KeyA', 'KeyD', 'KeyQ', 'KeyE', 'KeyR', 'KeyF', 'KeyT', 'KeyG'];

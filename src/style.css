@@ -186,6 +186,7 @@ canvas#three-canvas {
   align-items: center;
   gap: 4px;
   transition: background-color 0.3s ease;
+  pointer-events: auto;
 }
 
 .hamburger-btn:hover {
@@ -226,10 +227,11 @@ canvas#three-canvas {
   overflow-y: auto;
   z-index: 1000;
   transition: transform 0.3s ease;
+  transform: translateX(0px);
 }
 
 .menu-container.collapsed {
-  transform: translateX(-100%);
+  transform: translateX(-370px) !important;
 }
 
 .menu-container h1 {
@@ -362,4 +364,222 @@ canvas#three-canvas {
 input[title], button[title] {
   position: relative;
   cursor: help;
+}
+
+/* Settings Sections */
+.settings-section {
+  margin-bottom: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.settings-section h3 {
+  margin: 0;
+  padding: 12px 15px;
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.settings-section > div:not(.settings-header) {
+  padding: 15px;
+}
+
+/* Advanced Settings Button */
+#advancedBtn {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  width: 100%;
+  transition: background 0.2s ease;
+}
+
+#advancedBtn:hover {
+  background: linear-gradient(135deg, #45a049, #3d8b40);
+}
+
+/* Advanced Settings Dialog */
+.advanced-dialog {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 350px;
+  max-height: calc(100vh - 40px);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  z-index: 1002;
+  overflow: hidden;
+  animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.dialog-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dialog-content {
+  padding: 20px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+/* Setting Groups */
+.setting-group {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #4CAF50;
+}
+
+.setting-group:last-child {
+  margin-bottom: 0;
+}
+
+.setting-group h4 {
+  margin: 0 0 12px 0;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.setting-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #555;
+}
+
+.setting-group select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 13px;
+}
+
+.setting-group select:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+/* Preset Buttons */
+.setting-group button {
+  margin: 5px 5px 5px 0;
+  padding: 8px 12px;
+  background: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.setting-group button:hover {
+  background: #1976D2;
+}
+
+.setting-group button:active {
+  transform: translateY(1px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 800px) {
+  .advanced-dialog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    animation: slideInUp 0.3s ease;
+  }
+  
+  @keyframes slideInUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .menu-container {
+    width: 100vw;
+    padding: 15px;
+  }
+  
+  .setting-group {
+    padding: 10px;
+  }
+  
+  .setting-group button {
+    width: 100%;
+    margin: 3px 0;
+  }
 }

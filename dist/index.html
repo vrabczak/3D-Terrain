@@ -15,39 +15,45 @@
   <div id="upload-container" class="menu-container">
     <h1>3D Terénní vizualizace</h1>
     
-    <label>DEM GeoTIFF: <input type="file" id="demFile" accept=".tif,.tiff" title="Doporučená cesta: leaflet/elevation/elevationCZE.tif"></label><br>
-    
-    <label>Složka s OSM dlaždicemi: 
-      <input type="file" id="tileFolder" webkitdirectory directory multiple title="Doporučená cesta: leaflet/imagery">
-      <span id="folderStatus">Žádná složka nevybrána</span>
-    </label><br>
-    
-    <div id="coordinates-container">
-      <label>Zeměpisná šířka (lat): <input type="number" id="latitude" step="0.000001" value="49.16661"></label><br>
-      <label>Zeměpisná délka (lon): <input type="number" id="longitude" step="0.000001" value="16.12393"></label><br>
-      <label>Velikost modelu (km): <input type="number" id="modelSize" step="1" min="1" max="50" value="10" placeholder="10"></label><br>
-      <label>Zoom level: 
-        <select id="zoomLevel">
-          <option value="auto" selected>Automaticky</option>
+    <!-- Basic Settings Section -->
+    <div class="settings-section">
+      <h3>Základní nastavení</h3>
+      
+      <label>DEM GeoTIFF: <input type="file" id="demFile" accept=".tif,.tiff" title="Doporučená cesta: leaflet/elevation/elevationCZE.tif"></label><br>
+      
+      <label>Složka s OSM dlaždicemi: 
+        <input type="file" id="tileFolder" webkitdirectory directory multiple title="Doporučená cesta: leaflet/imagery">
+        <span id="folderStatus">Žádná složka nevybrána</span>
+      </label><br>
+      
+      <div id="coordinates-container">
+        <label>Zeměpisná šířka (lat): <input type="number" id="latitude" step="0.000001" value="49.16661"></label><br>
+        <label>Zeměpisná délka (lon): <input type="number" id="longitude" step="0.000001" value="16.12393"></label><br>
+        <label>Velikost modelu (km): <input type="number" id="modelSize" step="1" min="1" max="50" value="10" placeholder="10"></label><br>
+      </div>
+      
+      <label>Výšková exagerace: 
+        <select id="heightScale">
+          <option value="1">1x (realistická)</option>
+          <option value="2" selected>2x (mírně zvýrazněná)</option>
+          <option value="3">3x (zvýrazněná)</option>
+          <option value="5">5x (silně zvýrazněná)</option>
+          <option value="10">10x (velmi dramatická)</option>
         </select>
       </label><br>
+      
+      <label>Nastavení grafiky: 
+        <select id="graphicsSettings">
+          <option value="veryVeryLow">Ultra nízká (nejslabší počítače)</option>
+          <option value="veryLow">Velmi nízká (slabé počítače)</option>
+          <option value="low">Nízká (pro slabší počítače)</option>
+          <option value="medium" selected>Střední (doporučeno)</option>
+          <option value="high">Vysoká (pro výkonné počítače)</option>
+        </select>
+      </label><br>
+      
+      <button type="button" id="advancedBtn" onclick="toggleAdvancedDialog()">Pokročilé nastavení</button>
     </div>
-    
-    <label>Výšková exagerace: 
-      <select id="heightScale">
-        <option value="1">1x (realistická)</option>
-        <option value="2" selected>2x (mírně zvýrazněná)</option>
-        <option value="3">3x (zvýrazněná)</option>
-        <option value="5">5x (silně zvýrazněná)</option>
-        <option value="10">10x (velmi dramatická)</option>
-      </select>
-    </label><br>
-    
-    <label>Rozlišení terénu: 
-      <select id="terrainResolution" disabled>
-        <option value="">Načtěte DEM pro analýzu rozlišení...</option>
-      </select>
-    </label><br>
     
     <button id="renderBtn">Zobrazit terén</button>
     
@@ -61,18 +67,79 @@
     </div>
   </div>
 
+  <!-- Advanced Settings Dialog -->
+  <div id="advanced-dialog" class="advanced-dialog" style="display: none;">
+    <div class="dialog-header">
+      <h3>Pokročilé nastavení</h3>
+      <button type="button" class="close-btn" onclick="toggleAdvancedDialog()">×</button>
+    </div>
+    
+    <div class="dialog-content">
+      <div class="setting-group">
+        <h4>Výkon a kvalita</h4>
+        
+        <label>Rozlišení scény: 
+          <select id="sceneResolution">
+            <option value="0.25">25% (nejrychlejší)</option>
+            <option value="0.5">50% (rychlé)</option>
+            <option value="0.75">75% (vyvážené)</option>
+            <option value="1" selected>100% (plné rozlišení)</option>
+          </select>
+        </label><br>
+        
+        <label>Maximální rozměr terénu: 
+          <select id="maxTerrainDimension">
+            <option value="128">128x128 (nejrychlejší)</option>
+            <option value="256">256x256 (rychlé)</option>
+            <option value="512">512x512 (vyvážené)</option>
+            <option value="1024" selected>1024x1024 (standardní)</option>
+            <option value="2048">2048x2048 (vysoká kvalita)</option>
+          </select>
+        </label><br>
+        
+        <label>Snížení kvality textury: 
+          <select id="textureDownsample">
+            <option value="1" selected>Žádné (plná kvalita)</option>
+            <option value="2">2x (poloviční kvalita)</option>
+            <option value="3">3x (třetinová kvalita)</option>
+            <option value="4">4x (čtvrtinová kvalita)</option>
+          </select>
+        </label><br>
+        
+        <label>Antialiasing: 
+          <select id="antialiasing">
+            <option value="auto" selected>Automaticky</option>
+            <option value="true">Zapnuto</option>
+            <option value="false">Vypnuto</option>
+          </select>
+        </label><br>
+        
+        <label>Rozlišení terénu: 
+          <select id="terrainResolution" disabled>
+            <option value="">Načtěte DEM pro analýzu rozlišení...</option>
+          </select>
+        </label><br>
+        
+        <label>Zoom level: 
+          <select id="zoomLevel">
+          </select>
+        </label><br>
+      </div>
+    </div>
+  </div>
+
   <div id="viewer-container">
     <canvas id="three-canvas"></canvas>
     
     <!-- Movement Speed Control (Bottom Left) -->
     <div id="speed-control" class="speed-control" style="display: none;">
       <label>Rychlost pohybu (klávesnice): 
-        <input type="range" id="movementSpeed" min="0.001" max="0.01" step="0.001" value="0.005">
+        <input type="range" id="movementSpeed" min="0.001" max="0.05" step="0.001" value="0.005">
         <span id="speedValue">0.005</span>
       </label>
       <br>
       <label>Rychlost otáčení (klávesnice): 
-        <input type="range" id="rotationSpeed" min="0.001" max="0.01" step="0.001" value="0.01">
+        <input type="range" id="rotationSpeed" min="0.001" max="0.05" step="0.001" value="0.01">
         <span id="rotationSpeedValue">0.01</span>
       </label>
     </div>
