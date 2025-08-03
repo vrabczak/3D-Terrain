@@ -19,7 +19,6 @@ window.addEventListener('DOMContentLoaded', () => {
   const modelSizeInput = document.getElementById('modelSize');
   const zoomLevelSelect = document.getElementById('zoomLevel');
   const heightScaleSelect = document.getElementById('heightScale');
-  const terrainResolutionSelect = document.getElementById('terrainResolution');
   const graphicsSettingsSelect = document.getElementById('graphicsSettings');
   const renderBtn = document.getElementById('renderBtn');
 
@@ -32,7 +31,6 @@ window.addEventListener('DOMContentLoaded', () => {
   let selectedFiles = null;
   let availableZoomLevels = [];
   let isUpdatingGraphicsSettings = false; // Flag to prevent infinite loops
-  let detectedNativeResolution = null; // Store the detected native resolution from DEM analysis
 
   // Initialize zoom level dropdown as disabled until OSM tiles are loaded
   zoomLevelSelect.disabled = true;
@@ -41,6 +39,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // Initialize hamburger menu functionality
   const hamburgerBtn = document.getElementById('hamburger-btn');
   const menuContainer = document.getElementById('upload-container');
+  const advancedDialog = document.getElementById('advanced-dialog');
   const speedControl = document.getElementById('speed-control');
 
   console.log('Hamburger button element:', hamburgerBtn);
@@ -268,107 +267,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Analyze DEM resolution and populate terrain resolution options
-  function analyzeDEMAndSetResolutionOptions(demData) {
-    const { width, height, geoTransform, bbox } = demData;
-    
-    // Calculate DEM pixel size in meters
-    const METERS_PER_DEGREE = 111000;
-    const pixelSizeXMeters = Math.abs(geoTransform.pixelSizeX) * METERS_PER_DEGREE;
-    const pixelSizeYMeters = Math.abs(geoTransform.pixelSizeY) * METERS_PER_DEGREE;
-    const nativeResolution = Math.max(pixelSizeXMeters, pixelSizeYMeters);
-    
-    console.log(`DEM rozlišení: ${nativeResolution.toFixed(1)}m per pixel`);
-    
-    // Calculate geographic area
-    const [west, south, east, north] = bbox;
-    const areaWidthMeters = Math.abs(east - west) * METERS_PER_DEGREE;
-    const areaHeightMeters = Math.abs(north - south) * METERS_PER_DEGREE;
-    
-    console.log(`Oblast: ${areaWidthMeters.toFixed(0)}m x ${areaHeightMeters.toFixed(0)}m`);
-    
-    // Store native resolution
-    detectedNativeResolution = Math.round(nativeResolution);
-    
-    // Create terrain resolution options based on graphics settings
-    const resolutionOptions = [
-      { value: Math.round(nativeResolution * 2), label: 'Ultra nízká (2x nativní)', setting: 'veryVeryLow' },
-      { value: Math.round(nativeResolution), label: 'Velmi nízká (nativní)', setting: 'veryLow' },
-      { value: Math.round(nativeResolution * 0.5), label: 'Nízká (0.5x nativní)', setting: 'low' },
-      { value: Math.round(nativeResolution * 0.25), label: 'Střední (0.25x nativní)', setting: 'medium' },
-      { value: Math.round(nativeResolution * 0.1), label: 'Vysoká (0.1x nativní)', setting: 'high' }
-    ];
-    
-    // Populate the select element
-    terrainResolutionSelect.innerHTML = '';
-    terrainResolutionSelect.disabled = false;
-    
-    resolutionOptions.forEach(option => {
-      const optionElement = document.createElement('option');
-      optionElement.value = option.value;
-      optionElement.textContent = `${option.value}m (${option.label})`;
-      optionElement.dataset.setting = option.setting;
-      terrainResolutionSelect.appendChild(optionElement);
-    });
-    
-    console.log(`Terrain resolution options created for native ${detectedNativeResolution}m`);
-    
-    // Set initial selection based on current graphics setting
-    updateTerrainResolutionForGraphicsSetting(graphicsSettingsSelect.value);
-  }
-
-  // Set loading cursor when user clicks on DEM file input
-  demInput.addEventListener('click', () => {
-    document.body.style.cursor = 'wait';
-  });
-
-  // Handle DEM file selection - analyze resolution immediately
-  demInput.addEventListener('change', async (event) => {
-    const file = event.target.files[0];
-    if (!file) {
-      // Reset terrain resolution if no file selected
-      terrainResolutionSelect.innerHTML = '<option value="">Načtěte DEM pro analýzu rozlišení...</option>';
-      terrainResolutionSelect.disabled = true;
-      detectedNativeResolution = null; // Reset native resolution
-      console.log('DEBUG: detectedNativeResolution reset to null');
-      // Reset cursor when no file is selected (user canceled)
-      document.body.style.cursor = 'default';
-      return;
-    }
-
-    try {
-      console.log('Analyzuji DEM soubor pro rozlišení...');
-      terrainResolutionSelect.innerHTML = '<option value="">Analyzuji rozlišení...</option>';
-      terrainResolutionSelect.disabled = true;
-      
-      // Use fast metadata analysis instead of loading full raster data
-      const demMetadata = await analyzeGeoTIFFMetadata(file);
-      analyzeDEMAndSetResolutionOptions(demMetadata);
-      
-      // Trigger graphics settings sync now that terrain resolution options are available
-      const currentGraphicsSettings = graphicsSettingsSelect.value;
-      if (currentGraphicsSettings && detectedNativeResolution) {
-        console.log(`DEBUG: About to trigger graphics sync with native resolution: ${detectedNativeResolution}m`);
-        // Manually trigger the graphics settings change event to sync terrain resolution
-        graphicsSettingsSelect.dispatchEvent(new Event('change'));
-      }
-      
-      // Reset cursor after successful analysis
-      document.body.style.cursor = 'default';
-      
-    } catch (error) {
-      console.error('Chyba při analýze DEM souboru:', error);
-      terrainResolutionSelect.innerHTML = '<option value="">Chyba při analýze DEM</option>';
-      terrainResolutionSelect.disabled = true;
-      detectedNativeResolution = null; // Reset on error
-      console.log('DEBUG: detectedNativeResolution reset to null due to error');
-      alert('Chyba při analýze DEM souboru. Zkontrolujte, že je soubor platný GeoTIFF.');
-      
-      // Reset cursor on error
-      document.body.style.cursor = 'default';
-    }
-  });
-
   renderBtn.addEventListener('click', async () => {
     // Set loading cursor and show progress
     document.body.style.cursor = 'wait';
@@ -382,7 +280,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const modelSize = parseFloat(modelSizeInput.value);
     const zoomLevel = zoomLevelSelect.value;
     const heightScaleMultiplier = parseFloat(heightScaleSelect.value);
-    const terrainResolution = parseFloat(terrainResolutionSelect.value);
+    const terrainResolution = 15; // Fixed terrain resolution
     const graphicsSettings = graphicsSettingsSelect.value;
 
     // Validation
@@ -412,9 +310,6 @@ window.addEventListener('DOMContentLoaded', () => {
       const demData = await loadGeoTIFF(demFile);
       
       updateProgress(20, 'Zpracovávám DEM data...');
-      
-      // Analyze DEM resolution and populate terrain resolution options
-      analyzeDEMAndSetResolutionOptions(demData);
       
       // Determine zoom level
       let finalZoomLevel;
@@ -479,13 +374,8 @@ window.addEventListener('DOMContentLoaded', () => {
       // Adjust terrain generation parameters based on graphics settings
       let adjustedTerrainResolution;
       let adjustedZoomLevel;
-      
-      // Use the detected native resolution from DEM analysis
-      if (!detectedNativeResolution) {
-        console.error('Native resolution not detected. Using fallback.');
-        detectedNativeResolution = 30; // Fallback value
-      }
-      
+      let detectedNativeResolution = 30; // Fallback value
+
       switch (graphicsSettings) {
         case 'veryVeryLow':
           adjustedTerrainResolution = detectedNativeResolution * 2;
@@ -517,19 +407,18 @@ window.addEventListener('DOMContentLoaded', () => {
       
       // Get advanced settings
       const sceneResolutionSelect = document.getElementById('sceneResolution');
-      const maxTerrainDimensionSelect = document.getElementById('maxTerrainDimension');
-      const textureDownsampleSelect = document.getElementById('textureDownsample');
       const antialiasingSelect = document.getElementById('antialiasing');
 
       const sceneResolution = parseFloat(sceneResolutionSelect.value);
-      const maxTerrainDimension = parseFloat(maxTerrainDimensionSelect.value);
-      const textureDownsample = parseFloat(textureDownsampleSelect.value);
+      const maxTerrainDimension = 512;
+      const textureDownsample = 1;
       const antialiasing = antialiasingSelect.value === 'true';
 
-      // Hide menu and show hamburger button after successful model load
+      // Hide menu and show hamburger button after successful model load also hide advanced settings
       menuContainer.classList.add('collapsed');
       hamburgerBtn.style.display = 'flex';
       speedControl.style.display = 'block';
+      toggleAdvancedDialog();
 
       generateTerrain(resampledDemData, textureImageData, heightScaleMultiplier, adjustedTerrainResolution, adjustedZoomLevel, sceneResolution, maxTerrainDimension, textureDownsample, antialiasing);
       
@@ -553,8 +442,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Advanced settings elements
   const sceneResolutionSelect = document.getElementById('sceneResolution');
-  const maxTerrainDimensionSelect = document.getElementById('maxTerrainDimension');
-  const textureDownsampleSelect = document.getElementById('textureDownsample');
+  const maxTerrainDimensionSelect = 512;
+  const textureDownsampleSelect = 1;
   const antialiasingSelect = document.getElementById('antialiasing');
 
   // Advanced settings toggle functionality
@@ -578,99 +467,26 @@ window.addEventListener('DOMContentLoaded', () => {
     switch (graphicsSettings) {
       case 'veryVeryLow':
         sceneResolutionSelect.value = '0.25';
-        maxTerrainDimensionSelect.value = '128';
-        textureDownsampleSelect.value = '4';
         antialiasingSelect.value = 'false';
         break;
       case 'veryLow':
         sceneResolutionSelect.value = '0.5';
-        maxTerrainDimensionSelect.value = '256';
-        textureDownsampleSelect.value = '3';
         antialiasingSelect.value = 'false';
         break;
       case 'low':
         sceneResolutionSelect.value = '0.75';
-        maxTerrainDimensionSelect.value = '512';
-        textureDownsampleSelect.value = '2';
         antialiasingSelect.value = 'auto';
         break;
       case 'medium':
         sceneResolutionSelect.value = '1';
-        maxTerrainDimensionSelect.value = '1024';
-        textureDownsampleSelect.value = '1';
         antialiasingSelect.value = 'auto';
         break;
       case 'high':
         sceneResolutionSelect.value = '1';
-        maxTerrainDimensionSelect.value = '2048';
-        textureDownsampleSelect.value = '1';
         antialiasingSelect.value = 'true';
         break;
     }
-    
-    // Update terrain resolution display (if available and native resolution detected)
-    if (terrainResolutionSelect.options.length > 1 && detectedNativeResolution) {
-      console.log(`DEBUG: Using detectedNativeResolution = ${detectedNativeResolution}m for graphics setting ${graphicsSettings}`);
-      
-      // Get all available terrain resolution options sorted by value
-      const availableResolutions = Array.from(terrainResolutionSelect.options)
-        .map(option => parseFloat(option.value))
-        .filter(value => !isNaN(value))
-        .sort((a, b) => a - b);
-      
-      console.log(`DEBUG: Available terrain resolutions: [${availableResolutions.join(', ')}]m`);
-      
-      let targetResolutionIndex;
-      
-      // Map 5 graphics settings to available terrain resolutions intelligently
-      // Lower graphics = higher resolution values (less detailed)
-      // Higher graphics = lower resolution values (more detailed)
-      switch (graphicsSettings) {
-        case 'veryVeryLow':
-          // Use highest resolution value (least detailed) - last 20% of options
-          targetResolutionIndex = Math.floor(availableResolutions.length * 0.8);
-          break;
-        case 'veryLow':
-          // Use 60% through the range
-          targetResolutionIndex = Math.floor(availableResolutions.length * 0.6);
-          break;
-        case 'low':
-          // Use middle (50%)
-          targetResolutionIndex = Math.floor(availableResolutions.length * 0.5);
-          break;
-        case 'medium':
-          // Use 30% through the range (more detailed)
-          targetResolutionIndex = Math.floor(availableResolutions.length * 0.3);
-          break;
-        case 'high':
-          // Use lowest resolution value (most detailed) - first 10%
-          targetResolutionIndex = Math.floor(availableResolutions.length * 0.1);
-          break;
-        default:
-          targetResolutionIndex = Math.floor(availableResolutions.length * 0.5);
-      }
-      
-      // Ensure index is within bounds
-      targetResolutionIndex = Math.max(0, Math.min(targetResolutionIndex, availableResolutions.length - 1));
-      const targetResolution = availableResolutions[targetResolutionIndex];
-      
-      // Find the option with this resolution value
-      let selectedOption = null;
-      for (let option of terrainResolutionSelect.options) {
-        if (parseFloat(option.value) === targetResolution) {
-          selectedOption = option;
-          break;
-        }
-      }
-      
-      if (selectedOption) {
-        terrainResolutionSelect.value = selectedOption.value;
-        console.log(`Graphics setting ${graphicsSettings}: Set terrain resolution to ${selectedOption.value}m (index ${targetResolutionIndex}/${availableResolutions.length - 1}, native: ${detectedNativeResolution}m)`);
-      }
-    } else {
-      console.log(`DEBUG: Terrain resolution sync skipped - options: ${terrainResolutionSelect.options.length}, native: ${detectedNativeResolution}`);
-    }
-    
+
     // Update zoom level display (if available)
     if (zoomLevelSelect.options.length > 0) {
       // Get all available zoom levels
@@ -720,19 +536,6 @@ window.addEventListener('DOMContentLoaded', () => {
       isUpdatingGraphicsSettings = false; // Reset flag after a short delay
     }, 100);
   });
-
-  // Update terrain resolution based on graphics setting
-  function updateTerrainResolutionForGraphicsSetting(graphicsSetting) {
-    const resolutionOptions = Array.from(terrainResolutionSelect.options)
-      .map(option => ({ value: parseFloat(option.value), label: option.textContent, setting: option.dataset.setting }));
-    
-    const matchingOption = resolutionOptions.find(option => option.setting === graphicsSetting);
-    
-    if (matchingOption) {
-      terrainResolutionSelect.value = matchingOption.value;
-      console.log(`Set terrain resolution to ${matchingOption.value}m for graphics setting ${graphicsSetting}`);
-    }
-  }
 
   /**
    * Resample DEM data to match texture dimensions and geographic bounds
