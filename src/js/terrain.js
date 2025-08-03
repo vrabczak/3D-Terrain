@@ -78,6 +78,19 @@ export function generateTerrain(demData, textureImageData, heightScaleMultiplier
   console.log(`Geografické rozměry: ${geographicWidth.toFixed(0)}m x ${geographicHeight.toFixed(0)}m`);
   console.log(`Rozlišení terénu: ${terrainResolution}m -> mřížka ${terrainWidth}x${terrainHeight}`);
   
+  // Build high-resolution elevation grid once based on terrainResolution
+  const highResPixelX = (east - west) / terrainWidth;
+  const highResPixelY = (north - south) / terrainHeight;
+  const highResElev = new Float32Array(terrainWidth * terrainHeight);
+  for (let r = 0; r < terrainHeight; r++) {
+    const lat = north - r * highResPixelY;
+    for (let c = 0; c < terrainWidth; c++) {
+      const lon = west + c * highResPixelX;
+      const e = sampleDEMAtCoordinate(elevationData, width, height, geoTransform, bbox, lon, lat);
+      highResElev[r * terrainWidth + c] = (isFinite(e) && e > -1000 && e < 10000) ? e : 0;
+    }
+  }
+
   // Use provided advanced settings instead of deriving from complexity
   console.log(`Pokročilé nastavení: rozlišení scény ${(sceneResolution * 100).toFixed(0)}%, max rozměr ${maxTerrainDimension}, texture downsample ${textureDownsample}x, antialiasing ${antialiasing}`);
   
@@ -117,27 +130,42 @@ export function generateTerrain(demData, textureImageData, heightScaleMultiplier
   const geometry = new THREE.PlaneGeometry(1, 1, finalTerrainWidth - 1, finalTerrainHeight - 1);
   const positions = geometry.attributes.position.array;
 
-  // Sample elevation data at high resolution
-  const pixelSizeX = (east - west) / finalTerrainWidth;
-  const pixelSizeY = (north - south) / finalTerrainHeight;
-  
+  // Map high-resolution elevation to down-sampled mesh vertices
+  const scaleX = terrainWidth / finalTerrainWidth;
+  const scaleY = terrainHeight / finalTerrainHeight;
+  const smoothThreshold = Math.max(1, (maxElevation - minElevation) * 0.01); // 1 % of elev range (~small noise)
   for (let i = 0, j = 0; i < positions.length; i += 3, j++) {
     const row = Math.floor(j / finalTerrainWidth);
     const col = j % finalTerrainWidth;
-    
-    // Calculate geographic coordinates for this vertex
-    const lon = west + col * pixelSizeX;
-    const lat = north - row * pixelSizeY;
-    
-    // Sample elevation from original DEM data
-    const elevation = sampleDEMAtCoordinate(elevationData, width, height, geoTransform, bbox, lon, lat);
-    
-    // Apply elevation with scaling
-    if (isFinite(elevation) && elevation > -1000 && elevation < 10000) {
-      positions[i + 2] = (elevation - minElevation) * getHeightScale(geographicWidth, geographicHeight, maxElevation - minElevation, heightScaleMultiplier);
+
+    const srcY = row * scaleY;
+    const srcX = col * scaleX;
+    const y0 = Math.floor(srcY);
+    const x0 = Math.floor(srcX);
+    const y1 = Math.min(y0 + 1, terrainHeight - 1);
+    const x1 = Math.min(x0 + 1, terrainWidth - 1);
+    const dy = srcY - y0;
+    const dx = srcX - x0;
+
+    const e00 = highResElev[y0 * terrainWidth + x0];
+    const e10 = highResElev[y0 * terrainWidth + x1];
+    const e01 = highResElev[y1 * terrainWidth + x0];
+    const e11 = highResElev[y1 * terrainWidth + x1];
+
+    let elevation;
+    const localMin = Math.min(e00, e10, e01, e11);
+    const localMax = Math.max(e00, e10, e01, e11);
+    if (localMax - localMin < smoothThreshold) {
+      // Low local relief → average to smooth small steps
+      elevation = (e00 + e10 + e01 + e11) * 0.25;
     } else {
-      positions[i + 2] = 0;
+      // Significant relief → preserve detail with bilinear interpolation
+      const e0 = e00 * (1 - dx) + e10 * dx;
+      const e1 = e01 * (1 - dx) + e11 * dx;
+      elevation = e0 * (1 - dy) + e1 * dy;
     }
+
+    positions[i + 2] = (elevation - minElevation) * getHeightScale(geographicWidth, geographicHeight, maxElevation - minElevation, heightScaleMultiplier);
   }
 
   geometry.computeVertexNormals();
@@ -192,24 +220,34 @@ function sampleDEMAtCoordinate(elevationData, width, height, geoTransform, bbox,
     return 0;
   }
   
-  // Convert geographic coordinates to pixel coordinates
+  // Convert geographic coordinates to pixel coordinates (floating point)
   const x = (lon - geoTransform.originX) / geoTransform.pixelSizeX;
   const y = (lat - geoTransform.originY) / geoTransform.pixelSizeY;
   
-  const col = Math.floor(x);
-  const row = Math.floor(y);
+  // Bilinear interpolation in source DEM raster
+  const x0 = Math.floor(x);
+  const y0 = Math.floor(y);
+  const x1 = Math.min(x0 + 1, width - 1);
+  const y1 = Math.min(y0 + 1, height - 1);
+  const dx = x - x0;
+  const dy = y - y0;
+
+  const getSafe = (c, r) => {
+    if (c < 0 || c >= width || r < 0 || r >= height) return 0;
+    const val = elevationData[r * width + c];
+    return (isFinite(val) && val > -1000 && val < 10000) ? val : 0;
+  };
+
+  const e00 = getSafe(x0, y0);
+  const e10 = getSafe(x1, y0);
+  const e01 = getSafe(x0, y1);
+  const e11 = getSafe(x1, y1);
+
+  const e0 = e00 * (1 - dx) + e10 * dx;
+  const e1 = e01 * (1 - dx) + e11 * dx;
+  const elevation = e0 * (1 - dy) + e1 * dy;
   
-  // Check pixel bounds
-  if (col < 0 || col >= width || row < 0 || row >= height) {
-    return 0;
-  }
-  
-  // Simple nearest neighbor sampling
-  const index = row * width + col;
-  const elevation = elevationData[index];
-  
-  // Return elevation or 0 for invalid values
-  return (isFinite(elevation) && elevation > -1000 && elevation < 10000) ? elevation : 0;
+  return elevation;
 }
 
 function initThree(sceneResolutionScale = 1, useAntialiasing = true) {
