@@ -34,6 +34,13 @@ class TerrainApp {
 
 // Initialize the application when DOM is loaded
 window.addEventListener('DOMContentLoaded', () => {
+  // Prevent duplicate initialization
+  if (window.terrainAppInitialized) {
+    console.warn('Terrain app already initialized, skipping duplicate initialization');
+    return;
+  }
+  
+  window.terrainAppInitialized = true;
   const app = new TerrainApp();
   app.initialize();
 });

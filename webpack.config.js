@@ -29,16 +29,20 @@ module.exports = {
   },
   resolve: {
     alias: {
-      // ✅ Ensure single Three.js instance
+      // Force only exact 'three' imports to use the same instance ($ means exact match)
       'three$': path.resolve(__dirname, 'node_modules/three/build/three.module.js'),
-      // ✅ Alias examples directory to prevent duplication
+      // Alias examples directory
       'three/examples/jsm': path.resolve(__dirname, 'node_modules/three/examples/jsm')
     },
     extensions: ['.js']
   },
   optimization: {
     splitChunks: false,       // Disable all chunk splitting
-    runtimeChunk: false       // Inline the runtime
+    runtimeChunk: false,      // Inline the runtime
+    // Prevent duplicate modules
+    providedExports: true,
+    usedExports: true,
+    sideEffects: false
   },
   target: ['web']
 };

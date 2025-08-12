@@ -144,11 +144,15 @@ export class UIManager {
   }
 
   hideMenuAndShowControls() {
-    const { menuContainer, hamburgerBtn, speedControl } = this.elements;
+    const { menuContainer, hamburgerBtn, speedControl, advancedDialog } = this.elements;
     menuContainer.classList.add('collapsed');
     hamburgerBtn.style.display = 'flex';
     speedControl.style.display = 'block';
-    this.toggleAdvancedDialog();
+    
+    // Close advanced dialog if it's open
+    if (advancedDialog.style.display === 'block') {
+      advancedDialog.style.display = 'none';
+    }
   }
 
   // Get all form values

@@ -67,9 +67,14 @@ export function generateTerrain(demData, textureImageData, heightScaleMultiplier
 
   // Calculate terrain dimensions based on geographic bounds and user-specified resolution
   const [west, south, east, north] = bbox;
-  const METERS_PER_DEGREE = 111000;
-  const geographicWidth = Math.abs(east - west) * METERS_PER_DEGREE;
-  const geographicHeight = Math.abs(north - south) * METERS_PER_DEGREE;
+  const METERS_PER_DEGREE_LAT = 111000; // Latitude degrees are always ~111km
+  
+  // Calculate center latitude for longitude scaling
+  const centerLat = (north + south) / 2;
+  const METERS_PER_DEGREE_LON = 111000 * Math.cos(centerLat * Math.PI / 180); // Longitude degrees vary by latitude
+  
+  const geographicWidth = Math.abs(east - west) * METERS_PER_DEGREE_LON;
+  const geographicHeight = Math.abs(north - south) * METERS_PER_DEGREE_LAT;
   
   // Calculate terrain mesh dimensions based on desired resolution
   const terrainWidth = Math.ceil(geographicWidth / terrainResolution);
@@ -124,8 +129,15 @@ export function generateTerrain(demData, textureImageData, heightScaleMultiplier
 
   // Create texture from ImageData with specified downsampling
   const texture = new THREE.CanvasTexture(imageDataToCanvas(downsampleImageData(textureImageData, textureDownsample)));
+  
+  // Fix texture orientation - enable flipY to correct North-South texture mapping
+  texture.flipY = true;
+  texture.premultiplyAlpha = false;
   texture.needsUpdate = true;
-
+  texture.magFilter = THREE.LinearFilter;
+  texture.minFilter = THREE.LinearFilter;
+  texture.generateMipmaps = false;
+  
   // Create high-resolution terrain geometry
   const geometry = new THREE.PlaneGeometry(1, 1, finalTerrainWidth - 1, finalTerrainHeight - 1);
   const positions = geometry.attributes.position.array;
@@ -175,13 +187,14 @@ export function generateTerrain(demData, textureImageData, heightScaleMultiplier
     side: THREE.DoubleSide
   });
   const mesh = new THREE.Mesh(geometry, material);
-  mesh.rotateX(-Math.PI / 2);
-
+  mesh.rotateX(-Math.PI / 2); // Revert to original rotation
+  
   // Scale mesh to match geographic dimensions
   const SCENE_SCALE = 1000;
   const finalScaleX = geographicWidth / SCENE_SCALE;
   const finalScaleY = geographicHeight / SCENE_SCALE;
   
+  // Use normal positive scaling for both axes - no flipping needed
   mesh.scale.set(finalScaleX, finalScaleY, 1);
   mesh.position.set(0, 0, 0);
   
@@ -250,9 +263,21 @@ function sampleDEMAtCoordinate(elevationData, width, height, geoTransform, bbox,
   return elevation;
 }
 
-function initThree(sceneResolutionScale = 1, useAntialiasing = true) {
+function initThree(sceneResolutionScale, useAntialiasing) {
   if (scene) {
-    // Scene already exists, but ensure keyboard controls are initialized
+    // Clean up existing scene to prevent WebGL conflicts
+    scene.traverse((child) => {
+      if (child.isMesh) {
+        if (child.geometry) child.geometry.dispose();
+        if (child.material) {
+          if (child.material.map) child.material.map.dispose();
+          child.material.dispose();
+        }
+      }
+    });
+    scene.clear();
+    
+    // Ensure keyboard controls are initialized
     if (!keyboardControlsInitialized) {
       initKeyboardControls();
     }
@@ -505,6 +530,7 @@ function updateCompassRotation() {
   // Calculate angle from North (positive Z axis)
   // In our coordinate system, North is positive Z direction
   // But we need to calculate the angle from where North should be relative to camera
+  // Adjust for flipped X coordinate system from mesh scale
   let azimuthAngle = Math.atan2(horizontalDirection.x, horizontalDirection.z);
   
   // Convert to degrees

@@ -8,11 +8,10 @@
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   getFloat16: () => (/* binding */ getFloat16),
-/* harmony export */   setFloat16: () => (/* binding */ setFloat16)
+/* harmony export */   getFloat16: () => (/* binding */ getFloat16)
 /* harmony export */ });
+/* unused harmony export setFloat16 */
 /* harmony import */ var _util_arrayIterator_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./_util/arrayIterator.mjs */ "./node_modules/@petamoriken/float16/src/_util/arrayIterator.mjs");
 /* harmony import */ var _util_converter_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_util/converter.mjs */ "./node_modules/@petamoriken/float16/src/_util/converter.mjs");
 /* harmony import */ var _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./_util/primordials.mjs */ "./node_modules/@petamoriken/float16/src/_util/primordials.mjs");
@@ -52,6 +51,1146 @@ function setFloat16(dataView, byteOffset, value, ...opts) {
 
 /***/ }),
 
+/***/ "./node_modules/@petamoriken/float16/src/Float16Array.mjs":
+/*!****************************************************************!*\
+  !*** ./node_modules/@petamoriken/float16/src/Float16Array.mjs ***!
+  \****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   isFloat16Array: () => (/* binding */ isFloat16Array)
+/* harmony export */ });
+/* unused harmony export Float16Array */
+/* harmony import */ var _util_arrayIterator_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./_util/arrayIterator.mjs */ "./node_modules/@petamoriken/float16/src/_util/arrayIterator.mjs");
+/* harmony import */ var _util_brand_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_util/brand.mjs */ "./node_modules/@petamoriken/float16/src/_util/brand.mjs");
+/* harmony import */ var _util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./_util/converter.mjs */ "./node_modules/@petamoriken/float16/src/_util/converter.mjs");
+/* harmony import */ var _util_is_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./_util/is.mjs */ "./node_modules/@petamoriken/float16/src/_util/is.mjs");
+/* harmony import */ var _util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./_util/messages.mjs */ "./node_modules/@petamoriken/float16/src/_util/messages.mjs");
+/* harmony import */ var _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./_util/primordials.mjs */ "./node_modules/@petamoriken/float16/src/_util/primordials.mjs");
+/* harmony import */ var _util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./_util/spec.mjs */ "./node_modules/@petamoriken/float16/src/_util/spec.mjs");
+
+
+
+
+
+
+
+
+const BYTES_PER_ELEMENT = 2;
+
+/** @typedef {Uint16Array & { __float16bits: never }} Float16BitsArray */
+
+/** @type {WeakMap<Float16Array, Float16BitsArray>} */
+const float16bitsArrays = new _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeWeakMap();
+
+/**
+ * @param {unknown} target
+ * @returns {target is Float16Array}
+ */
+function isFloat16Array(target) {
+  return (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.WeakMapPrototypeHas)(float16bitsArrays, target) ||
+    (!(0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ArrayBufferIsView)(target) && (0,_util_brand_mjs__WEBPACK_IMPORTED_MODULE_1__.hasFloat16ArrayBrand)(target));
+}
+
+/**
+ * @param {unknown} target
+ * @throws {TypeError}
+ * @returns {asserts target is Float16Array}
+ */
+function assertFloat16Array(target) {
+  if (!isFloat16Array(target)) {
+    throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.THIS_IS_NOT_A_FLOAT16ARRAY_OBJECT);
+  }
+}
+
+/**
+ * @param {unknown} target
+ * @param {number=} count
+ * @throws {TypeError}
+ * @returns {asserts target is Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float16Array|Float32Array|Float64Array}
+ */
+function assertSpeciesTypedArray(target, count) {
+  const isTargetFloat16Array = isFloat16Array(target);
+  const isTargetTypedArray = (0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_3__.isNativeTypedArray)(target);
+
+  if (!isTargetFloat16Array && !isTargetTypedArray) {
+    throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.SPECIES_CONSTRUCTOR_DIDNT_RETURN_TYPEDARRAY_OBJECT);
+  }
+
+  if (typeof count === "number") {
+    let length;
+    if (isTargetFloat16Array) {
+      const float16bitsArray = getFloat16BitsArray(target);
+      length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+    } else {
+      length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(target);
+    }
+
+    if (length < count) {
+      throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(
+        _util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.DERIVED_CONSTRUCTOR_CREATED_TYPEDARRAY_OBJECT_WHICH_WAS_TOO_SMALL_LENGTH
+      );
+    }
+  }
+
+  if ((0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_3__.isNativeBigIntTypedArray)(target)) {
+    throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.CANNOT_MIX_BIGINT_AND_OTHER_TYPES);
+  }
+}
+
+/**
+ * @param {Float16Array} float16
+ * @throws {TypeError}
+ * @returns {Float16BitsArray}
+ */
+function getFloat16BitsArray(float16) {
+  const float16bitsArray = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.WeakMapPrototypeGet)(float16bitsArrays, float16);
+  if (float16bitsArray !== undefined) {
+    const buffer = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(float16bitsArray);
+
+    if ((0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.IsDetachedBuffer)(buffer)) {
+      throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
+    }
+
+    return float16bitsArray;
+  }
+
+  // from another Float16Array instance (a different version?)
+  const buffer = /** @type {any} */ (float16).buffer;
+
+  if ((0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.IsDetachedBuffer)(buffer)) {
+    throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
+  }
+
+  const cloned = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectConstruct)(Float16Array, [
+    buffer,
+    /** @type {any} */ (float16).byteOffset,
+    /** @type {any} */ (float16).length,
+  ], float16.constructor);
+  return (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.WeakMapPrototypeGet)(float16bitsArrays, cloned);
+}
+
+/**
+ * @param {Float16BitsArray} float16bitsArray
+ * @returns {number[]}
+ */
+function copyToArray(float16bitsArray) {
+  const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+
+  const array = [];
+  for (let i = 0; i < length; ++i) {
+    array[i] = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]);
+  }
+
+  return array;
+}
+
+/** @type {WeakSet<Function>} */
+const TypedArrayPrototypeGetters = new _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeWeakSet();
+for (const key of (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectOwnKeys)(_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototype)) {
+  // @@toStringTag getter property is defined in Float16Array.prototype
+  if (key === _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.SymbolToStringTag) {
+    continue;
+  }
+
+  const descriptor = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectGetOwnPropertyDescriptor)(_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototype, key);
+  if ((0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ObjectHasOwn)(descriptor, "get") && typeof descriptor.get === "function") {
+    (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.WeakSetPrototypeAdd)(TypedArrayPrototypeGetters, descriptor.get);
+  }
+}
+
+const handler = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ObjectFreeze)(/** @type {ProxyHandler<Float16BitsArray>} */ ({
+  get(target, key, receiver) {
+    if ((0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_3__.isCanonicalIntegerIndexString)(key) && (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ObjectHasOwn)(target, key)) {
+      return (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)((0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectGet)(target, key));
+    }
+
+    // %TypedArray%.prototype getter properties cannot called by Proxy receiver
+    if ((0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.WeakSetPrototypeHas)(TypedArrayPrototypeGetters, (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ObjectPrototype__lookupGetter__)(target, key))) {
+      return (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectGet)(target, key);
+    }
+
+    return (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectGet)(target, key, receiver);
+  },
+
+  set(target, key, value, receiver) {
+    if ((0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_3__.isCanonicalIntegerIndexString)(key) && (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ObjectHasOwn)(target, key)) {
+      return (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectSet)(target, key, (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.roundToFloat16Bits)(value));
+    }
+
+    return (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectSet)(target, key, value, receiver);
+  },
+
+  getOwnPropertyDescriptor(target, key) {
+    if ((0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_3__.isCanonicalIntegerIndexString)(key) && (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ObjectHasOwn)(target, key)) {
+      const descriptor = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectGetOwnPropertyDescriptor)(target, key);
+      descriptor.value = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(descriptor.value);
+      return descriptor;
+    }
+
+    return (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectGetOwnPropertyDescriptor)(target, key);
+  },
+
+  defineProperty(target, key, descriptor) {
+    if (
+      (0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_3__.isCanonicalIntegerIndexString)(key) &&
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ObjectHasOwn)(target, key) &&
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ObjectHasOwn)(descriptor, "value")
+    ) {
+      descriptor.value = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.roundToFloat16Bits)(descriptor.value);
+      return (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectDefineProperty)(target, key, descriptor);
+    }
+
+    return (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectDefineProperty)(target, key, descriptor);
+  },
+}));
+
+class Float16Array {
+  /** @see https://tc39.es/ecma262/#sec-typedarray */
+  constructor(input, _byteOffset, _length) {
+    /** @type {Float16BitsArray} */
+    let float16bitsArray;
+
+    if (isFloat16Array(input)) {
+      float16bitsArray = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectConstruct)(_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeUint16Array, [getFloat16BitsArray(input)], new.target);
+    } else if ((0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_3__.isObject)(input) && !(0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_3__.isAnyArrayBuffer)(input)) { // object without ArrayBuffer, SharedArrayBuffer
+      /** @type {ArrayLike<unknown>} */
+      let list;
+      /** @type {number} */
+      let length;
+
+      if ((0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_3__.isNativeTypedArray)(input)) { // TypedArray
+        list = input;
+        length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(input);
+
+        const buffer = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(input);
+
+        if ((0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.IsDetachedBuffer)(buffer)) {
+          throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
+        }
+
+        if ((0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_3__.isNativeBigIntTypedArray)(input)) {
+          throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.CANNOT_MIX_BIGINT_AND_OTHER_TYPES);
+        }
+
+        const data = new _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeArrayBuffer(
+          length * BYTES_PER_ELEMENT
+        );
+        float16bitsArray = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectConstruct)(_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeUint16Array, [data], new.target);
+      } else {
+        const iterator = input[_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.SymbolIterator];
+        if (iterator != null && typeof iterator !== "function") {
+          throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.ITERATOR_PROPERTY_IS_NOT_CALLABLE);
+        }
+
+        if (iterator != null) { // Iterable (Array)
+          // for optimization
+          if ((0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_3__.isOrdinaryArray)(input)) {
+            list = input;
+            length = input.length;
+          } else {
+            // eslint-disable-next-line no-restricted-syntax
+            list = [... /** @type {Iterable<unknown>} */ (input)];
+            length = list.length;
+          }
+        } else { // ArrayLike
+          list = /** @type {ArrayLike<unknown>} */ (input);
+          length = (0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.ToLength)(list.length);
+        }
+        float16bitsArray = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectConstruct)(_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeUint16Array, [length], new.target);
+      }
+
+      // set values
+      for (let i = 0; i < length; ++i) {
+        float16bitsArray[i] = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.roundToFloat16Bits)(list[i]);
+      }
+    } else { // primitive, ArrayBuffer, SharedArrayBuffer
+      float16bitsArray = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectConstruct)(_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeUint16Array, arguments, new.target);
+    }
+
+    /** @type {Float16Array} */
+    const proxy = /** @type {any} */ (new _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeProxy(float16bitsArray, handler));
+
+    // proxy private storage
+    (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.WeakMapPrototypeSet)(float16bitsArrays, proxy, float16bitsArray);
+
+    return proxy;
+  }
+
+  /**
+   * limitation: `Object.getOwnPropertyNames(Float16Array)` or `Reflect.ownKeys(Float16Array)` include this key
+   * @see https://tc39.es/ecma262/#sec-%typedarray%.from
+   */
+  static from(src, ...opts) {
+    const Constructor = this;
+
+    if (!(0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectHas)(Constructor, _util_brand_mjs__WEBPACK_IMPORTED_MODULE_1__.brand)) {
+      throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(
+        _util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.THIS_CONSTRUCTOR_IS_NOT_A_SUBCLASS_OF_FLOAT16ARRAY
+      );
+    }
+
+    // for optimization
+    if (Constructor === Float16Array) {
+      if (isFloat16Array(src) && opts.length === 0) {
+        const float16bitsArray = getFloat16BitsArray(src);
+        const uint16 = new _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeUint16Array(
+          (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(float16bitsArray),
+          (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetByteOffset)(float16bitsArray),
+          (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray)
+        );
+        return new Float16Array(
+          (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)((0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeSlice)(uint16))
+        );
+      }
+
+      if (opts.length === 0) {
+        return new Float16Array(
+          (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(
+            (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.Uint16ArrayFrom)(src, _util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.roundToFloat16Bits)
+          )
+        );
+      }
+
+      const mapFunc = opts[0];
+      const thisArg = opts[1];
+
+      return new Float16Array(
+        (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(
+          (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.Uint16ArrayFrom)(src, function (val, ...args) {
+            return (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.roundToFloat16Bits)(
+              (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectApply)(mapFunc, this, [val, ...(0,_util_arrayIterator_mjs__WEBPACK_IMPORTED_MODULE_0__.safeIfNeeded)(args)])
+            );
+          }, thisArg)
+        )
+      );
+    }
+
+    /** @type {ArrayLike<unknown>} */
+    let list;
+    /** @type {number} */
+    let length;
+
+    const iterator = src[_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.SymbolIterator];
+    if (iterator != null && typeof iterator !== "function") {
+      throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.ITERATOR_PROPERTY_IS_NOT_CALLABLE);
+    }
+
+    if (iterator != null) { // Iterable (TypedArray, Array)
+      // for optimization
+      if ((0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_3__.isOrdinaryArray)(src)) {
+        list = src;
+        length = src.length;
+      } else if ((0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_3__.isOrdinaryNativeTypedArray)(src)) {
+        list = src;
+        length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(src);
+      } else {
+        // eslint-disable-next-line no-restricted-syntax
+        list = [...src];
+        length = list.length;
+      }
+    } else { // ArrayLike
+      if (src == null) {
+        throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(
+          _util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT
+        );
+      }
+      list = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeObject)(src);
+      length = (0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.ToLength)(list.length);
+    }
+
+    const array = new Constructor(length);
+
+    if (opts.length === 0) {
+      for (let i = 0; i < length; ++i) {
+        array[i] = /** @type {number} */ (list[i]);
+      }
+    } else {
+      const mapFunc = opts[0];
+      const thisArg = opts[1];
+      for (let i = 0; i < length; ++i) {
+        array[i] = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectApply)(mapFunc, thisArg, [list[i], i]);
+      }
+    }
+
+    return array;
+  }
+
+  /**
+   * limitation: `Object.getOwnPropertyNames(Float16Array)` or `Reflect.ownKeys(Float16Array)` include this key
+   * @see https://tc39.es/ecma262/#sec-%typedarray%.of
+   */
+  static of(...items) {
+    const Constructor = this;
+
+    if (!(0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectHas)(Constructor, _util_brand_mjs__WEBPACK_IMPORTED_MODULE_1__.brand)) {
+      throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(
+        _util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.THIS_CONSTRUCTOR_IS_NOT_A_SUBCLASS_OF_FLOAT16ARRAY
+      );
+    }
+
+    const length = items.length;
+
+    // for optimization
+    if (Constructor === Float16Array) {
+      const proxy = new Float16Array(length);
+      const float16bitsArray = getFloat16BitsArray(proxy);
+
+      for (let i = 0; i < length; ++i) {
+        float16bitsArray[i] = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.roundToFloat16Bits)(items[i]);
+      }
+
+      return proxy;
+    }
+
+    const array = new Constructor(length);
+
+    for (let i = 0; i < length; ++i) {
+      array[i] = items[i];
+    }
+
+    return array;
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.keys */
+  keys() {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    return (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeKeys)(float16bitsArray);
+  }
+
+  /**
+   * limitation: returns a object whose prototype is not `%ArrayIteratorPrototype%`
+   * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.values
+   */
+  values() {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    return (0,_util_arrayIterator_mjs__WEBPACK_IMPORTED_MODULE_0__.wrap)((function* () {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const val of (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeValues)(float16bitsArray)) {
+        yield (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(val);
+      }
+    })());
+  }
+
+  /**
+   * limitation: returns a object whose prototype is not `%ArrayIteratorPrototype%`
+   * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.entries
+   */
+  entries() {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    return (0,_util_arrayIterator_mjs__WEBPACK_IMPORTED_MODULE_0__.wrap)((function* () {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [i, val] of (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeEntries)(float16bitsArray)) {
+        yield /** @type {[number, number]} */ ([i, (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(val)]);
+      }
+    })());
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.at */
+  at(index) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+    const relativeIndex = (0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.ToIntegerOrInfinity)(index);
+    const k = relativeIndex >= 0 ? relativeIndex : length + relativeIndex;
+
+    if (k < 0 || k >= length) {
+      return;
+    }
+
+    return (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[k]);
+  }
+
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.with */
+  with(index, value) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+    const relativeIndex = (0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.ToIntegerOrInfinity)(index);
+    const k = relativeIndex >= 0 ? relativeIndex : length + relativeIndex;
+
+    const number = +value;
+
+    if (k < 0 || k >= length) {
+      throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeRangeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.OFFSET_IS_OUT_OF_BOUNDS);
+    }
+
+    // don't use SpeciesConstructor
+    const uint16 = new _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeUint16Array(
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(float16bitsArray),
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetByteOffset)(float16bitsArray),
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray)
+    );
+    const cloned = new Float16Array(
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(
+        (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeSlice)(uint16)
+      )
+    );
+    const array = getFloat16BitsArray(cloned);
+
+    array[k] = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.roundToFloat16Bits)(number);
+
+    return cloned;
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.map */
+  map(callback, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+    const thisArg = opts[0];
+
+    const Constructor = (0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.SpeciesConstructor)(float16bitsArray, Float16Array);
+
+    // for optimization
+    if (Constructor === Float16Array) {
+      const proxy = new Float16Array(length);
+      const array = getFloat16BitsArray(proxy);
+
+      for (let i = 0; i < length; ++i) {
+        const val = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]);
+        array[i] = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.roundToFloat16Bits)(
+          (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectApply)(callback, thisArg, [val, i, this])
+        );
+      }
+
+      return proxy;
+    }
+
+    const array = new Constructor(length);
+    assertSpeciesTypedArray(array, length);
+
+    for (let i = 0; i < length; ++i) {
+      const val = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]);
+      array[i] = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectApply)(callback, thisArg, [val, i, this]);
+    }
+
+    return /** @type {any} */ (array);
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.filter */
+  filter(callback, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+    const thisArg = opts[0];
+
+    const kept = [];
+    for (let i = 0; i < length; ++i) {
+      const val = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]);
+      if ((0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectApply)(callback, thisArg, [val, i, this])) {
+        (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ArrayPrototypePush)(kept, val);
+      }
+    }
+
+    const Constructor = (0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.SpeciesConstructor)(float16bitsArray, Float16Array);
+    const array = new Constructor(kept);
+    assertSpeciesTypedArray(array);
+
+    return /** @type {any} */ (array);
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.reduce */
+  reduce(callback, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+    if (length === 0 && opts.length === 0) {
+      throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE);
+    }
+
+    let accumulator, start;
+    if (opts.length === 0) {
+      accumulator = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[0]);
+      start = 1;
+    } else {
+      accumulator = opts[0];
+      start = 0;
+    }
+
+    for (let i = start; i < length; ++i) {
+      accumulator = callback(
+        accumulator,
+        (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]),
+        i,
+        this
+      );
+    }
+
+    return accumulator;
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.reduceright */
+  reduceRight(callback, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+    if (length === 0 && opts.length === 0) {
+      throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.REDUCE_OF_EMPTY_ARRAY_WITH_NO_INITIAL_VALUE);
+    }
+
+    let accumulator, start;
+    if (opts.length === 0) {
+      accumulator = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[length - 1]);
+      start = length - 2;
+    } else {
+      accumulator = opts[0];
+      start = length - 1;
+    }
+
+    for (let i = start; i >= 0; --i) {
+      accumulator = callback(
+        accumulator,
+        (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]),
+        i,
+        this
+      );
+    }
+
+    return accumulator;
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.foreach */
+  forEach(callback, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+    const thisArg = opts[0];
+
+    for (let i = 0; i < length; ++i) {
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectApply)(callback, thisArg, [
+        (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]),
+        i,
+        this,
+      ]);
+    }
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.find */
+  find(callback, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+    const thisArg = opts[0];
+
+    for (let i = 0; i < length; ++i) {
+      const value = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]);
+      if ((0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectApply)(callback, thisArg, [value, i, this])) {
+        return value;
+      }
+    }
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.findindex */
+  findIndex(callback, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+    const thisArg = opts[0];
+
+    for (let i = 0; i < length; ++i) {
+      const value = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]);
+      if ((0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectApply)(callback, thisArg, [value, i, this])) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  /** @see https://tc39.es/proposal-array-find-from-last/index.html#sec-%typedarray%.prototype.findlast */
+  findLast(callback, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+    const thisArg = opts[0];
+
+    for (let i = length - 1; i >= 0; --i) {
+      const value = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]);
+      if ((0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectApply)(callback, thisArg, [value, i, this])) {
+        return value;
+      }
+    }
+  }
+
+  /** @see https://tc39.es/proposal-array-find-from-last/index.html#sec-%typedarray%.prototype.findlastindex */
+  findLastIndex(callback, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+    const thisArg = opts[0];
+
+    for (let i = length - 1; i >= 0; --i) {
+      const value = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]);
+      if ((0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectApply)(callback, thisArg, [value, i, this])) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.every */
+  every(callback, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+    const thisArg = opts[0];
+
+    for (let i = 0; i < length; ++i) {
+      if (
+        !(0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectApply)(callback, thisArg, [
+          (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]),
+          i,
+          this,
+        ])
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.some */
+  some(callback, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+    const thisArg = opts[0];
+
+    for (let i = 0; i < length; ++i) {
+      if (
+        (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectApply)(callback, thisArg, [
+          (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]),
+          i,
+          this,
+        ])
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.set */
+  set(input, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const targetOffset = (0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.ToIntegerOrInfinity)(opts[0]);
+    if (targetOffset < 0) {
+      throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeRangeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.OFFSET_IS_OUT_OF_BOUNDS);
+    }
+
+    if (input == null) {
+      throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(
+        _util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT
+      );
+    }
+
+    if ((0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_3__.isNativeBigIntTypedArray)(input)) {
+      throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(
+        _util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.CANNOT_MIX_BIGINT_AND_OTHER_TYPES
+      );
+    }
+
+    // for optimization
+    if (isFloat16Array(input)) {
+      // peel off Proxy
+      return (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeSet)(
+        getFloat16BitsArray(this),
+        getFloat16BitsArray(input),
+        targetOffset
+      );
+    }
+
+    if ((0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_3__.isNativeTypedArray)(input)) {
+      const buffer = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(input);
+      if ((0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.IsDetachedBuffer)(buffer)) {
+        throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
+      }
+    }
+
+    const targetLength = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+
+    const src = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeObject)(input);
+    const srcLength = (0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.ToLength)(src.length);
+
+    if (targetOffset === Infinity || srcLength + targetOffset > targetLength) {
+      throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeRangeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.OFFSET_IS_OUT_OF_BOUNDS);
+    }
+
+    for (let i = 0; i < srcLength; ++i) {
+      float16bitsArray[i + targetOffset] = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.roundToFloat16Bits)(src[i]);
+    }
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.reverse */
+  reverse() {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeReverse)(float16bitsArray);
+
+    return this;
+  }
+
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.toReversed */
+  toReversed() {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    // don't use SpeciesConstructor
+    const uint16 = new _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeUint16Array(
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(float16bitsArray),
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetByteOffset)(float16bitsArray),
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray)
+    );
+    const cloned = new Float16Array(
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(
+        (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeSlice)(uint16)
+      )
+    );
+
+    const clonedFloat16bitsArray = getFloat16BitsArray(cloned);
+    (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeReverse)(clonedFloat16bitsArray);
+
+    return cloned;
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.fill */
+  fill(value, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeFill)(
+      float16bitsArray,
+      (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.roundToFloat16Bits)(value),
+      ...(0,_util_arrayIterator_mjs__WEBPACK_IMPORTED_MODULE_0__.safeIfNeeded)(opts)
+    );
+
+    return this;
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.copywithin */
+  copyWithin(target, start, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeCopyWithin)(float16bitsArray, target, start, ...(0,_util_arrayIterator_mjs__WEBPACK_IMPORTED_MODULE_0__.safeIfNeeded)(opts));
+
+    return this;
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.sort */
+  sort(compareFn) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const sortCompare = compareFn !== undefined ? compareFn : _util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.defaultCompare;
+    (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeSort)(float16bitsArray, (x, y) => {
+      return sortCompare((0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(x), (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(y));
+    });
+
+    return this;
+  }
+
+  /** @see https://tc39.es/proposal-change-array-by-copy/#sec-%typedarray%.prototype.toSorted */
+  toSorted(compareFn) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    if (compareFn !== undefined && typeof compareFn !== "function") {
+      throw new _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.THE_COMPARISON_FUNCTION_MUST_BE_EITHER_A_FUNCTION_OR_UNDEFINED);
+    }
+    const sortCompare = compareFn !== undefined ? compareFn : _util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.defaultCompare;
+
+    // don't use SpeciesConstructor
+    const uint16 = new _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeUint16Array(
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(float16bitsArray),
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetByteOffset)(float16bitsArray),
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray)
+    );
+    const cloned = new Float16Array(
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(
+        (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeSlice)(uint16)
+      )
+    );
+
+    const clonedFloat16bitsArray = getFloat16BitsArray(cloned);
+    (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeSort)(clonedFloat16bitsArray, (x, y) => {
+      return sortCompare((0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(x), (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(y));
+    });
+
+    return cloned;
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.slice */
+  slice(start, end) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const Constructor = (0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.SpeciesConstructor)(float16bitsArray, Float16Array);
+
+    // for optimization
+    if (Constructor === Float16Array) {
+      const uint16 = new _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeUint16Array(
+        (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(float16bitsArray),
+        (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetByteOffset)(float16bitsArray),
+        (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray)
+      );
+      return new Float16Array(
+        (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(
+          (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeSlice)(uint16, start, end)
+        )
+      );
+    }
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+    const relativeStart = (0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.ToIntegerOrInfinity)(start);
+    const relativeEnd = end === undefined ? length : (0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.ToIntegerOrInfinity)(end);
+
+    let k;
+    if (relativeStart === -Infinity) {
+      k = 0;
+    } else if (relativeStart < 0) {
+      k = length + relativeStart > 0 ? length + relativeStart : 0;
+    } else {
+      k = length < relativeStart ? length : relativeStart;
+    }
+
+    let final;
+    if (relativeEnd === -Infinity) {
+      final = 0;
+    } else if (relativeEnd < 0) {
+      final = length + relativeEnd > 0 ? length + relativeEnd : 0;
+    } else {
+      final = length < relativeEnd ? length : relativeEnd;
+    }
+
+    const count = final - k > 0 ? final - k : 0;
+    const array = new Constructor(count);
+    assertSpeciesTypedArray(array, count);
+
+    if (count === 0) {
+      return array;
+    }
+
+    const buffer = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(float16bitsArray);
+    if ((0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.IsDetachedBuffer)(buffer)) {
+      throw (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeTypeError)(_util_messages_mjs__WEBPACK_IMPORTED_MODULE_4__.ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER);
+    }
+
+    let n = 0;
+    while (k < final) {
+      array[n] = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[k]);
+      ++k;
+      ++n;
+    }
+
+    return /** @type {any} */ (array);
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.subarray */
+  subarray(begin, end) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const Constructor = (0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.SpeciesConstructor)(float16bitsArray, Float16Array);
+
+    const uint16 = new _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NativeUint16Array(
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(float16bitsArray),
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetByteOffset)(float16bitsArray),
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray)
+    );
+    const uint16Subarray = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeSubarray)(uint16, begin, end);
+
+    const array = new Constructor(
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetBuffer)(uint16Subarray),
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetByteOffset)(uint16Subarray),
+      (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(uint16Subarray)
+    );
+    assertSpeciesTypedArray(array);
+
+    return /** @type {any} */ (array);
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.indexof */
+  indexOf(element, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+
+    let from = (0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.ToIntegerOrInfinity)(opts[0]);
+    if (from === Infinity) {
+      return -1;
+    }
+
+    if (from < 0) {
+      from += length;
+      if (from < 0) {
+        from = 0;
+      }
+    }
+
+    for (let i = from; i < length; ++i) {
+      if (
+        (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ObjectHasOwn)(float16bitsArray, i) &&
+        (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]) === element
+      ) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.lastindexof */
+  lastIndexOf(element, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+
+    let from = opts.length >= 1 ? (0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.ToIntegerOrInfinity)(opts[0]) : length - 1;
+    if (from === -Infinity) {
+      return -1;
+    }
+
+    if (from >= 0) {
+      from = from < length - 1 ? from : length - 1;
+    } else {
+      from += length;
+    }
+
+    for (let i = from; i >= 0; --i) {
+      if (
+        (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ObjectHasOwn)(float16bitsArray, i) &&
+        (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]) === element
+      ) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.includes */
+  includes(element, ...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const length = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototypeGetLength)(float16bitsArray);
+
+    let from = (0,_util_spec_mjs__WEBPACK_IMPORTED_MODULE_6__.ToIntegerOrInfinity)(opts[0]);
+    if (from === Infinity) {
+      return false;
+    }
+
+    if (from < 0) {
+      from += length;
+      if (from < 0) {
+        from = 0;
+      }
+    }
+
+    const isNaN = (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NumberIsNaN)(element);
+    for (let i = from; i < length; ++i) {
+      const value = (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_2__.convertToNumber)(float16bitsArray[i]);
+
+      if (isNaN && (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.NumberIsNaN)(value)) {
+        return true;
+      }
+
+      if (value === element) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.join */
+  join(separator) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const array = copyToArray(float16bitsArray);
+
+    return (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ArrayPrototypeJoin)(array, separator);
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.tolocalestring */
+  toLocaleString(...opts) {
+    assertFloat16Array(this);
+    const float16bitsArray = getFloat16BitsArray(this);
+
+    const array = copyToArray(float16bitsArray);
+
+    return (0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ArrayPrototypeToLocaleString)(array, ...(0,_util_arrayIterator_mjs__WEBPACK_IMPORTED_MODULE_0__.safeIfNeeded)(opts));
+  }
+
+  /** @see https://tc39.es/ecma262/#sec-get-%typedarray%.prototype-@@tostringtag */
+  get [_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.SymbolToStringTag]() {
+    if (isFloat16Array(this)) {
+      return /** @type {any} */ ("Float16Array");
+    }
+  }
+}
+
+/** @see https://tc39.es/ecma262/#sec-typedarray.bytes_per_element */
+(0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ObjectDefineProperty)(Float16Array, "BYTES_PER_ELEMENT", {
+  value: BYTES_PER_ELEMENT,
+});
+
+// limitation: It is peaked by `Object.getOwnPropertySymbols(Float16Array)` and `Reflect.ownKeys(Float16Array)`
+(0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ObjectDefineProperty)(Float16Array, _util_brand_mjs__WEBPACK_IMPORTED_MODULE_1__.brand, {});
+
+/** @see https://tc39.es/ecma262/#sec-properties-of-the-typedarray-constructors */
+(0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectSetPrototypeOf)(Float16Array, _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArray);
+
+const Float16ArrayPrototype = Float16Array.prototype;
+
+/** @see https://tc39.es/ecma262/#sec-typedarray.prototype.bytes_per_element */
+(0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ObjectDefineProperty)(Float16ArrayPrototype, "BYTES_PER_ELEMENT", {
+  value: BYTES_PER_ELEMENT,
+});
+
+/** @see https://tc39.es/ecma262/#sec-%typedarray%.prototype-@@iterator */
+(0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ObjectDefineProperty)(Float16ArrayPrototype, _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.SymbolIterator, {
+  value: Float16ArrayPrototype.values,
+  writable: true,
+  configurable: true,
+});
+
+(0,_util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.ReflectSetPrototypeOf)(Float16ArrayPrototype, _util_primordials_mjs__WEBPACK_IMPORTED_MODULE_5__.TypedArrayPrototype);
+
+
+/***/ }),
+
 /***/ "./node_modules/@petamoriken/float16/src/_util/arrayIterator.mjs":
 /*!***********************************************************************!*\
   !*** ./node_modules/@petamoriken/float16/src/_util/arrayIterator.mjs ***!
@@ -59,7 +1198,6 @@ function setFloat16(dataView, byteOffset, value, ...opts) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   safeIfNeeded: () => (/* binding */ safeIfNeeded),
 /* harmony export */   wrap: () => (/* binding */ wrap)
@@ -140,6 +1278,55 @@ function wrap(generator) {
 
 /***/ }),
 
+/***/ "./node_modules/@petamoriken/float16/src/_util/brand.mjs":
+/*!***************************************************************!*\
+  !*** ./node_modules/@petamoriken/float16/src/_util/brand.mjs ***!
+  \***************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   brand: () => (/* binding */ brand),
+/* harmony export */   hasFloat16ArrayBrand: () => (/* binding */ hasFloat16ArrayBrand)
+/* harmony export */ });
+/* harmony import */ var _is_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./is.mjs */ "./node_modules/@petamoriken/float16/src/_util/is.mjs");
+/* harmony import */ var _messages_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./messages.mjs */ "./node_modules/@petamoriken/float16/src/_util/messages.mjs");
+/* harmony import */ var _primordials_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./primordials.mjs */ "./node_modules/@petamoriken/float16/src/_util/primordials.mjs");
+
+
+
+
+const brand = (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.SymbolFor)("__Float16Array__");
+
+/**
+ * @param {unknown} target
+ * @throws {TypeError}
+ * @returns {boolean}
+ */
+function hasFloat16ArrayBrand(target) {
+  if (!(0,_is_mjs__WEBPACK_IMPORTED_MODULE_0__.isObjectLike)(target)) {
+    return false;
+  }
+
+  const prototype = (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.ReflectGetPrototypeOf)(target);
+  if (!(0,_is_mjs__WEBPACK_IMPORTED_MODULE_0__.isObjectLike)(prototype)) {
+    return false;
+  }
+
+  const constructor = prototype.constructor;
+  if (constructor === undefined) {
+    return false;
+  }
+  if (!(0,_is_mjs__WEBPACK_IMPORTED_MODULE_0__.isObject)(constructor)) {
+    throw (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.NativeTypeError)(_messages_mjs__WEBPACK_IMPORTED_MODULE_1__.THE_CONSTRUCTOR_PROPERTY_VALUE_IS_NOT_AN_OBJECT);
+  }
+
+  return (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.ReflectHas)(constructor, brand);
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/@petamoriken/float16/src/_util/converter.mjs":
 /*!*******************************************************************!*\
   !*** ./node_modules/@petamoriken/float16/src/_util/converter.mjs ***!
@@ -147,7 +1334,6 @@ function wrap(generator) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   convertToNumber: () => (/* binding */ convertToNumber),
 /* harmony export */   roundToFloat16: () => (/* binding */ roundToFloat16),
@@ -321,6 +1507,167 @@ function convertToNumber(float16bits) {
 
 /***/ }),
 
+/***/ "./node_modules/@petamoriken/float16/src/_util/is.mjs":
+/*!************************************************************!*\
+  !*** ./node_modules/@petamoriken/float16/src/_util/is.mjs ***!
+  \************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   isAnyArrayBuffer: () => (/* binding */ isAnyArrayBuffer),
+/* harmony export */   isCanonicalIntegerIndexString: () => (/* binding */ isCanonicalIntegerIndexString),
+/* harmony export */   isNativeBigIntTypedArray: () => (/* binding */ isNativeBigIntTypedArray),
+/* harmony export */   isNativeTypedArray: () => (/* binding */ isNativeTypedArray),
+/* harmony export */   isObject: () => (/* binding */ isObject),
+/* harmony export */   isObjectLike: () => (/* binding */ isObjectLike),
+/* harmony export */   isOrdinaryArray: () => (/* binding */ isOrdinaryArray),
+/* harmony export */   isOrdinaryNativeTypedArray: () => (/* binding */ isOrdinaryNativeTypedArray),
+/* harmony export */   isSharedArrayBuffer: () => (/* binding */ isSharedArrayBuffer)
+/* harmony export */ });
+/* harmony import */ var _primordials_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./primordials.mjs */ "./node_modules/@petamoriken/float16/src/_util/primordials.mjs");
+
+
+/**
+ * @param {unknown} value
+ * @returns {value is {}}
+ */
+function isObject(value) {
+  return (
+    (value !== null && typeof value === "object") ||
+    typeof value === "function"
+  );
+}
+
+/**
+ * @param {unknown} value
+ * @returns {value is {}}
+ */
+function isObjectLike(value) {
+  return value !== null && typeof value === "object";
+}
+
+// Inspired by util.types implementation of Node.js
+/** @typedef {Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float32Array|Float64Array|BigUint64Array|BigInt64Array} TypedArray */
+
+/**
+ * @param {unknown} value
+ * @returns {value is TypedArray}
+ */
+function isNativeTypedArray(value) {
+  return (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.TypedArrayPrototypeGetSymbolToStringTag)(value) !== undefined;
+}
+
+/**
+ * @param {unknown} value
+ * @returns {value is BigInt64Array|BigUint64Array}
+ */
+function isNativeBigIntTypedArray(value) {
+  const typedArrayName = (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.TypedArrayPrototypeGetSymbolToStringTag)(value);
+  return (
+    typedArrayName === "BigInt64Array" ||
+    typedArrayName === "BigUint64Array"
+  );
+}
+
+/**
+ * @param {unknown} value
+ * @returns {value is ArrayBuffer}
+ */
+function isArrayBuffer(value) {
+  try {
+    // ArrayBuffers are never arrays
+    if ((0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.ArrayIsArray)(value)) {
+      return false;
+    }
+    (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.ArrayBufferPrototypeGetByteLength)(/** @type {any} */ (value));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
+ * @param {unknown} value
+ * @returns {value is SharedArrayBuffer}
+ */
+function isSharedArrayBuffer(value) {
+  if (_primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.NativeSharedArrayBuffer === null) {
+    return false;
+  }
+
+  try {
+    (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.SharedArrayBufferPrototypeGetByteLength)(/** @type {any} */ (value));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
+ * @param {unknown} value
+ * @returns {value is ArrayBuffer|SharedArrayBuffer}
+ */
+function isAnyArrayBuffer(value) {
+  return isArrayBuffer(value) || isSharedArrayBuffer(value);
+}
+
+/**
+ * @param {unknown} value
+ * @returns {value is unknown[]}
+ */
+function isOrdinaryArray(value) {
+  if (!(0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.ArrayIsArray)(value)) {
+    return false;
+  }
+
+  // Verify that there are no changes in ArrayIterator
+  return (
+    value[_primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.SymbolIterator] === _primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.NativeArrayPrototypeSymbolIterator &&
+    _primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.ArrayIteratorPrototype.next === _primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.ArrayIteratorPrototypeNext
+  );
+}
+
+/**
+ * @param {unknown} value
+ * @returns {value is TypedArray}
+ */
+function isOrdinaryNativeTypedArray(value) {
+  if (!isNativeTypedArray(value)) {
+    return false;
+  }
+
+  // Verify that there are no changes in ArrayIterator
+  return (
+    value[_primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.SymbolIterator] === _primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.NativeTypedArrayPrototypeSymbolIterator &&
+    _primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.ArrayIteratorPrototype.next === _primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.ArrayIteratorPrototypeNext
+  );
+}
+
+/**
+ * @param {unknown} value
+ * @returns {value is string}
+ */
+function isCanonicalIntegerIndexString(value) {
+  if (typeof value !== "string") {
+    return false;
+  }
+
+  const number = +value;
+  if (value !== number + "") {
+    return false;
+  }
+
+  if (!(0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.NumberIsFinite)(number)) {
+    return false;
+  }
+
+  return number === (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_0__.MathTrunc)(number);
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/@petamoriken/float16/src/_util/messages.mjs":
 /*!******************************************************************!*\
   !*** ./node_modules/@petamoriken/float16/src/_util/messages.mjs ***!
@@ -328,7 +1675,6 @@ function convertToNumber(float16bits) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER: () => (/* binding */ ATTEMPTING_TO_ACCESS_DETACHED_ARRAYBUFFER),
 /* harmony export */   CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT: () => (/* binding */ CANNOT_CONVERT_UNDEFINED_OR_NULL_TO_OBJECT),
@@ -377,7 +1723,6 @@ const OFFSET_IS_OUT_OF_BOUNDS = "Offset is out of bounds";
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   ArrayBufferIsView: () => (/* binding */ ArrayBufferIsView),
 /* harmony export */   ArrayBufferPrototypeGetByteLength: () => (/* binding */ ArrayBufferPrototypeGetByteLength),
@@ -716,6 +2061,225 @@ const WeakMapPrototypeSet = uncurryThis(WeakMapPrototype.set);
 
 /***/ }),
 
+/***/ "./node_modules/@petamoriken/float16/src/_util/spec.mjs":
+/*!**************************************************************!*\
+  !*** ./node_modules/@petamoriken/float16/src/_util/spec.mjs ***!
+  \**************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   IsDetachedBuffer: () => (/* binding */ IsDetachedBuffer),
+/* harmony export */   SpeciesConstructor: () => (/* binding */ SpeciesConstructor),
+/* harmony export */   ToIntegerOrInfinity: () => (/* binding */ ToIntegerOrInfinity),
+/* harmony export */   ToLength: () => (/* binding */ ToLength),
+/* harmony export */   defaultCompare: () => (/* binding */ defaultCompare)
+/* harmony export */ });
+/* harmony import */ var _is_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./is.mjs */ "./node_modules/@petamoriken/float16/src/_util/is.mjs");
+/* harmony import */ var _messages_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./messages.mjs */ "./node_modules/@petamoriken/float16/src/_util/messages.mjs");
+/* harmony import */ var _primordials_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./primordials.mjs */ "./node_modules/@petamoriken/float16/src/_util/primordials.mjs");
+
+
+
+
+/**
+ * @see https://tc39.es/ecma262/#sec-tointegerorinfinity
+ * @param {unknown} target
+ * @returns {number}
+ */
+function ToIntegerOrInfinity(target) {
+  const number = +target;
+
+  if ((0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.NumberIsNaN)(number) || number === 0) {
+    return 0;
+  }
+
+  return (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.MathTrunc)(number);
+}
+
+/**
+ * @see https://tc39.es/ecma262/#sec-tolength
+ * @param {unknown} target
+ * @returns {number}
+ */
+function ToLength(target) {
+  const length = ToIntegerOrInfinity(target);
+  if (length < 0) {
+    return 0;
+  }
+
+  return length < _primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.MAX_SAFE_INTEGER
+    ? length
+    : _primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.MAX_SAFE_INTEGER;
+}
+
+/**
+ * @see https://tc39.es/ecma262/#sec-speciesconstructor
+ * @param {object} target
+ * @param {{ new(...args: any[]): any; }} defaultConstructor
+ * @returns {{ new(...args: any[]): any; }}
+ */
+function SpeciesConstructor(target, defaultConstructor) {
+  if (!(0,_is_mjs__WEBPACK_IMPORTED_MODULE_0__.isObject)(target)) {
+    throw (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.NativeTypeError)(_messages_mjs__WEBPACK_IMPORTED_MODULE_1__.THIS_IS_NOT_AN_OBJECT);
+  }
+
+  const constructor = target.constructor;
+  if (constructor === undefined) {
+    return defaultConstructor;
+  }
+  if (!(0,_is_mjs__WEBPACK_IMPORTED_MODULE_0__.isObject)(constructor)) {
+    throw (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.NativeTypeError)(_messages_mjs__WEBPACK_IMPORTED_MODULE_1__.THE_CONSTRUCTOR_PROPERTY_VALUE_IS_NOT_AN_OBJECT);
+  }
+
+  const species = constructor[_primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.SymbolSpecies];
+  if (species == null) {
+    return defaultConstructor;
+  }
+
+  return species;
+}
+
+/**
+ * @see https://tc39.es/ecma262/#sec-isdetachedbuffer
+ * @param {ArrayBufferLike} buffer
+ * @returns {boolean}
+ */
+function IsDetachedBuffer(buffer) {
+  if ((0,_is_mjs__WEBPACK_IMPORTED_MODULE_0__.isSharedArrayBuffer)(buffer)) {
+    return false;
+  }
+
+  try {
+    (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.ArrayBufferPrototypeSlice)(buffer, 0, 0);
+    return false;
+  } catch (e) {/* empty */}
+
+  return true;
+}
+
+/**
+ * bigint comparisons are not supported
+ * @see https://tc39.es/ecma262/#sec-%typedarray%.prototype.sort
+ * @param {number} x
+ * @param {number} y
+ * @returns {-1 | 0 | 1}
+ */
+function defaultCompare(x, y) {
+  const isXNaN = (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.NumberIsNaN)(x);
+  const isYNaN = (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.NumberIsNaN)(y);
+
+  if (isXNaN && isYNaN) {
+    return 0;
+  }
+
+  if (isXNaN) {
+    return 1;
+  }
+
+  if (isYNaN) {
+    return -1;
+  }
+
+  if (x < y) {
+    return -1;
+  }
+
+  if (x > y) {
+    return 1;
+  }
+
+  if (x === 0 && y === 0) {
+    const isXPlusZero = (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.ObjectIs)(x, 0);
+    const isYPlusZero = (0,_primordials_mjs__WEBPACK_IMPORTED_MODULE_2__.ObjectIs)(y, 0);
+
+    if (!isXPlusZero && isYPlusZero) {
+      return -1;
+    }
+
+    if (isXPlusZero && !isYPlusZero) {
+      return 1;
+    }
+  }
+
+  return 0;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@petamoriken/float16/src/f16round.mjs":
+/*!************************************************************!*\
+  !*** ./node_modules/@petamoriken/float16/src/f16round.mjs ***!
+  \************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* unused harmony export f16round */
+/* harmony import */ var _util_converter_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./_util/converter.mjs */ "./node_modules/@petamoriken/float16/src/_util/converter.mjs");
+
+
+/**
+ * returns the nearest half-precision float representation of a number
+ * @param {number} x
+ * @returns {number}
+ */
+function f16round(x) {
+  return (0,_util_converter_mjs__WEBPACK_IMPORTED_MODULE_0__.roundToFloat16)(x);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@petamoriken/float16/src/index.mjs":
+/*!*********************************************************!*\
+  !*** ./node_modules/@petamoriken/float16/src/index.mjs ***!
+  \*********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getFloat16: () => (/* reexport safe */ _DataView_mjs__WEBPACK_IMPORTED_MODULE_2__.getFloat16)
+/* harmony export */ });
+/* harmony import */ var _Float16Array_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Float16Array.mjs */ "./node_modules/@petamoriken/float16/src/Float16Array.mjs");
+/* harmony import */ var _isTypedArray_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./isTypedArray.mjs */ "./node_modules/@petamoriken/float16/src/isTypedArray.mjs");
+/* harmony import */ var _DataView_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DataView.mjs */ "./node_modules/@petamoriken/float16/src/DataView.mjs");
+/* harmony import */ var _f16round_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./f16round.mjs */ "./node_modules/@petamoriken/float16/src/f16round.mjs");
+/* ignore unused exports */
+// @ts-self-types="../index.v5.7.d.ts"
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@petamoriken/float16/src/isTypedArray.mjs":
+/*!****************************************************************!*\
+  !*** ./node_modules/@petamoriken/float16/src/isTypedArray.mjs ***!
+  \****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* unused harmony export isTypedArray */
+/* harmony import */ var _Float16Array_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Float16Array.mjs */ "./node_modules/@petamoriken/float16/src/Float16Array.mjs");
+/* harmony import */ var _util_is_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./_util/is.mjs */ "./node_modules/@petamoriken/float16/src/_util/is.mjs");
+
+
+
+/**
+ * @param {unknown} target
+ * @returns {value is Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array|Int8Array|Int16Array|Int32Array|Float16Array|Float32Array|Float64Array|BigUint64Array|BigInt64Array}
+ */
+function isTypedArray(target) {
+  return (0,_util_is_mjs__WEBPACK_IMPORTED_MODULE_1__.isNativeTypedArray)(target) || (0,_Float16Array_mjs__WEBPACK_IMPORTED_MODULE_0__.isFloat16Array)(target);
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./src/style.css":
 /*!*************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./src/style.css ***!
@@ -723,7 +2287,6 @@ const WeakMapPrototypeSet = uncurryThis(WeakMapPrototype.set);
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -1445,7 +3008,6 @@ module.exports = function (i) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ BaseDecoder)
 /* harmony export */ });
@@ -1506,12 +3068,11 @@ class DeflateDecoder extends _basedecoder_js__WEBPACK_IMPORTED_MODULE_1__["defau
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   addDecoder: () => (/* binding */ addDecoder),
 /* harmony export */   getDecoder: () => (/* binding */ getDecoder),
 /* harmony export */   preferWorker: () => (/* binding */ preferWorker)
 /* harmony export */ });
+/* unused harmony export addDecoder */
 const registry = new Map();
 const preferWorkerMap = new Map();
 
@@ -2861,7 +4422,6 @@ class ZstdDecoder extends _basedecoder_js__WEBPACK_IMPORTED_MODULE_1__["default"
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ DataSlice)
 /* harmony export */ });
@@ -3016,11 +4576,10 @@ class DataSlice {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ DataView64)
 /* harmony export */ });
-/* harmony import */ var _petamoriken_float16__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @petamoriken/float16 */ "./node_modules/@petamoriken/float16/src/DataView.mjs");
+/* harmony import */ var _petamoriken_float16__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @petamoriken/float16 */ "./node_modules/@petamoriken/float16/src/index.mjs");
 
 
 class DataView64 {
@@ -3129,29 +4688,10 @@ class DataView64 {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   BaseClient: () => (/* reexport safe */ _source_client_base_js__WEBPACK_IMPORTED_MODULE_8__.BaseClient),
-/* harmony export */   BaseDecoder: () => (/* reexport safe */ _compression_basedecoder_js__WEBPACK_IMPORTED_MODULE_14__["default"]),
-/* harmony export */   BaseResponse: () => (/* reexport safe */ _source_client_base_js__WEBPACK_IMPORTED_MODULE_8__.BaseResponse),
-/* harmony export */   GeoTIFF: () => (/* binding */ GeoTIFF),
-/* harmony export */   GeoTIFFImage: () => (/* reexport safe */ _geotiffimage_js__WEBPACK_IMPORTED_MODULE_0__["default"]),
-/* harmony export */   MultiGeoTIFF: () => (/* binding */ MultiGeoTIFF),
-/* harmony export */   Pool: () => (/* reexport safe */ _pool_js__WEBPACK_IMPORTED_MODULE_3__["default"]),
-/* harmony export */   addDecoder: () => (/* reexport safe */ _compression_index_js__WEBPACK_IMPORTED_MODULE_12__.addDecoder),
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   fromArrayBuffer: () => (/* binding */ fromArrayBuffer),
-/* harmony export */   fromBlob: () => (/* binding */ fromBlob),
-/* harmony export */   fromCustomClient: () => (/* binding */ fromCustomClient),
-/* harmony export */   fromFile: () => (/* binding */ fromFile),
-/* harmony export */   fromUrl: () => (/* binding */ fromUrl),
-/* harmony export */   fromUrls: () => (/* binding */ fromUrls),
-/* harmony export */   getDecoder: () => (/* reexport safe */ _compression_index_js__WEBPACK_IMPORTED_MODULE_12__.getDecoder),
-/* harmony export */   globals: () => (/* reexport module object */ _globals_js__WEBPACK_IMPORTED_MODULE_9__),
-/* harmony export */   rgb: () => (/* reexport module object */ _rgb_js__WEBPACK_IMPORTED_MODULE_11__),
-/* harmony export */   setLogger: () => (/* reexport safe */ _logging_js__WEBPACK_IMPORTED_MODULE_13__.setLogger),
-/* harmony export */   writeArrayBuffer: () => (/* binding */ writeArrayBuffer)
+/* harmony export */   fromBlob: () => (/* binding */ fromBlob)
 /* harmony export */ });
+/* unused harmony exports GeoTIFF, MultiGeoTIFF, fromUrl, fromCustomClient, fromArrayBuffer, fromFile, fromUrls, writeArrayBuffer */
 /* harmony import */ var _geotiffimage_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./geotiffimage.js */ "./node_modules/geotiff/dist-module/geotiffimage.js");
 /* harmony import */ var _dataview64_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dataview64.js */ "./node_modules/geotiff/dist-module/dataview64.js");
 /* harmony import */ var _dataslice_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dataslice.js */ "./node_modules/geotiff/dist-module/dataslice.js");
@@ -3775,7 +5315,7 @@ class GeoTIFF extends GeoTIFFBase {
 }
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GeoTIFF);
+/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (GeoTIFF);
 
 /**
  * Wrapper for GeoTIFF files that have external overviews.
@@ -3966,11 +5506,10 @@ function writeArrayBuffer(values, metadata) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _petamoriken_float16__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @petamoriken/float16 */ "./node_modules/@petamoriken/float16/src/DataView.mjs");
+/* harmony import */ var _petamoriken_float16__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @petamoriken/float16 */ "./node_modules/@petamoriken/float16/src/index.mjs");
 /* harmony import */ var xml_utils_get_attribute__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! xml-utils/get-attribute */ "./node_modules/xml-utils/get-attribute.mjs");
 /* harmony import */ var xml_utils_find_tags_by_name__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! xml-utils/find-tags-by-name */ "./node_modules/xml-utils/find-tags-by-name.mjs");
 /* harmony import */ var _globals_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./globals.js */ "./node_modules/geotiff/dist-module/globals.js");
@@ -4952,7 +6491,6 @@ class GeoTIFFImage {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   writeGeotiff: () => (/* binding */ writeGeotiff)
 /* harmony export */ });
@@ -5481,7 +7019,6 @@ function writeGeotiff(data, metadata) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   ExtraSamplesValues: () => (/* binding */ ExtraSamplesValues),
 /* harmony export */   LercAddCompression: () => (/* binding */ LercAddCompression),
@@ -5493,10 +7030,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   fieldTypeNames: () => (/* binding */ fieldTypeNames),
 /* harmony export */   fieldTypes: () => (/* binding */ fieldTypes),
 /* harmony export */   geoKeyNames: () => (/* binding */ geoKeyNames),
-/* harmony export */   geoKeys: () => (/* binding */ geoKeys),
-/* harmony export */   photometricInterpretations: () => (/* binding */ photometricInterpretations),
-/* harmony export */   registerTag: () => (/* binding */ registerTag)
+/* harmony export */   photometricInterpretations: () => (/* binding */ photometricInterpretations)
 /* harmony export */ });
+/* unused harmony exports registerTag, geoKeys */
 const fieldTagNames = {
   // TIFF Baseline
   0x013B: 'Artist',
@@ -5839,17 +7375,7 @@ for (const key in geoKeyNames) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   debug: () => (/* binding */ debug),
-/* harmony export */   error: () => (/* binding */ error),
-/* harmony export */   info: () => (/* binding */ info),
-/* harmony export */   log: () => (/* binding */ log),
-/* harmony export */   setLogger: () => (/* binding */ setLogger),
-/* harmony export */   time: () => (/* binding */ time),
-/* harmony export */   timeEnd: () => (/* binding */ timeEnd),
-/* harmony export */   warn: () => (/* binding */ warn)
-/* harmony export */ });
+/* unused harmony exports setLogger, debug, log, info, warn, error, time, timeEnd */
 /**
  * A no-op logger
  */
@@ -5914,13 +7440,9 @@ function timeEnd(...args) {
 /*!**************************************************!*\
   !*** ./node_modules/geotiff/dist-module/pool.js ***!
   \**************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack___webpack_module__, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
 /* harmony import */ var _compression_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./compression/index.js */ "./node_modules/geotiff/dist-module/compression/index.js");
 /* harmony import */ var _worker_create_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./worker/create.js */ "./node_modules/geotiff/dist-module/worker/create.js");
 
@@ -6081,7 +7603,7 @@ class Pool {
   }
 }
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Pool);
+/* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (Pool);
 
 
 /***/ }),
@@ -6093,7 +7615,6 @@ class Pool {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   applyPredictor: () => (/* binding */ applyPredictor)
 /* harmony export */ });
@@ -6196,15 +7717,11 @@ function applyPredictor(block, predictor, width, height, bitsPerSample,
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   resample: () => (/* binding */ resample),
-/* harmony export */   resampleBilinear: () => (/* binding */ resampleBilinear),
-/* harmony export */   resampleBilinearInterleaved: () => (/* binding */ resampleBilinearInterleaved),
-/* harmony export */   resampleInterleaved: () => (/* binding */ resampleInterleaved),
-/* harmony export */   resampleNearest: () => (/* binding */ resampleNearest),
-/* harmony export */   resampleNearestInterleaved: () => (/* binding */ resampleNearestInterleaved)
+/* harmony export */   resampleInterleaved: () => (/* binding */ resampleInterleaved)
 /* harmony export */ });
+/* unused harmony exports resampleNearest, resampleBilinear, resampleNearestInterleaved, resampleBilinearInterleaved */
 /**
  * @module resample
  */
@@ -6427,7 +7944,6 @@ function resampleInterleaved(valueArray, inWidth, inHeight, outWidth, outHeight,
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   fromBlackIsZero: () => (/* binding */ fromBlackIsZero),
 /* harmony export */   fromCIELab: () => (/* binding */ fromCIELab),
@@ -6558,7 +8074,6 @@ function fromCIELab(cieLabRaster) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   makeBufferSource: () => (/* binding */ makeBufferSource)
 /* harmony export */ });
@@ -6595,7 +8110,6 @@ function makeBufferSource(arrayBuffer) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   BaseSource: () => (/* binding */ BaseSource)
 /* harmony export */ });
@@ -6648,7 +8162,6 @@ class BaseSource {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   BlockedSource: () => (/* binding */ BlockedSource)
 /* harmony export */ });
@@ -6962,7 +8475,6 @@ class BlockedSource extends _basesource_js__WEBPACK_IMPORTED_MODULE_1__.BaseSour
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   BaseClient: () => (/* binding */ BaseClient),
 /* harmony export */   BaseResponse: () => (/* binding */ BaseResponse)
@@ -7024,7 +8536,6 @@ class BaseClient {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   FetchClient: () => (/* binding */ FetchClient)
 /* harmony export */ });
@@ -7085,7 +8596,6 @@ class FetchClient extends _base_js__WEBPACK_IMPORTED_MODULE_0__.BaseClient {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   HttpClient: () => (/* binding */ HttpClient)
 /* harmony export */ });
@@ -7186,7 +8696,6 @@ class HttpClient extends _base_js__WEBPACK_IMPORTED_MODULE_3__.BaseClient {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   XHRClient: () => (/* binding */ XHRClient)
 /* harmony export */ });
@@ -7264,7 +8773,6 @@ class XHRClient extends _base_js__WEBPACK_IMPORTED_MODULE_0__.BaseClient {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   makeFileSource: () => (/* binding */ makeFileSource)
 /* harmony export */ });
@@ -7349,7 +8857,6 @@ function makeFileSource(path) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   makeFileReaderSource: () => (/* binding */ makeFileReaderSource)
 /* harmony export */ });
@@ -7397,7 +8904,6 @@ function makeFileReaderSource(file) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   parseByteRanges: () => (/* binding */ parseByteRanges),
 /* harmony export */   parseContentRange: () => (/* binding */ parseContentRange),
@@ -7559,14 +9065,11 @@ function parseByteRanges(responseArrayBuffer, boundary) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   makeCustomSource: () => (/* binding */ makeCustomSource),
-/* harmony export */   makeFetchSource: () => (/* binding */ makeFetchSource),
-/* harmony export */   makeHttpSource: () => (/* binding */ makeHttpSource),
-/* harmony export */   makeRemoteSource: () => (/* binding */ makeRemoteSource),
-/* harmony export */   makeXHRSource: () => (/* binding */ makeXHRSource)
+/* harmony export */   makeRemoteSource: () => (/* binding */ makeRemoteSource)
 /* harmony export */ });
+/* unused harmony exports makeFetchSource, makeXHRSource, makeHttpSource */
 /* harmony import */ var _httputils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./httputils.js */ "./node_modules/geotiff/dist-module/source/httputils.js");
 /* harmony import */ var _basesource_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./basesource.js */ "./node_modules/geotiff/dist-module/source/basesource.js");
 /* harmony import */ var _blockedsource_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./blockedsource.js */ "./node_modules/geotiff/dist-module/source/blockedsource.js");
@@ -7780,28 +9283,22 @@ function makeRemoteSource(url, { forceXHR = false, ...clientOptions } = {}) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   AbortError: () => (/* binding */ AbortError),
 /* harmony export */   AggregateError: () => (/* binding */ AggregateError),
-/* harmony export */   CustomAggregateError: () => (/* binding */ CustomAggregateError),
 /* harmony export */   assign: () => (/* binding */ assign),
-/* harmony export */   chunk: () => (/* binding */ chunk),
 /* harmony export */   endsWith: () => (/* binding */ endsWith),
 /* harmony export */   forEach: () => (/* binding */ forEach),
 /* harmony export */   invert: () => (/* binding */ invert),
 /* harmony export */   isTypedFloatArray: () => (/* binding */ isTypedFloatArray),
 /* harmony export */   isTypedIntArray: () => (/* binding */ isTypedIntArray),
 /* harmony export */   isTypedUintArray: () => (/* binding */ isTypedUintArray),
-/* harmony export */   parseContentRange: () => (/* binding */ parseContentRange),
-/* harmony export */   range: () => (/* binding */ range),
 /* harmony export */   times: () => (/* binding */ times),
-/* harmony export */   toArray: () => (/* binding */ toArray),
-/* harmony export */   toArrayRecursively: () => (/* binding */ toArrayRecursively),
 /* harmony export */   typeMap: () => (/* binding */ typeMap),
 /* harmony export */   wait: () => (/* binding */ wait),
 /* harmony export */   zip: () => (/* binding */ zip)
 /* harmony export */ });
+/* unused harmony exports chunk, range, toArray, toArrayRecursively, parseContentRange, CustomAggregateError */
 function assign(target, source) {
   for (const key in source) {
     if (source.hasOwnProperty(key)) {
@@ -8009,7 +9506,6 @@ const typeMap = {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ create)
 /* harmony export */ });
@@ -10361,19 +11857,10 @@ Contributors:  Johannes Schmid, (LERC v1)
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Deflate: () => (/* binding */ Deflate_1),
-/* harmony export */   Inflate: () => (/* binding */ Inflate_1),
-/* harmony export */   constants: () => (/* binding */ constants_1),
-/* harmony export */   "default": () => (/* binding */ pako),
-/* harmony export */   deflate: () => (/* binding */ deflate_1),
-/* harmony export */   deflateRaw: () => (/* binding */ deflateRaw_1),
-/* harmony export */   gzip: () => (/* binding */ gzip_1),
-/* harmony export */   inflate: () => (/* binding */ inflate_1),
-/* harmony export */   inflateRaw: () => (/* binding */ inflateRaw_1),
-/* harmony export */   ungzip: () => (/* binding */ ungzip_1)
+/* harmony export */   inflate: () => (/* binding */ inflate_1)
 /* harmony export */ });
+/* unused harmony exports Deflate, Inflate, constants, default, deflate, deflateRaw, gzip, inflateRaw, ungzip */
 
 /*! pako 2.1.0 https://github.com/nodeca/pako @license (MIT AND Zlib) */
 // (C) 1995-2013 Jean-loup Gailly and Mark Adler
@@ -17262,7 +18749,6 @@ var pako = {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ QuickLRU)
 /* harmony export */ });
@@ -17833,210 +19319,77 @@ module.exports = styleTagTransform;
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   ACESFilmicToneMapping: () => (/* binding */ ACESFilmicToneMapping),
 /* harmony export */   AddEquation: () => (/* binding */ AddEquation),
 /* harmony export */   AddOperation: () => (/* binding */ AddOperation),
-/* harmony export */   AdditiveAnimationBlendMode: () => (/* binding */ AdditiveAnimationBlendMode),
 /* harmony export */   AdditiveBlending: () => (/* binding */ AdditiveBlending),
 /* harmony export */   AgXToneMapping: () => (/* binding */ AgXToneMapping),
 /* harmony export */   AlphaFormat: () => (/* binding */ AlphaFormat),
 /* harmony export */   AlwaysCompare: () => (/* binding */ AlwaysCompare),
 /* harmony export */   AlwaysDepth: () => (/* binding */ AlwaysDepth),
-/* harmony export */   AlwaysStencilFunc: () => (/* binding */ AlwaysStencilFunc),
 /* harmony export */   AmbientLight: () => (/* binding */ AmbientLight),
-/* harmony export */   AnimationAction: () => (/* binding */ AnimationAction),
-/* harmony export */   AnimationClip: () => (/* binding */ AnimationClip),
-/* harmony export */   AnimationLoader: () => (/* binding */ AnimationLoader),
-/* harmony export */   AnimationMixer: () => (/* binding */ AnimationMixer),
-/* harmony export */   AnimationObjectGroup: () => (/* binding */ AnimationObjectGroup),
-/* harmony export */   AnimationUtils: () => (/* binding */ AnimationUtils),
-/* harmony export */   ArcCurve: () => (/* binding */ ArcCurve),
 /* harmony export */   ArrayCamera: () => (/* binding */ ArrayCamera),
-/* harmony export */   ArrowHelper: () => (/* binding */ ArrowHelper),
-/* harmony export */   AttachedBindMode: () => (/* binding */ AttachedBindMode),
-/* harmony export */   Audio: () => (/* binding */ Audio),
-/* harmony export */   AudioAnalyser: () => (/* binding */ AudioAnalyser),
-/* harmony export */   AudioContext: () => (/* binding */ AudioContext),
-/* harmony export */   AudioListener: () => (/* binding */ AudioListener),
-/* harmony export */   AudioLoader: () => (/* binding */ AudioLoader),
-/* harmony export */   AxesHelper: () => (/* binding */ AxesHelper),
 /* harmony export */   BackSide: () => (/* binding */ BackSide),
-/* harmony export */   BasicDepthPacking: () => (/* binding */ BasicDepthPacking),
-/* harmony export */   BasicShadowMap: () => (/* binding */ BasicShadowMap),
-/* harmony export */   BatchedMesh: () => (/* binding */ BatchedMesh),
-/* harmony export */   Bone: () => (/* binding */ Bone),
-/* harmony export */   BooleanKeyframeTrack: () => (/* binding */ BooleanKeyframeTrack),
-/* harmony export */   Box2: () => (/* binding */ Box2),
-/* harmony export */   Box3: () => (/* binding */ Box3),
-/* harmony export */   Box3Helper: () => (/* binding */ Box3Helper),
 /* harmony export */   BoxGeometry: () => (/* binding */ BoxGeometry),
-/* harmony export */   BoxHelper: () => (/* binding */ BoxHelper),
 /* harmony export */   BufferAttribute: () => (/* binding */ BufferAttribute),
 /* harmony export */   BufferGeometry: () => (/* binding */ BufferGeometry),
-/* harmony export */   BufferGeometryLoader: () => (/* binding */ BufferGeometryLoader),
 /* harmony export */   ByteType: () => (/* binding */ ByteType),
-/* harmony export */   Cache: () => (/* binding */ Cache),
-/* harmony export */   Camera: () => (/* binding */ Camera),
-/* harmony export */   CameraHelper: () => (/* binding */ CameraHelper),
 /* harmony export */   CanvasTexture: () => (/* binding */ CanvasTexture),
-/* harmony export */   CapsuleGeometry: () => (/* binding */ CapsuleGeometry),
-/* harmony export */   CatmullRomCurve3: () => (/* binding */ CatmullRomCurve3),
 /* harmony export */   CineonToneMapping: () => (/* binding */ CineonToneMapping),
-/* harmony export */   CircleGeometry: () => (/* binding */ CircleGeometry),
 /* harmony export */   ClampToEdgeWrapping: () => (/* binding */ ClampToEdgeWrapping),
-/* harmony export */   Clock: () => (/* binding */ Clock),
 /* harmony export */   Color: () => (/* binding */ Color),
-/* harmony export */   ColorKeyframeTrack: () => (/* binding */ ColorKeyframeTrack),
 /* harmony export */   ColorManagement: () => (/* binding */ ColorManagement),
-/* harmony export */   CompressedArrayTexture: () => (/* binding */ CompressedArrayTexture),
-/* harmony export */   CompressedCubeTexture: () => (/* binding */ CompressedCubeTexture),
-/* harmony export */   CompressedTexture: () => (/* binding */ CompressedTexture),
-/* harmony export */   CompressedTextureLoader: () => (/* binding */ CompressedTextureLoader),
-/* harmony export */   ConeGeometry: () => (/* binding */ ConeGeometry),
 /* harmony export */   ConstantAlphaFactor: () => (/* binding */ ConstantAlphaFactor),
 /* harmony export */   ConstantColorFactor: () => (/* binding */ ConstantColorFactor),
 /* harmony export */   Controls: () => (/* binding */ Controls),
-/* harmony export */   CubeCamera: () => (/* binding */ CubeCamera),
 /* harmony export */   CubeReflectionMapping: () => (/* binding */ CubeReflectionMapping),
 /* harmony export */   CubeRefractionMapping: () => (/* binding */ CubeRefractionMapping),
 /* harmony export */   CubeTexture: () => (/* binding */ CubeTexture),
-/* harmony export */   CubeTextureLoader: () => (/* binding */ CubeTextureLoader),
 /* harmony export */   CubeUVReflectionMapping: () => (/* binding */ CubeUVReflectionMapping),
-/* harmony export */   CubicBezierCurve: () => (/* binding */ CubicBezierCurve),
-/* harmony export */   CubicBezierCurve3: () => (/* binding */ CubicBezierCurve3),
-/* harmony export */   CubicInterpolant: () => (/* binding */ CubicInterpolant),
 /* harmony export */   CullFaceBack: () => (/* binding */ CullFaceBack),
 /* harmony export */   CullFaceFront: () => (/* binding */ CullFaceFront),
-/* harmony export */   CullFaceFrontBack: () => (/* binding */ CullFaceFrontBack),
 /* harmony export */   CullFaceNone: () => (/* binding */ CullFaceNone),
-/* harmony export */   Curve: () => (/* binding */ Curve),
-/* harmony export */   CurvePath: () => (/* binding */ CurvePath),
 /* harmony export */   CustomBlending: () => (/* binding */ CustomBlending),
 /* harmony export */   CustomToneMapping: () => (/* binding */ CustomToneMapping),
-/* harmony export */   CylinderGeometry: () => (/* binding */ CylinderGeometry),
-/* harmony export */   Cylindrical: () => (/* binding */ Cylindrical),
 /* harmony export */   Data3DTexture: () => (/* binding */ Data3DTexture),
 /* harmony export */   DataArrayTexture: () => (/* binding */ DataArrayTexture),
-/* harmony export */   DataTexture: () => (/* binding */ DataTexture),
-/* harmony export */   DataTextureLoader: () => (/* binding */ DataTextureLoader),
-/* harmony export */   DataUtils: () => (/* binding */ DataUtils),
-/* harmony export */   DecrementStencilOp: () => (/* binding */ DecrementStencilOp),
-/* harmony export */   DecrementWrapStencilOp: () => (/* binding */ DecrementWrapStencilOp),
-/* harmony export */   DefaultLoadingManager: () => (/* binding */ DefaultLoadingManager),
 /* harmony export */   DepthFormat: () => (/* binding */ DepthFormat),
 /* harmony export */   DepthStencilFormat: () => (/* binding */ DepthStencilFormat),
 /* harmony export */   DepthTexture: () => (/* binding */ DepthTexture),
-/* harmony export */   DetachedBindMode: () => (/* binding */ DetachedBindMode),
 /* harmony export */   DirectionalLight: () => (/* binding */ DirectionalLight),
-/* harmony export */   DirectionalLightHelper: () => (/* binding */ DirectionalLightHelper),
-/* harmony export */   DiscreteInterpolant: () => (/* binding */ DiscreteInterpolant),
-/* harmony export */   DodecahedronGeometry: () => (/* binding */ DodecahedronGeometry),
 /* harmony export */   DoubleSide: () => (/* binding */ DoubleSide),
 /* harmony export */   DstAlphaFactor: () => (/* binding */ DstAlphaFactor),
 /* harmony export */   DstColorFactor: () => (/* binding */ DstColorFactor),
-/* harmony export */   DynamicCopyUsage: () => (/* binding */ DynamicCopyUsage),
-/* harmony export */   DynamicDrawUsage: () => (/* binding */ DynamicDrawUsage),
-/* harmony export */   DynamicReadUsage: () => (/* binding */ DynamicReadUsage),
-/* harmony export */   EdgesGeometry: () => (/* binding */ EdgesGeometry),
-/* harmony export */   EllipseCurve: () => (/* binding */ EllipseCurve),
 /* harmony export */   EqualCompare: () => (/* binding */ EqualCompare),
 /* harmony export */   EqualDepth: () => (/* binding */ EqualDepth),
-/* harmony export */   EqualStencilFunc: () => (/* binding */ EqualStencilFunc),
 /* harmony export */   EquirectangularReflectionMapping: () => (/* binding */ EquirectangularReflectionMapping),
 /* harmony export */   EquirectangularRefractionMapping: () => (/* binding */ EquirectangularRefractionMapping),
 /* harmony export */   Euler: () => (/* binding */ Euler),
 /* harmony export */   EventDispatcher: () => (/* binding */ EventDispatcher),
-/* harmony export */   ExtrudeGeometry: () => (/* binding */ ExtrudeGeometry),
-/* harmony export */   FileLoader: () => (/* binding */ FileLoader),
-/* harmony export */   Float16BufferAttribute: () => (/* binding */ Float16BufferAttribute),
-/* harmony export */   Float32BufferAttribute: () => (/* binding */ Float32BufferAttribute),
 /* harmony export */   FloatType: () => (/* binding */ FloatType),
-/* harmony export */   Fog: () => (/* binding */ Fog),
-/* harmony export */   FogExp2: () => (/* binding */ FogExp2),
-/* harmony export */   FramebufferTexture: () => (/* binding */ FramebufferTexture),
 /* harmony export */   FrontSide: () => (/* binding */ FrontSide),
 /* harmony export */   Frustum: () => (/* binding */ Frustum),
-/* harmony export */   FrustumArray: () => (/* binding */ FrustumArray),
-/* harmony export */   GLBufferAttribute: () => (/* binding */ GLBufferAttribute),
-/* harmony export */   GLSL1: () => (/* binding */ GLSL1),
 /* harmony export */   GLSL3: () => (/* binding */ GLSL3),
 /* harmony export */   GreaterCompare: () => (/* binding */ GreaterCompare),
 /* harmony export */   GreaterDepth: () => (/* binding */ GreaterDepth),
 /* harmony export */   GreaterEqualCompare: () => (/* binding */ GreaterEqualCompare),
 /* harmony export */   GreaterEqualDepth: () => (/* binding */ GreaterEqualDepth),
-/* harmony export */   GreaterEqualStencilFunc: () => (/* binding */ GreaterEqualStencilFunc),
-/* harmony export */   GreaterStencilFunc: () => (/* binding */ GreaterStencilFunc),
-/* harmony export */   GridHelper: () => (/* binding */ GridHelper),
-/* harmony export */   Group: () => (/* binding */ Group),
 /* harmony export */   HalfFloatType: () => (/* binding */ HalfFloatType),
-/* harmony export */   HemisphereLight: () => (/* binding */ HemisphereLight),
-/* harmony export */   HemisphereLightHelper: () => (/* binding */ HemisphereLightHelper),
-/* harmony export */   IcosahedronGeometry: () => (/* binding */ IcosahedronGeometry),
-/* harmony export */   ImageBitmapLoader: () => (/* binding */ ImageBitmapLoader),
-/* harmony export */   ImageLoader: () => (/* binding */ ImageLoader),
-/* harmony export */   ImageUtils: () => (/* binding */ ImageUtils),
-/* harmony export */   IncrementStencilOp: () => (/* binding */ IncrementStencilOp),
-/* harmony export */   IncrementWrapStencilOp: () => (/* binding */ IncrementWrapStencilOp),
-/* harmony export */   InstancedBufferAttribute: () => (/* binding */ InstancedBufferAttribute),
-/* harmony export */   InstancedBufferGeometry: () => (/* binding */ InstancedBufferGeometry),
-/* harmony export */   InstancedInterleavedBuffer: () => (/* binding */ InstancedInterleavedBuffer),
-/* harmony export */   InstancedMesh: () => (/* binding */ InstancedMesh),
-/* harmony export */   Int16BufferAttribute: () => (/* binding */ Int16BufferAttribute),
-/* harmony export */   Int32BufferAttribute: () => (/* binding */ Int32BufferAttribute),
-/* harmony export */   Int8BufferAttribute: () => (/* binding */ Int8BufferAttribute),
 /* harmony export */   IntType: () => (/* binding */ IntType),
-/* harmony export */   InterleavedBuffer: () => (/* binding */ InterleavedBuffer),
-/* harmony export */   InterleavedBufferAttribute: () => (/* binding */ InterleavedBufferAttribute),
-/* harmony export */   Interpolant: () => (/* binding */ Interpolant),
-/* harmony export */   InterpolateDiscrete: () => (/* binding */ InterpolateDiscrete),
-/* harmony export */   InterpolateLinear: () => (/* binding */ InterpolateLinear),
-/* harmony export */   InterpolateSmooth: () => (/* binding */ InterpolateSmooth),
-/* harmony export */   InterpolationSamplingMode: () => (/* binding */ InterpolationSamplingMode),
-/* harmony export */   InterpolationSamplingType: () => (/* binding */ InterpolationSamplingType),
-/* harmony export */   InvertStencilOp: () => (/* binding */ InvertStencilOp),
-/* harmony export */   KeepStencilOp: () => (/* binding */ KeepStencilOp),
-/* harmony export */   KeyframeTrack: () => (/* binding */ KeyframeTrack),
-/* harmony export */   LOD: () => (/* binding */ LOD),
-/* harmony export */   LatheGeometry: () => (/* binding */ LatheGeometry),
 /* harmony export */   Layers: () => (/* binding */ Layers),
 /* harmony export */   LessCompare: () => (/* binding */ LessCompare),
 /* harmony export */   LessDepth: () => (/* binding */ LessDepth),
 /* harmony export */   LessEqualCompare: () => (/* binding */ LessEqualCompare),
 /* harmony export */   LessEqualDepth: () => (/* binding */ LessEqualDepth),
-/* harmony export */   LessEqualStencilFunc: () => (/* binding */ LessEqualStencilFunc),
-/* harmony export */   LessStencilFunc: () => (/* binding */ LessStencilFunc),
-/* harmony export */   Light: () => (/* binding */ Light),
-/* harmony export */   LightProbe: () => (/* binding */ LightProbe),
-/* harmony export */   Line: () => (/* binding */ Line),
-/* harmony export */   Line3: () => (/* binding */ Line3),
-/* harmony export */   LineBasicMaterial: () => (/* binding */ LineBasicMaterial),
-/* harmony export */   LineCurve: () => (/* binding */ LineCurve),
-/* harmony export */   LineCurve3: () => (/* binding */ LineCurve3),
-/* harmony export */   LineDashedMaterial: () => (/* binding */ LineDashedMaterial),
-/* harmony export */   LineLoop: () => (/* binding */ LineLoop),
-/* harmony export */   LineSegments: () => (/* binding */ LineSegments),
 /* harmony export */   LinearFilter: () => (/* binding */ LinearFilter),
-/* harmony export */   LinearInterpolant: () => (/* binding */ LinearInterpolant),
-/* harmony export */   LinearMipMapLinearFilter: () => (/* binding */ LinearMipMapLinearFilter),
-/* harmony export */   LinearMipMapNearestFilter: () => (/* binding */ LinearMipMapNearestFilter),
 /* harmony export */   LinearMipmapLinearFilter: () => (/* binding */ LinearMipmapLinearFilter),
 /* harmony export */   LinearMipmapNearestFilter: () => (/* binding */ LinearMipmapNearestFilter),
 /* harmony export */   LinearSRGBColorSpace: () => (/* binding */ LinearSRGBColorSpace),
 /* harmony export */   LinearToneMapping: () => (/* binding */ LinearToneMapping),
 /* harmony export */   LinearTransfer: () => (/* binding */ LinearTransfer),
-/* harmony export */   Loader: () => (/* binding */ Loader),
-/* harmony export */   LoaderUtils: () => (/* binding */ LoaderUtils),
-/* harmony export */   LoadingManager: () => (/* binding */ LoadingManager),
-/* harmony export */   LoopOnce: () => (/* binding */ LoopOnce),
-/* harmony export */   LoopPingPong: () => (/* binding */ LoopPingPong),
-/* harmony export */   LoopRepeat: () => (/* binding */ LoopRepeat),
 /* harmony export */   MOUSE: () => (/* binding */ MOUSE),
-/* harmony export */   Material: () => (/* binding */ Material),
-/* harmony export */   MaterialLoader: () => (/* binding */ MaterialLoader),
 /* harmony export */   MathUtils: () => (/* binding */ MathUtils),
-/* harmony export */   Matrix2: () => (/* binding */ Matrix2),
 /* harmony export */   Matrix3: () => (/* binding */ Matrix3),
 /* harmony export */   Matrix4: () => (/* binding */ Matrix4),
 /* harmony export */   MaxEquation: () => (/* binding */ MaxEquation),
@@ -18044,40 +19397,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   MeshBasicMaterial: () => (/* binding */ MeshBasicMaterial),
 /* harmony export */   MeshDepthMaterial: () => (/* binding */ MeshDepthMaterial),
 /* harmony export */   MeshDistanceMaterial: () => (/* binding */ MeshDistanceMaterial),
-/* harmony export */   MeshLambertMaterial: () => (/* binding */ MeshLambertMaterial),
-/* harmony export */   MeshMatcapMaterial: () => (/* binding */ MeshMatcapMaterial),
-/* harmony export */   MeshNormalMaterial: () => (/* binding */ MeshNormalMaterial),
 /* harmony export */   MeshPhongMaterial: () => (/* binding */ MeshPhongMaterial),
-/* harmony export */   MeshPhysicalMaterial: () => (/* binding */ MeshPhysicalMaterial),
-/* harmony export */   MeshStandardMaterial: () => (/* binding */ MeshStandardMaterial),
-/* harmony export */   MeshToonMaterial: () => (/* binding */ MeshToonMaterial),
 /* harmony export */   MinEquation: () => (/* binding */ MinEquation),
 /* harmony export */   MirroredRepeatWrapping: () => (/* binding */ MirroredRepeatWrapping),
 /* harmony export */   MixOperation: () => (/* binding */ MixOperation),
 /* harmony export */   MultiplyBlending: () => (/* binding */ MultiplyBlending),
 /* harmony export */   MultiplyOperation: () => (/* binding */ MultiplyOperation),
 /* harmony export */   NearestFilter: () => (/* binding */ NearestFilter),
-/* harmony export */   NearestMipMapLinearFilter: () => (/* binding */ NearestMipMapLinearFilter),
-/* harmony export */   NearestMipMapNearestFilter: () => (/* binding */ NearestMipMapNearestFilter),
 /* harmony export */   NearestMipmapLinearFilter: () => (/* binding */ NearestMipmapLinearFilter),
 /* harmony export */   NearestMipmapNearestFilter: () => (/* binding */ NearestMipmapNearestFilter),
 /* harmony export */   NeutralToneMapping: () => (/* binding */ NeutralToneMapping),
 /* harmony export */   NeverCompare: () => (/* binding */ NeverCompare),
 /* harmony export */   NeverDepth: () => (/* binding */ NeverDepth),
-/* harmony export */   NeverStencilFunc: () => (/* binding */ NeverStencilFunc),
 /* harmony export */   NoBlending: () => (/* binding */ NoBlending),
 /* harmony export */   NoColorSpace: () => (/* binding */ NoColorSpace),
 /* harmony export */   NoToneMapping: () => (/* binding */ NoToneMapping),
-/* harmony export */   NormalAnimationBlendMode: () => (/* binding */ NormalAnimationBlendMode),
 /* harmony export */   NormalBlending: () => (/* binding */ NormalBlending),
 /* harmony export */   NotEqualCompare: () => (/* binding */ NotEqualCompare),
 /* harmony export */   NotEqualDepth: () => (/* binding */ NotEqualDepth),
-/* harmony export */   NotEqualStencilFunc: () => (/* binding */ NotEqualStencilFunc),
-/* harmony export */   NumberKeyframeTrack: () => (/* binding */ NumberKeyframeTrack),
-/* harmony export */   Object3D: () => (/* binding */ Object3D),
-/* harmony export */   ObjectLoader: () => (/* binding */ ObjectLoader),
 /* harmony export */   ObjectSpaceNormalMap: () => (/* binding */ ObjectSpaceNormalMap),
-/* harmony export */   OctahedronGeometry: () => (/* binding */ OctahedronGeometry),
 /* harmony export */   OneFactor: () => (/* binding */ OneFactor),
 /* harmony export */   OneMinusConstantAlphaFactor: () => (/* binding */ OneMinusConstantAlphaFactor),
 /* harmony export */   OneMinusConstantColorFactor: () => (/* binding */ OneMinusConstantColorFactor),
@@ -18088,25 +19426,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   OrthographicCamera: () => (/* binding */ OrthographicCamera),
 /* harmony export */   PCFShadowMap: () => (/* binding */ PCFShadowMap),
 /* harmony export */   PCFSoftShadowMap: () => (/* binding */ PCFSoftShadowMap),
-/* harmony export */   Path: () => (/* binding */ Path),
 /* harmony export */   PerspectiveCamera: () => (/* binding */ PerspectiveCamera),
 /* harmony export */   Plane: () => (/* binding */ Plane),
 /* harmony export */   PlaneGeometry: () => (/* binding */ PlaneGeometry),
-/* harmony export */   PlaneHelper: () => (/* binding */ PlaneHelper),
-/* harmony export */   PointLight: () => (/* binding */ PointLight),
-/* harmony export */   PointLightHelper: () => (/* binding */ PointLightHelper),
-/* harmony export */   Points: () => (/* binding */ Points),
-/* harmony export */   PointsMaterial: () => (/* binding */ PointsMaterial),
-/* harmony export */   PolarGridHelper: () => (/* binding */ PolarGridHelper),
-/* harmony export */   PolyhedronGeometry: () => (/* binding */ PolyhedronGeometry),
-/* harmony export */   PositionalAudio: () => (/* binding */ PositionalAudio),
-/* harmony export */   PropertyBinding: () => (/* binding */ PropertyBinding),
-/* harmony export */   PropertyMixer: () => (/* binding */ PropertyMixer),
-/* harmony export */   QuadraticBezierCurve: () => (/* binding */ QuadraticBezierCurve),
-/* harmony export */   QuadraticBezierCurve3: () => (/* binding */ QuadraticBezierCurve3),
 /* harmony export */   Quaternion: () => (/* binding */ Quaternion),
-/* harmony export */   QuaternionKeyframeTrack: () => (/* binding */ QuaternionKeyframeTrack),
-/* harmony export */   QuaternionLinearInterpolant: () => (/* binding */ QuaternionLinearInterpolant),
 /* harmony export */   RAD2DEG: () => (/* binding */ RAD2DEG),
 /* harmony export */   RED_GREEN_RGTC2_Format: () => (/* binding */ RED_GREEN_RGTC2_Format),
 /* harmony export */   RED_RGTC1_Format: () => (/* binding */ RED_RGTC1_Format),
@@ -18135,9 +19458,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   RGBA_S3TC_DXT1_Format: () => (/* binding */ RGBA_S3TC_DXT1_Format),
 /* harmony export */   RGBA_S3TC_DXT3_Format: () => (/* binding */ RGBA_S3TC_DXT3_Format),
 /* harmony export */   RGBA_S3TC_DXT5_Format: () => (/* binding */ RGBA_S3TC_DXT5_Format),
-/* harmony export */   RGBDepthPacking: () => (/* binding */ RGBDepthPacking),
 /* harmony export */   RGBFormat: () => (/* binding */ RGBFormat),
-/* harmony export */   RGBIntegerFormat: () => (/* binding */ RGBIntegerFormat),
 /* harmony export */   RGB_BPTC_SIGNED_Format: () => (/* binding */ RGB_BPTC_SIGNED_Format),
 /* harmony export */   RGB_BPTC_UNSIGNED_Format: () => (/* binding */ RGB_BPTC_UNSIGNED_Format),
 /* harmony export */   RGB_ETC1_Format: () => (/* binding */ RGB_ETC1_Format),
@@ -18145,81 +19466,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   RGB_PVRTC_2BPPV1_Format: () => (/* binding */ RGB_PVRTC_2BPPV1_Format),
 /* harmony export */   RGB_PVRTC_4BPPV1_Format: () => (/* binding */ RGB_PVRTC_4BPPV1_Format),
 /* harmony export */   RGB_S3TC_DXT1_Format: () => (/* binding */ RGB_S3TC_DXT1_Format),
-/* harmony export */   RGDepthPacking: () => (/* binding */ RGDepthPacking),
 /* harmony export */   RGFormat: () => (/* binding */ RGFormat),
 /* harmony export */   RGIntegerFormat: () => (/* binding */ RGIntegerFormat),
-/* harmony export */   RawShaderMaterial: () => (/* binding */ RawShaderMaterial),
 /* harmony export */   Ray: () => (/* binding */ Ray),
-/* harmony export */   Raycaster: () => (/* binding */ Raycaster),
-/* harmony export */   RectAreaLight: () => (/* binding */ RectAreaLight),
 /* harmony export */   RedFormat: () => (/* binding */ RedFormat),
 /* harmony export */   RedIntegerFormat: () => (/* binding */ RedIntegerFormat),
 /* harmony export */   ReinhardToneMapping: () => (/* binding */ ReinhardToneMapping),
-/* harmony export */   RenderTarget: () => (/* binding */ RenderTarget),
-/* harmony export */   RenderTarget3D: () => (/* binding */ RenderTarget3D),
 /* harmony export */   RepeatWrapping: () => (/* binding */ RepeatWrapping),
-/* harmony export */   ReplaceStencilOp: () => (/* binding */ ReplaceStencilOp),
 /* harmony export */   ReverseSubtractEquation: () => (/* binding */ ReverseSubtractEquation),
-/* harmony export */   RingGeometry: () => (/* binding */ RingGeometry),
 /* harmony export */   SIGNED_RED_GREEN_RGTC2_Format: () => (/* binding */ SIGNED_RED_GREEN_RGTC2_Format),
 /* harmony export */   SIGNED_RED_RGTC1_Format: () => (/* binding */ SIGNED_RED_RGTC1_Format),
 /* harmony export */   SRGBColorSpace: () => (/* binding */ SRGBColorSpace),
 /* harmony export */   SRGBTransfer: () => (/* binding */ SRGBTransfer),
 /* harmony export */   Scene: () => (/* binding */ Scene),
 /* harmony export */   ShaderMaterial: () => (/* binding */ ShaderMaterial),
-/* harmony export */   ShadowMaterial: () => (/* binding */ ShadowMaterial),
-/* harmony export */   Shape: () => (/* binding */ Shape),
-/* harmony export */   ShapeGeometry: () => (/* binding */ ShapeGeometry),
-/* harmony export */   ShapePath: () => (/* binding */ ShapePath),
-/* harmony export */   ShapeUtils: () => (/* binding */ ShapeUtils),
 /* harmony export */   ShortType: () => (/* binding */ ShortType),
-/* harmony export */   Skeleton: () => (/* binding */ Skeleton),
-/* harmony export */   SkeletonHelper: () => (/* binding */ SkeletonHelper),
-/* harmony export */   SkinnedMesh: () => (/* binding */ SkinnedMesh),
-/* harmony export */   Source: () => (/* binding */ Source),
-/* harmony export */   Sphere: () => (/* binding */ Sphere),
-/* harmony export */   SphereGeometry: () => (/* binding */ SphereGeometry),
 /* harmony export */   Spherical: () => (/* binding */ Spherical),
-/* harmony export */   SphericalHarmonics3: () => (/* binding */ SphericalHarmonics3),
-/* harmony export */   SplineCurve: () => (/* binding */ SplineCurve),
-/* harmony export */   SpotLight: () => (/* binding */ SpotLight),
-/* harmony export */   SpotLightHelper: () => (/* binding */ SpotLightHelper),
-/* harmony export */   Sprite: () => (/* binding */ Sprite),
-/* harmony export */   SpriteMaterial: () => (/* binding */ SpriteMaterial),
 /* harmony export */   SrcAlphaFactor: () => (/* binding */ SrcAlphaFactor),
 /* harmony export */   SrcAlphaSaturateFactor: () => (/* binding */ SrcAlphaSaturateFactor),
 /* harmony export */   SrcColorFactor: () => (/* binding */ SrcColorFactor),
-/* harmony export */   StaticCopyUsage: () => (/* binding */ StaticCopyUsage),
-/* harmony export */   StaticDrawUsage: () => (/* binding */ StaticDrawUsage),
-/* harmony export */   StaticReadUsage: () => (/* binding */ StaticReadUsage),
-/* harmony export */   StereoCamera: () => (/* binding */ StereoCamera),
-/* harmony export */   StreamCopyUsage: () => (/* binding */ StreamCopyUsage),
-/* harmony export */   StreamDrawUsage: () => (/* binding */ StreamDrawUsage),
-/* harmony export */   StreamReadUsage: () => (/* binding */ StreamReadUsage),
-/* harmony export */   StringKeyframeTrack: () => (/* binding */ StringKeyframeTrack),
 /* harmony export */   SubtractEquation: () => (/* binding */ SubtractEquation),
 /* harmony export */   SubtractiveBlending: () => (/* binding */ SubtractiveBlending),
 /* harmony export */   TOUCH: () => (/* binding */ TOUCH),
 /* harmony export */   TangentSpaceNormalMap: () => (/* binding */ TangentSpaceNormalMap),
-/* harmony export */   TetrahedronGeometry: () => (/* binding */ TetrahedronGeometry),
 /* harmony export */   Texture: () => (/* binding */ Texture),
-/* harmony export */   TextureLoader: () => (/* binding */ TextureLoader),
-/* harmony export */   TextureUtils: () => (/* binding */ TextureUtils),
-/* harmony export */   TimestampQuery: () => (/* binding */ TimestampQuery),
-/* harmony export */   TorusGeometry: () => (/* binding */ TorusGeometry),
-/* harmony export */   TorusKnotGeometry: () => (/* binding */ TorusKnotGeometry),
-/* harmony export */   Triangle: () => (/* binding */ Triangle),
-/* harmony export */   TriangleFanDrawMode: () => (/* binding */ TriangleFanDrawMode),
-/* harmony export */   TriangleStripDrawMode: () => (/* binding */ TriangleStripDrawMode),
-/* harmony export */   TrianglesDrawMode: () => (/* binding */ TrianglesDrawMode),
-/* harmony export */   TubeGeometry: () => (/* binding */ TubeGeometry),
-/* harmony export */   UVMapping: () => (/* binding */ UVMapping),
 /* harmony export */   Uint16BufferAttribute: () => (/* binding */ Uint16BufferAttribute),
 /* harmony export */   Uint32BufferAttribute: () => (/* binding */ Uint32BufferAttribute),
-/* harmony export */   Uint8BufferAttribute: () => (/* binding */ Uint8BufferAttribute),
-/* harmony export */   Uint8ClampedBufferAttribute: () => (/* binding */ Uint8ClampedBufferAttribute),
-/* harmony export */   Uniform: () => (/* binding */ Uniform),
-/* harmony export */   UniformsGroup: () => (/* binding */ UniformsGroup),
 /* harmony export */   UniformsUtils: () => (/* binding */ UniformsUtils),
 /* harmony export */   UnsignedByteType: () => (/* binding */ UnsignedByteType),
 /* harmony export */   UnsignedInt248Type: () => (/* binding */ UnsignedInt248Type),
@@ -18232,22 +19504,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   Vector2: () => (/* binding */ Vector2),
 /* harmony export */   Vector3: () => (/* binding */ Vector3),
 /* harmony export */   Vector4: () => (/* binding */ Vector4),
-/* harmony export */   VectorKeyframeTrack: () => (/* binding */ VectorKeyframeTrack),
-/* harmony export */   VideoFrameTexture: () => (/* binding */ VideoFrameTexture),
-/* harmony export */   VideoTexture: () => (/* binding */ VideoTexture),
-/* harmony export */   WebGL3DRenderTarget: () => (/* binding */ WebGL3DRenderTarget),
-/* harmony export */   WebGLArrayRenderTarget: () => (/* binding */ WebGLArrayRenderTarget),
 /* harmony export */   WebGLCoordinateSystem: () => (/* binding */ WebGLCoordinateSystem),
 /* harmony export */   WebGLCubeRenderTarget: () => (/* binding */ WebGLCubeRenderTarget),
 /* harmony export */   WebGLRenderTarget: () => (/* binding */ WebGLRenderTarget),
-/* harmony export */   WebGPUCoordinateSystem: () => (/* binding */ WebGPUCoordinateSystem),
 /* harmony export */   WebXRController: () => (/* binding */ WebXRController),
-/* harmony export */   WireframeGeometry: () => (/* binding */ WireframeGeometry),
-/* harmony export */   WrapAroundEnding: () => (/* binding */ WrapAroundEnding),
-/* harmony export */   ZeroCurvatureEnding: () => (/* binding */ ZeroCurvatureEnding),
 /* harmony export */   ZeroFactor: () => (/* binding */ ZeroFactor),
-/* harmony export */   ZeroSlopeEnding: () => (/* binding */ ZeroSlopeEnding),
-/* harmony export */   ZeroStencilOp: () => (/* binding */ ZeroStencilOp),
 /* harmony export */   arrayNeedsUint32: () => (/* binding */ arrayNeedsUint32),
 /* harmony export */   cloneUniforms: () => (/* binding */ cloneUniforms),
 /* harmony export */   createCanvasElement: () => (/* binding */ createCanvasElement),
@@ -18260,6 +19521,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   toReversedProjectionMatrix: () => (/* binding */ toReversedProjectionMatrix),
 /* harmony export */   warnOnce: () => (/* binding */ warnOnce)
 /* harmony export */ });
+/* unused harmony exports AdditiveAnimationBlendMode, AlwaysStencilFunc, AnimationAction, AnimationClip, AnimationLoader, AnimationMixer, AnimationObjectGroup, AnimationUtils, ArcCurve, ArrowHelper, AttachedBindMode, Audio, AudioAnalyser, AudioContext, AudioListener, AudioLoader, AxesHelper, BasicDepthPacking, BasicShadowMap, BatchedMesh, Bone, BooleanKeyframeTrack, Box2, Box3, Box3Helper, BoxHelper, BufferGeometryLoader, Cache, Camera, CameraHelper, CapsuleGeometry, CatmullRomCurve3, CircleGeometry, Clock, ColorKeyframeTrack, CompressedArrayTexture, CompressedCubeTexture, CompressedTexture, CompressedTextureLoader, ConeGeometry, CubeCamera, CubeTextureLoader, CubicBezierCurve, CubicBezierCurve3, CubicInterpolant, CullFaceFrontBack, Curve, CurvePath, CylinderGeometry, Cylindrical, DataTexture, DataTextureLoader, DataUtils, DecrementStencilOp, DecrementWrapStencilOp, DefaultLoadingManager, DetachedBindMode, DirectionalLightHelper, DiscreteInterpolant, DodecahedronGeometry, DynamicCopyUsage, DynamicDrawUsage, DynamicReadUsage, EdgesGeometry, EllipseCurve, EqualStencilFunc, ExtrudeGeometry, FileLoader, Float16BufferAttribute, Float32BufferAttribute, Fog, FogExp2, FramebufferTexture, FrustumArray, GLBufferAttribute, GLSL1, GreaterEqualStencilFunc, GreaterStencilFunc, GridHelper, Group, HemisphereLight, HemisphereLightHelper, IcosahedronGeometry, ImageBitmapLoader, ImageLoader, ImageUtils, IncrementStencilOp, IncrementWrapStencilOp, InstancedBufferAttribute, InstancedBufferGeometry, InstancedInterleavedBuffer, InstancedMesh, Int16BufferAttribute, Int32BufferAttribute, Int8BufferAttribute, InterleavedBuffer, InterleavedBufferAttribute, Interpolant, InterpolateDiscrete, InterpolateLinear, InterpolateSmooth, InterpolationSamplingMode, InterpolationSamplingType, InvertStencilOp, KeepStencilOp, KeyframeTrack, LOD, LatheGeometry, LessEqualStencilFunc, LessStencilFunc, Light, LightProbe, Line, Line3, LineBasicMaterial, LineCurve, LineCurve3, LineDashedMaterial, LineLoop, LineSegments, LinearInterpolant, LinearMipMapLinearFilter, LinearMipMapNearestFilter, Loader, LoaderUtils, LoadingManager, LoopOnce, LoopPingPong, LoopRepeat, Material, MaterialLoader, Matrix2, MeshLambertMaterial, MeshMatcapMaterial, MeshNormalMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, NearestMipMapLinearFilter, NearestMipMapNearestFilter, NeverStencilFunc, NormalAnimationBlendMode, NotEqualStencilFunc, NumberKeyframeTrack, Object3D, ObjectLoader, OctahedronGeometry, Path, PlaneHelper, PointLight, PointLightHelper, Points, PointsMaterial, PolarGridHelper, PolyhedronGeometry, PositionalAudio, PropertyBinding, PropertyMixer, QuadraticBezierCurve, QuadraticBezierCurve3, QuaternionKeyframeTrack, QuaternionLinearInterpolant, RGBDepthPacking, RGBIntegerFormat, RGDepthPacking, RawShaderMaterial, Raycaster, RectAreaLight, RenderTarget, RenderTarget3D, ReplaceStencilOp, RingGeometry, ShadowMaterial, Shape, ShapeGeometry, ShapePath, ShapeUtils, Skeleton, SkeletonHelper, SkinnedMesh, Source, Sphere, SphereGeometry, SphericalHarmonics3, SplineCurve, SpotLight, SpotLightHelper, Sprite, SpriteMaterial, StaticCopyUsage, StaticDrawUsage, StaticReadUsage, StereoCamera, StreamCopyUsage, StreamDrawUsage, StreamReadUsage, StringKeyframeTrack, TetrahedronGeometry, TextureLoader, TextureUtils, TimestampQuery, TorusGeometry, TorusKnotGeometry, Triangle, TriangleFanDrawMode, TriangleStripDrawMode, TrianglesDrawMode, TubeGeometry, UVMapping, Uint8BufferAttribute, Uint8ClampedBufferAttribute, Uniform, UniformsGroup, VectorKeyframeTrack, VideoFrameTexture, VideoTexture, WebGL3DRenderTarget, WebGLArrayRenderTarget, WebGPUCoordinateSystem, WireframeGeometry, WrapAroundEnding, ZeroCurvatureEnding, ZeroSlopeEnding, ZeroStencilOp */
 /**
  * @license
  * Copyright 2010-2025 Three.js Authors
@@ -76428,428 +77690,32 @@ if ( typeof window !== 'undefined' ) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ACESFilmicToneMapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ACESFilmicToneMapping),
-/* harmony export */   AddEquation: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AddEquation),
-/* harmony export */   AddOperation: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AddOperation),
-/* harmony export */   AdditiveAnimationBlendMode: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AdditiveAnimationBlendMode),
-/* harmony export */   AdditiveBlending: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AdditiveBlending),
-/* harmony export */   AgXToneMapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AgXToneMapping),
-/* harmony export */   AlphaFormat: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AlphaFormat),
-/* harmony export */   AlwaysCompare: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AlwaysCompare),
-/* harmony export */   AlwaysDepth: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AlwaysDepth),
-/* harmony export */   AlwaysStencilFunc: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AlwaysStencilFunc),
 /* harmony export */   AmbientLight: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AmbientLight),
-/* harmony export */   AnimationAction: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AnimationAction),
-/* harmony export */   AnimationClip: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AnimationClip),
-/* harmony export */   AnimationLoader: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AnimationLoader),
-/* harmony export */   AnimationMixer: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AnimationMixer),
-/* harmony export */   AnimationObjectGroup: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AnimationObjectGroup),
-/* harmony export */   AnimationUtils: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AnimationUtils),
-/* harmony export */   ArcCurve: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ArcCurve),
-/* harmony export */   ArrayCamera: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ArrayCamera),
-/* harmony export */   ArrowHelper: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ArrowHelper),
-/* harmony export */   AttachedBindMode: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AttachedBindMode),
-/* harmony export */   Audio: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Audio),
-/* harmony export */   AudioAnalyser: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AudioAnalyser),
-/* harmony export */   AudioContext: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AudioContext),
-/* harmony export */   AudioListener: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AudioListener),
-/* harmony export */   AudioLoader: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AudioLoader),
-/* harmony export */   AxesHelper: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AxesHelper),
-/* harmony export */   BackSide: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.BackSide),
-/* harmony export */   BasicDepthPacking: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.BasicDepthPacking),
-/* harmony export */   BasicShadowMap: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.BasicShadowMap),
-/* harmony export */   BatchedMesh: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.BatchedMesh),
-/* harmony export */   Bone: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Bone),
-/* harmony export */   BooleanKeyframeTrack: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.BooleanKeyframeTrack),
-/* harmony export */   Box2: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Box2),
-/* harmony export */   Box3: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Box3),
-/* harmony export */   Box3Helper: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Box3Helper),
-/* harmony export */   BoxGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.BoxGeometry),
-/* harmony export */   BoxHelper: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.BoxHelper),
-/* harmony export */   BufferAttribute: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.BufferAttribute),
-/* harmony export */   BufferGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.BufferGeometry),
-/* harmony export */   BufferGeometryLoader: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.BufferGeometryLoader),
-/* harmony export */   ByteType: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ByteType),
-/* harmony export */   Cache: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Cache),
-/* harmony export */   Camera: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Camera),
-/* harmony export */   CameraHelper: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CameraHelper),
 /* harmony export */   CanvasTexture: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CanvasTexture),
-/* harmony export */   CapsuleGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CapsuleGeometry),
-/* harmony export */   CatmullRomCurve3: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CatmullRomCurve3),
-/* harmony export */   CineonToneMapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CineonToneMapping),
-/* harmony export */   CircleGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CircleGeometry),
-/* harmony export */   ClampToEdgeWrapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ClampToEdgeWrapping),
-/* harmony export */   Clock: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Clock),
 /* harmony export */   Color: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Color),
-/* harmony export */   ColorKeyframeTrack: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ColorKeyframeTrack),
-/* harmony export */   ColorManagement: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ColorManagement),
-/* harmony export */   CompressedArrayTexture: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CompressedArrayTexture),
-/* harmony export */   CompressedCubeTexture: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CompressedCubeTexture),
-/* harmony export */   CompressedTexture: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CompressedTexture),
-/* harmony export */   CompressedTextureLoader: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CompressedTextureLoader),
-/* harmony export */   ConeGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ConeGeometry),
-/* harmony export */   ConstantAlphaFactor: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ConstantAlphaFactor),
-/* harmony export */   ConstantColorFactor: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ConstantColorFactor),
 /* harmony export */   Controls: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Controls),
-/* harmony export */   CubeCamera: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CubeCamera),
-/* harmony export */   CubeReflectionMapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CubeReflectionMapping),
-/* harmony export */   CubeRefractionMapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CubeRefractionMapping),
-/* harmony export */   CubeTexture: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CubeTexture),
-/* harmony export */   CubeTextureLoader: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CubeTextureLoader),
-/* harmony export */   CubeUVReflectionMapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CubeUVReflectionMapping),
-/* harmony export */   CubicBezierCurve: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CubicBezierCurve),
-/* harmony export */   CubicBezierCurve3: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CubicBezierCurve3),
-/* harmony export */   CubicInterpolant: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CubicInterpolant),
-/* harmony export */   CullFaceBack: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CullFaceBack),
-/* harmony export */   CullFaceFront: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CullFaceFront),
-/* harmony export */   CullFaceFrontBack: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CullFaceFrontBack),
-/* harmony export */   CullFaceNone: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CullFaceNone),
-/* harmony export */   Curve: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Curve),
-/* harmony export */   CurvePath: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CurvePath),
-/* harmony export */   CustomBlending: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CustomBlending),
-/* harmony export */   CustomToneMapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CustomToneMapping),
-/* harmony export */   CylinderGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CylinderGeometry),
-/* harmony export */   Cylindrical: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Cylindrical),
-/* harmony export */   Data3DTexture: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Data3DTexture),
-/* harmony export */   DataArrayTexture: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DataArrayTexture),
-/* harmony export */   DataTexture: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DataTexture),
-/* harmony export */   DataTextureLoader: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DataTextureLoader),
-/* harmony export */   DataUtils: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DataUtils),
-/* harmony export */   DecrementStencilOp: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DecrementStencilOp),
-/* harmony export */   DecrementWrapStencilOp: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DecrementWrapStencilOp),
-/* harmony export */   DefaultLoadingManager: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DefaultLoadingManager),
-/* harmony export */   DepthFormat: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DepthFormat),
-/* harmony export */   DepthStencilFormat: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DepthStencilFormat),
-/* harmony export */   DepthTexture: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DepthTexture),
-/* harmony export */   DetachedBindMode: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DetachedBindMode),
 /* harmony export */   DirectionalLight: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DirectionalLight),
-/* harmony export */   DirectionalLightHelper: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DirectionalLightHelper),
-/* harmony export */   DiscreteInterpolant: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DiscreteInterpolant),
-/* harmony export */   DodecahedronGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DodecahedronGeometry),
 /* harmony export */   DoubleSide: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DoubleSide),
-/* harmony export */   DstAlphaFactor: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DstAlphaFactor),
-/* harmony export */   DstColorFactor: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DstColorFactor),
-/* harmony export */   DynamicCopyUsage: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DynamicCopyUsage),
-/* harmony export */   DynamicDrawUsage: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DynamicDrawUsage),
-/* harmony export */   DynamicReadUsage: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DynamicReadUsage),
-/* harmony export */   EdgesGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.EdgesGeometry),
-/* harmony export */   EllipseCurve: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.EllipseCurve),
-/* harmony export */   EqualCompare: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.EqualCompare),
-/* harmony export */   EqualDepth: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.EqualDepth),
-/* harmony export */   EqualStencilFunc: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.EqualStencilFunc),
-/* harmony export */   EquirectangularReflectionMapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.EquirectangularReflectionMapping),
-/* harmony export */   EquirectangularRefractionMapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.EquirectangularRefractionMapping),
-/* harmony export */   Euler: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Euler),
-/* harmony export */   EventDispatcher: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.EventDispatcher),
-/* harmony export */   ExtrudeGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ExtrudeGeometry),
-/* harmony export */   FileLoader: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.FileLoader),
-/* harmony export */   Float16BufferAttribute: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Float16BufferAttribute),
-/* harmony export */   Float32BufferAttribute: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Float32BufferAttribute),
-/* harmony export */   FloatType: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.FloatType),
-/* harmony export */   Fog: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Fog),
-/* harmony export */   FogExp2: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.FogExp2),
-/* harmony export */   FramebufferTexture: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.FramebufferTexture),
-/* harmony export */   FrontSide: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.FrontSide),
-/* harmony export */   Frustum: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Frustum),
-/* harmony export */   FrustumArray: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.FrustumArray),
-/* harmony export */   GLBufferAttribute: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.GLBufferAttribute),
-/* harmony export */   GLSL1: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.GLSL1),
-/* harmony export */   GLSL3: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.GLSL3),
-/* harmony export */   GreaterCompare: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.GreaterCompare),
-/* harmony export */   GreaterDepth: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.GreaterDepth),
-/* harmony export */   GreaterEqualCompare: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.GreaterEqualCompare),
-/* harmony export */   GreaterEqualDepth: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.GreaterEqualDepth),
-/* harmony export */   GreaterEqualStencilFunc: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.GreaterEqualStencilFunc),
-/* harmony export */   GreaterStencilFunc: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.GreaterStencilFunc),
-/* harmony export */   GridHelper: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.GridHelper),
-/* harmony export */   Group: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Group),
-/* harmony export */   HalfFloatType: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.HalfFloatType),
-/* harmony export */   HemisphereLight: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.HemisphereLight),
-/* harmony export */   HemisphereLightHelper: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.HemisphereLightHelper),
-/* harmony export */   IcosahedronGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.IcosahedronGeometry),
-/* harmony export */   ImageBitmapLoader: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ImageBitmapLoader),
-/* harmony export */   ImageLoader: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ImageLoader),
-/* harmony export */   ImageUtils: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ImageUtils),
-/* harmony export */   IncrementStencilOp: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.IncrementStencilOp),
-/* harmony export */   IncrementWrapStencilOp: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.IncrementWrapStencilOp),
-/* harmony export */   InstancedBufferAttribute: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.InstancedBufferAttribute),
-/* harmony export */   InstancedBufferGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.InstancedBufferGeometry),
-/* harmony export */   InstancedInterleavedBuffer: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.InstancedInterleavedBuffer),
-/* harmony export */   InstancedMesh: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.InstancedMesh),
-/* harmony export */   Int16BufferAttribute: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Int16BufferAttribute),
-/* harmony export */   Int32BufferAttribute: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Int32BufferAttribute),
-/* harmony export */   Int8BufferAttribute: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Int8BufferAttribute),
-/* harmony export */   IntType: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.IntType),
-/* harmony export */   InterleavedBuffer: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.InterleavedBuffer),
-/* harmony export */   InterleavedBufferAttribute: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.InterleavedBufferAttribute),
-/* harmony export */   Interpolant: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Interpolant),
-/* harmony export */   InterpolateDiscrete: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.InterpolateDiscrete),
-/* harmony export */   InterpolateLinear: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.InterpolateLinear),
-/* harmony export */   InterpolateSmooth: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.InterpolateSmooth),
-/* harmony export */   InterpolationSamplingMode: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.InterpolationSamplingMode),
-/* harmony export */   InterpolationSamplingType: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.InterpolationSamplingType),
-/* harmony export */   InvertStencilOp: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.InvertStencilOp),
-/* harmony export */   KeepStencilOp: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.KeepStencilOp),
-/* harmony export */   KeyframeTrack: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.KeyframeTrack),
-/* harmony export */   LOD: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LOD),
-/* harmony export */   LatheGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LatheGeometry),
-/* harmony export */   Layers: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Layers),
-/* harmony export */   LessCompare: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LessCompare),
-/* harmony export */   LessDepth: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LessDepth),
-/* harmony export */   LessEqualCompare: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LessEqualCompare),
-/* harmony export */   LessEqualDepth: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LessEqualDepth),
-/* harmony export */   LessEqualStencilFunc: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LessEqualStencilFunc),
-/* harmony export */   LessStencilFunc: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LessStencilFunc),
-/* harmony export */   Light: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Light),
-/* harmony export */   LightProbe: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LightProbe),
-/* harmony export */   Line: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Line),
-/* harmony export */   Line3: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Line3),
-/* harmony export */   LineBasicMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LineBasicMaterial),
-/* harmony export */   LineCurve: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LineCurve),
-/* harmony export */   LineCurve3: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LineCurve3),
-/* harmony export */   LineDashedMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LineDashedMaterial),
-/* harmony export */   LineLoop: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LineLoop),
-/* harmony export */   LineSegments: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LineSegments),
 /* harmony export */   LinearFilter: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LinearFilter),
-/* harmony export */   LinearInterpolant: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LinearInterpolant),
-/* harmony export */   LinearMipMapLinearFilter: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LinearMipMapLinearFilter),
-/* harmony export */   LinearMipMapNearestFilter: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LinearMipMapNearestFilter),
-/* harmony export */   LinearMipmapLinearFilter: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LinearMipmapLinearFilter),
-/* harmony export */   LinearMipmapNearestFilter: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LinearMipmapNearestFilter),
-/* harmony export */   LinearSRGBColorSpace: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LinearSRGBColorSpace),
-/* harmony export */   LinearToneMapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LinearToneMapping),
-/* harmony export */   LinearTransfer: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LinearTransfer),
-/* harmony export */   Loader: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Loader),
-/* harmony export */   LoaderUtils: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LoaderUtils),
-/* harmony export */   LoadingManager: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LoadingManager),
-/* harmony export */   LoopOnce: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LoopOnce),
-/* harmony export */   LoopPingPong: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LoopPingPong),
-/* harmony export */   LoopRepeat: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LoopRepeat),
 /* harmony export */   MOUSE: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MOUSE),
-/* harmony export */   Material: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Material),
-/* harmony export */   MaterialLoader: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MaterialLoader),
 /* harmony export */   MathUtils: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MathUtils),
-/* harmony export */   Matrix2: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Matrix2),
-/* harmony export */   Matrix3: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Matrix3),
 /* harmony export */   Matrix4: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Matrix4),
-/* harmony export */   MaxEquation: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MaxEquation),
 /* harmony export */   Mesh: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Mesh),
-/* harmony export */   MeshBasicMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MeshBasicMaterial),
-/* harmony export */   MeshDepthMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MeshDepthMaterial),
-/* harmony export */   MeshDistanceMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MeshDistanceMaterial),
-/* harmony export */   MeshLambertMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MeshLambertMaterial),
-/* harmony export */   MeshMatcapMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MeshMatcapMaterial),
-/* harmony export */   MeshNormalMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MeshNormalMaterial),
 /* harmony export */   MeshPhongMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MeshPhongMaterial),
-/* harmony export */   MeshPhysicalMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MeshPhysicalMaterial),
-/* harmony export */   MeshStandardMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MeshStandardMaterial),
-/* harmony export */   MeshToonMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MeshToonMaterial),
-/* harmony export */   MinEquation: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MinEquation),
-/* harmony export */   MirroredRepeatWrapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MirroredRepeatWrapping),
-/* harmony export */   MixOperation: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MixOperation),
-/* harmony export */   MultiplyBlending: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MultiplyBlending),
-/* harmony export */   MultiplyOperation: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MultiplyOperation),
-/* harmony export */   NearestFilter: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NearestFilter),
-/* harmony export */   NearestMipMapLinearFilter: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NearestMipMapLinearFilter),
-/* harmony export */   NearestMipMapNearestFilter: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NearestMipMapNearestFilter),
-/* harmony export */   NearestMipmapLinearFilter: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NearestMipmapLinearFilter),
-/* harmony export */   NearestMipmapNearestFilter: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NearestMipmapNearestFilter),
-/* harmony export */   NeutralToneMapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NeutralToneMapping),
-/* harmony export */   NeverCompare: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NeverCompare),
-/* harmony export */   NeverDepth: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NeverDepth),
-/* harmony export */   NeverStencilFunc: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NeverStencilFunc),
-/* harmony export */   NoBlending: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NoBlending),
-/* harmony export */   NoColorSpace: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NoColorSpace),
-/* harmony export */   NoToneMapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NoToneMapping),
-/* harmony export */   NormalAnimationBlendMode: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NormalAnimationBlendMode),
-/* harmony export */   NormalBlending: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NormalBlending),
-/* harmony export */   NotEqualCompare: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NotEqualCompare),
-/* harmony export */   NotEqualDepth: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NotEqualDepth),
-/* harmony export */   NotEqualStencilFunc: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NotEqualStencilFunc),
-/* harmony export */   NumberKeyframeTrack: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.NumberKeyframeTrack),
-/* harmony export */   Object3D: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Object3D),
-/* harmony export */   ObjectLoader: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ObjectLoader),
-/* harmony export */   ObjectSpaceNormalMap: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ObjectSpaceNormalMap),
-/* harmony export */   OctahedronGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.OctahedronGeometry),
-/* harmony export */   OneFactor: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.OneFactor),
-/* harmony export */   OneMinusConstantAlphaFactor: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.OneMinusConstantAlphaFactor),
-/* harmony export */   OneMinusConstantColorFactor: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.OneMinusConstantColorFactor),
-/* harmony export */   OneMinusDstAlphaFactor: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.OneMinusDstAlphaFactor),
-/* harmony export */   OneMinusDstColorFactor: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.OneMinusDstColorFactor),
-/* harmony export */   OneMinusSrcAlphaFactor: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.OneMinusSrcAlphaFactor),
-/* harmony export */   OneMinusSrcColorFactor: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.OneMinusSrcColorFactor),
-/* harmony export */   OrthographicCamera: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.OrthographicCamera),
-/* harmony export */   PCFShadowMap: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PCFShadowMap),
-/* harmony export */   PCFSoftShadowMap: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PCFSoftShadowMap),
-/* harmony export */   PMREMGenerator: () => (/* binding */ PMREMGenerator),
-/* harmony export */   Path: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Path),
 /* harmony export */   PerspectiveCamera: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PerspectiveCamera),
 /* harmony export */   Plane: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Plane),
 /* harmony export */   PlaneGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PlaneGeometry),
-/* harmony export */   PlaneHelper: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PlaneHelper),
-/* harmony export */   PointLight: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PointLight),
-/* harmony export */   PointLightHelper: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PointLightHelper),
-/* harmony export */   Points: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Points),
-/* harmony export */   PointsMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PointsMaterial),
-/* harmony export */   PolarGridHelper: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PolarGridHelper),
-/* harmony export */   PolyhedronGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PolyhedronGeometry),
-/* harmony export */   PositionalAudio: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PositionalAudio),
-/* harmony export */   PropertyBinding: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PropertyBinding),
-/* harmony export */   PropertyMixer: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PropertyMixer),
-/* harmony export */   QuadraticBezierCurve: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.QuadraticBezierCurve),
-/* harmony export */   QuadraticBezierCurve3: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.QuadraticBezierCurve3),
 /* harmony export */   Quaternion: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Quaternion),
-/* harmony export */   QuaternionKeyframeTrack: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.QuaternionKeyframeTrack),
-/* harmony export */   QuaternionLinearInterpolant: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.QuaternionLinearInterpolant),
-/* harmony export */   RED_GREEN_RGTC2_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RED_GREEN_RGTC2_Format),
-/* harmony export */   RED_RGTC1_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RED_RGTC1_Format),
-/* harmony export */   REVISION: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.REVISION),
-/* harmony export */   RGBADepthPacking: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBADepthPacking),
-/* harmony export */   RGBAFormat: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBAFormat),
-/* harmony export */   RGBAIntegerFormat: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBAIntegerFormat),
-/* harmony export */   RGBA_ASTC_10x10_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_ASTC_10x10_Format),
-/* harmony export */   RGBA_ASTC_10x5_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_ASTC_10x5_Format),
-/* harmony export */   RGBA_ASTC_10x6_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_ASTC_10x6_Format),
-/* harmony export */   RGBA_ASTC_10x8_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_ASTC_10x8_Format),
-/* harmony export */   RGBA_ASTC_12x10_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_ASTC_12x10_Format),
-/* harmony export */   RGBA_ASTC_12x12_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_ASTC_12x12_Format),
-/* harmony export */   RGBA_ASTC_4x4_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_ASTC_4x4_Format),
-/* harmony export */   RGBA_ASTC_5x4_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_ASTC_5x4_Format),
-/* harmony export */   RGBA_ASTC_5x5_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_ASTC_5x5_Format),
-/* harmony export */   RGBA_ASTC_6x5_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_ASTC_6x5_Format),
-/* harmony export */   RGBA_ASTC_6x6_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_ASTC_6x6_Format),
-/* harmony export */   RGBA_ASTC_8x5_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_ASTC_8x5_Format),
-/* harmony export */   RGBA_ASTC_8x6_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_ASTC_8x6_Format),
-/* harmony export */   RGBA_ASTC_8x8_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_ASTC_8x8_Format),
-/* harmony export */   RGBA_BPTC_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_BPTC_Format),
-/* harmony export */   RGBA_ETC2_EAC_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_ETC2_EAC_Format),
-/* harmony export */   RGBA_PVRTC_2BPPV1_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_PVRTC_2BPPV1_Format),
-/* harmony export */   RGBA_PVRTC_4BPPV1_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_PVRTC_4BPPV1_Format),
-/* harmony export */   RGBA_S3TC_DXT1_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_S3TC_DXT1_Format),
-/* harmony export */   RGBA_S3TC_DXT3_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_S3TC_DXT3_Format),
-/* harmony export */   RGBA_S3TC_DXT5_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBA_S3TC_DXT5_Format),
-/* harmony export */   RGBDepthPacking: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBDepthPacking),
-/* harmony export */   RGBFormat: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBFormat),
-/* harmony export */   RGBIntegerFormat: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGBIntegerFormat),
-/* harmony export */   RGB_BPTC_SIGNED_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGB_BPTC_SIGNED_Format),
-/* harmony export */   RGB_BPTC_UNSIGNED_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGB_BPTC_UNSIGNED_Format),
-/* harmony export */   RGB_ETC1_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGB_ETC1_Format),
-/* harmony export */   RGB_ETC2_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGB_ETC2_Format),
-/* harmony export */   RGB_PVRTC_2BPPV1_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGB_PVRTC_2BPPV1_Format),
-/* harmony export */   RGB_PVRTC_4BPPV1_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGB_PVRTC_4BPPV1_Format),
-/* harmony export */   RGB_S3TC_DXT1_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGB_S3TC_DXT1_Format),
-/* harmony export */   RGDepthPacking: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGDepthPacking),
-/* harmony export */   RGFormat: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGFormat),
-/* harmony export */   RGIntegerFormat: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RGIntegerFormat),
-/* harmony export */   RawShaderMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RawShaderMaterial),
 /* harmony export */   Ray: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Ray),
-/* harmony export */   Raycaster: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Raycaster),
-/* harmony export */   RectAreaLight: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RectAreaLight),
-/* harmony export */   RedFormat: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RedFormat),
-/* harmony export */   RedIntegerFormat: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RedIntegerFormat),
-/* harmony export */   ReinhardToneMapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ReinhardToneMapping),
-/* harmony export */   RenderTarget: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RenderTarget),
-/* harmony export */   RenderTarget3D: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RenderTarget3D),
-/* harmony export */   RepeatWrapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RepeatWrapping),
-/* harmony export */   ReplaceStencilOp: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ReplaceStencilOp),
-/* harmony export */   ReverseSubtractEquation: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ReverseSubtractEquation),
-/* harmony export */   RingGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.RingGeometry),
-/* harmony export */   SIGNED_RED_GREEN_RGTC2_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SIGNED_RED_GREEN_RGTC2_Format),
-/* harmony export */   SIGNED_RED_RGTC1_Format: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SIGNED_RED_RGTC1_Format),
-/* harmony export */   SRGBColorSpace: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SRGBColorSpace),
-/* harmony export */   SRGBTransfer: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SRGBTransfer),
 /* harmony export */   Scene: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Scene),
-/* harmony export */   ShaderChunk: () => (/* binding */ ShaderChunk),
-/* harmony export */   ShaderLib: () => (/* binding */ ShaderLib),
-/* harmony export */   ShaderMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ShaderMaterial),
-/* harmony export */   ShadowMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ShadowMaterial),
-/* harmony export */   Shape: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Shape),
-/* harmony export */   ShapeGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ShapeGeometry),
-/* harmony export */   ShapePath: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ShapePath),
-/* harmony export */   ShapeUtils: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ShapeUtils),
-/* harmony export */   ShortType: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ShortType),
-/* harmony export */   Skeleton: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Skeleton),
-/* harmony export */   SkeletonHelper: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SkeletonHelper),
-/* harmony export */   SkinnedMesh: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SkinnedMesh),
-/* harmony export */   Source: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Source),
-/* harmony export */   Sphere: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Sphere),
-/* harmony export */   SphereGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SphereGeometry),
 /* harmony export */   Spherical: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Spherical),
-/* harmony export */   SphericalHarmonics3: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SphericalHarmonics3),
-/* harmony export */   SplineCurve: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SplineCurve),
-/* harmony export */   SpotLight: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SpotLight),
-/* harmony export */   SpotLightHelper: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SpotLightHelper),
-/* harmony export */   Sprite: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Sprite),
-/* harmony export */   SpriteMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SpriteMaterial),
-/* harmony export */   SrcAlphaFactor: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SrcAlphaFactor),
-/* harmony export */   SrcAlphaSaturateFactor: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SrcAlphaSaturateFactor),
-/* harmony export */   SrcColorFactor: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SrcColorFactor),
-/* harmony export */   StaticCopyUsage: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.StaticCopyUsage),
-/* harmony export */   StaticDrawUsage: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.StaticDrawUsage),
-/* harmony export */   StaticReadUsage: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.StaticReadUsage),
-/* harmony export */   StereoCamera: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.StereoCamera),
-/* harmony export */   StreamCopyUsage: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.StreamCopyUsage),
-/* harmony export */   StreamDrawUsage: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.StreamDrawUsage),
-/* harmony export */   StreamReadUsage: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.StreamReadUsage),
-/* harmony export */   StringKeyframeTrack: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.StringKeyframeTrack),
-/* harmony export */   SubtractEquation: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SubtractEquation),
-/* harmony export */   SubtractiveBlending: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.SubtractiveBlending),
 /* harmony export */   TOUCH: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.TOUCH),
-/* harmony export */   TangentSpaceNormalMap: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.TangentSpaceNormalMap),
-/* harmony export */   TetrahedronGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.TetrahedronGeometry),
-/* harmony export */   Texture: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Texture),
-/* harmony export */   TextureLoader: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.TextureLoader),
-/* harmony export */   TextureUtils: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.TextureUtils),
-/* harmony export */   TimestampQuery: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.TimestampQuery),
-/* harmony export */   TorusGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.TorusGeometry),
-/* harmony export */   TorusKnotGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.TorusKnotGeometry),
-/* harmony export */   Triangle: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Triangle),
-/* harmony export */   TriangleFanDrawMode: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.TriangleFanDrawMode),
-/* harmony export */   TriangleStripDrawMode: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.TriangleStripDrawMode),
-/* harmony export */   TrianglesDrawMode: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.TrianglesDrawMode),
-/* harmony export */   TubeGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.TubeGeometry),
-/* harmony export */   UVMapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.UVMapping),
-/* harmony export */   Uint16BufferAttribute: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Uint16BufferAttribute),
-/* harmony export */   Uint32BufferAttribute: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Uint32BufferAttribute),
-/* harmony export */   Uint8BufferAttribute: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Uint8BufferAttribute),
-/* harmony export */   Uint8ClampedBufferAttribute: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Uint8ClampedBufferAttribute),
-/* harmony export */   Uniform: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Uniform),
-/* harmony export */   UniformsGroup: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.UniformsGroup),
-/* harmony export */   UniformsLib: () => (/* binding */ UniformsLib),
-/* harmony export */   UniformsUtils: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.UniformsUtils),
-/* harmony export */   UnsignedByteType: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.UnsignedByteType),
-/* harmony export */   UnsignedInt248Type: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.UnsignedInt248Type),
-/* harmony export */   UnsignedInt5999Type: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.UnsignedInt5999Type),
-/* harmony export */   UnsignedIntType: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.UnsignedIntType),
-/* harmony export */   UnsignedShort4444Type: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.UnsignedShort4444Type),
-/* harmony export */   UnsignedShort5551Type: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.UnsignedShort5551Type),
-/* harmony export */   UnsignedShortType: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.UnsignedShortType),
-/* harmony export */   VSMShadowMap: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.VSMShadowMap),
 /* harmony export */   Vector2: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Vector2),
 /* harmony export */   Vector3: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Vector3),
-/* harmony export */   Vector4: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Vector4),
-/* harmony export */   VectorKeyframeTrack: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.VectorKeyframeTrack),
-/* harmony export */   VideoFrameTexture: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.VideoFrameTexture),
-/* harmony export */   VideoTexture: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.VideoTexture),
-/* harmony export */   WebGL3DRenderTarget: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.WebGL3DRenderTarget),
-/* harmony export */   WebGLArrayRenderTarget: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.WebGLArrayRenderTarget),
-/* harmony export */   WebGLCoordinateSystem: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.WebGLCoordinateSystem),
-/* harmony export */   WebGLCubeRenderTarget: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.WebGLCubeRenderTarget),
-/* harmony export */   WebGLRenderTarget: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.WebGLRenderTarget),
-/* harmony export */   WebGLRenderer: () => (/* binding */ WebGLRenderer),
-/* harmony export */   WebGLUtils: () => (/* binding */ WebGLUtils),
-/* harmony export */   WebGPUCoordinateSystem: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.WebGPUCoordinateSystem),
-/* harmony export */   WebXRController: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.WebXRController),
-/* harmony export */   WireframeGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.WireframeGeometry),
-/* harmony export */   WrapAroundEnding: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.WrapAroundEnding),
-/* harmony export */   ZeroCurvatureEnding: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ZeroCurvatureEnding),
-/* harmony export */   ZeroFactor: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ZeroFactor),
-/* harmony export */   ZeroSlopeEnding: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ZeroSlopeEnding),
-/* harmony export */   ZeroStencilOp: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ZeroStencilOp),
-/* harmony export */   createCanvasElement: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.createCanvasElement)
+/* harmony export */   WebGLRenderer: () => (/* binding */ WebGLRenderer)
 /* harmony export */ });
+/* unused harmony exports PMREMGenerator, ShaderChunk, ShaderLib, UniformsLib, WebGLUtils */
 /* harmony import */ var _three_core_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./three.core.js */ "./node_modules/three/build/three.core.js");
 /**
  * @license
@@ -95012,11 +95878,10 @@ class WebGLRenderer {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   OrbitControls: () => (/* binding */ OrbitControls)
 /* harmony export */ });
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.core.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
 
 
 /**
@@ -96877,7 +97742,6 @@ function interceptControlUp( event ) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
@@ -96909,7 +97773,6 @@ __webpack_require__.r(__webpack_exports__);
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ countSubstring)
 /* harmony export */ });
@@ -96929,7 +97792,6 @@ function countSubstring(string, substring) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ findTagByName)
 /* harmony export */ });
@@ -97005,7 +97867,6 @@ function findTagByName(xml, tagName, options) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ findTagsByName)
 /* harmony export */ });
@@ -97040,7 +97901,6 @@ function findTagsByName(xml, tagName, options) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ getAttribute)
 /* harmony export */ });
@@ -97076,7 +97936,6 @@ function getAttribute(tag, attributeName, options) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ indexOfMatchEnd)
 /* harmony export */ });
@@ -97097,7 +97956,6 @@ function indexOfMatchEnd(xml, pattern, startIndex) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ indexOfMatch)
 /* harmony export */ });
@@ -97118,7 +97976,6 @@ function indexOfMatch(xml, pattern, startIndex) {
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   ZSTDDecoder: () => (/* binding */ ZSTDDecoder)
 /* harmony export */ });
@@ -97295,7 +98152,6 @@ const wasm = 'AGFzbQEAAAABpgEVYAF/AGADf39/AX9gA39/fwBgAX8Bf2AFf39/f38Bf2ACf38AYA
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   ZSTDDecoder: () => (/* binding */ ZSTDDecoder)
 /* harmony export */ });
@@ -97394,11 +98250,10 @@ const wasm = 'AGFzbQEAAAABoAEUYAF/AGADf39/AGACf38AYAF/AX9gBX9/f39/AX9gA39/fwF/YA
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   resampleDEMToTexture: () => (/* binding */ resampleDEMToTexture),
-/* harmony export */   sampleDEMAtCoordinate: () => (/* binding */ sampleDEMAtCoordinate)
+/* harmony export */   resampleDEMToTexture: () => (/* binding */ resampleDEMToTexture)
 /* harmony export */ });
+/* unused harmony export sampleDEMAtCoordinate */
 /**
  * Data processing utilities for DEM and terrain data
  */
@@ -97507,7 +98362,6 @@ function sampleDEMAtCoordinate(elevationData, width, height, geoTransform, bbox,
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   EventHandlers: () => (/* binding */ EventHandlers)
 /* harmony export */ });
@@ -97779,13 +98633,10 @@ class EventHandlers {
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   analyzeGeoTIFFMetadata: () => (/* binding */ analyzeGeoTIFFMetadata),
-/* harmony export */   cropDEMToOrthophoto: () => (/* binding */ cropDEMToOrthophoto),
-/* harmony export */   loadGeoTIFF: () => (/* binding */ loadGeoTIFF),
-/* harmony export */   resampleTextureToDEM: () => (/* binding */ resampleTextureToDEM)
+/* harmony export */   loadGeoTIFF: () => (/* binding */ loadGeoTIFF)
 /* harmony export */ });
+/* unused harmony exports resampleTextureToDEM, analyzeGeoTIFFMetadata, cropDEMToOrthophoto */
 /* harmony import */ var geotiff__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! geotiff */ "./node_modules/geotiff/dist-module/geotiff.js");
 // js/geotiff-utils.js
 
@@ -98073,18 +98924,14 @@ function cropDEMToOrthophoto(demData, orthoData) {
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   calculateTileRange: () => (/* binding */ calculateTileRange),
-/* harmony export */   detectAvailableZoomLevels: () => (/* binding */ detectAvailableZoomLevels),
 /* harmony export */   detectAvailableZoomLevelsFromFiles: () => (/* binding */ detectAvailableZoomLevelsFromFiles),
 /* harmony export */   getOptimalZoomLevel: () => (/* binding */ getOptimalZoomLevel),
 /* harmony export */   getTileAreaBounds: () => (/* binding */ getTileAreaBounds),
-/* harmony export */   latLonToTile: () => (/* binding */ latLonToTile),
-/* harmony export */   loadTileMosaic: () => (/* binding */ loadTileMosaic),
-/* harmony export */   loadTileMosaicFromFiles: () => (/* binding */ loadTileMosaicFromFiles),
-/* harmony export */   tileToBounds: () => (/* binding */ tileToBounds)
+/* harmony export */   loadTileMosaicFromFiles: () => (/* binding */ loadTileMosaicFromFiles)
 /* harmony export */ });
+/* unused harmony exports latLonToTile, tileToBounds, detectAvailableZoomLevels, loadTileMosaic */
 // js/osm-tile-utils.js
 // Utilities for loading and processing OpenStreetMap tiles in z/y/x format
 
@@ -98494,7 +99341,6 @@ function getOptimalZoomLevelOriginal(sizeKm, maxTiles = 100) {
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   RenderController: () => (/* binding */ RenderController)
 /* harmony export */ });
@@ -98721,13 +99567,11 @@ class RenderController {
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   generateTerrain: () => (/* binding */ generateTerrain)
 /* harmony export */ });
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.core.js");
-/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
-/* harmony import */ var three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls.js */ "./node_modules/three/examples/jsm/controls/OrbitControls.js");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+/* harmony import */ var three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls.js */ "./node_modules/three/examples/jsm/controls/OrbitControls.js");
 // src/js/terrain.js
 
 
@@ -98797,9 +99641,14 @@ function generateTerrain(demData, textureImageData, heightScaleMultiplier = 1, t
 
   // Calculate terrain dimensions based on geographic bounds and user-specified resolution
   const [west, south, east, north] = bbox;
-  const METERS_PER_DEGREE = 111000;
-  const geographicWidth = Math.abs(east - west) * METERS_PER_DEGREE;
-  const geographicHeight = Math.abs(north - south) * METERS_PER_DEGREE;
+  const METERS_PER_DEGREE_LAT = 111000; // Latitude degrees are always ~111km
+  
+  // Calculate center latitude for longitude scaling
+  const centerLat = (north + south) / 2;
+  const METERS_PER_DEGREE_LON = 111000 * Math.cos(centerLat * Math.PI / 180); // Longitude degrees vary by latitude
+  
+  const geographicWidth = Math.abs(east - west) * METERS_PER_DEGREE_LON;
+  const geographicHeight = Math.abs(north - south) * METERS_PER_DEGREE_LAT;
   
   // Calculate terrain mesh dimensions based on desired resolution
   const terrainWidth = Math.ceil(geographicWidth / terrainResolution);
@@ -98854,8 +99703,15 @@ function generateTerrain(demData, textureImageData, heightScaleMultiplier = 1, t
 
   // Create texture from ImageData with specified downsampling
   const texture = new three__WEBPACK_IMPORTED_MODULE_0__.CanvasTexture(imageDataToCanvas(downsampleImageData(textureImageData, textureDownsample)));
+  
+  // Fix texture orientation - enable flipY to correct North-South texture mapping
+  texture.flipY = true;
+  texture.premultiplyAlpha = false;
   texture.needsUpdate = true;
-
+  texture.magFilter = three__WEBPACK_IMPORTED_MODULE_0__.LinearFilter;
+  texture.minFilter = three__WEBPACK_IMPORTED_MODULE_0__.LinearFilter;
+  texture.generateMipmaps = false;
+  
   // Create high-resolution terrain geometry
   const geometry = new three__WEBPACK_IMPORTED_MODULE_0__.PlaneGeometry(1, 1, finalTerrainWidth - 1, finalTerrainHeight - 1);
   const positions = geometry.attributes.position.array;
@@ -98905,13 +99761,14 @@ function generateTerrain(demData, textureImageData, heightScaleMultiplier = 1, t
     side: three__WEBPACK_IMPORTED_MODULE_0__.DoubleSide
   });
   const mesh = new three__WEBPACK_IMPORTED_MODULE_0__.Mesh(geometry, material);
-  mesh.rotateX(-Math.PI / 2);
-
+  mesh.rotateX(-Math.PI / 2); // Revert to original rotation
+  
   // Scale mesh to match geographic dimensions
   const SCENE_SCALE = 1000;
   const finalScaleX = geographicWidth / SCENE_SCALE;
   const finalScaleY = geographicHeight / SCENE_SCALE;
   
+  // Use normal positive scaling for both axes - no flipping needed
   mesh.scale.set(finalScaleX, finalScaleY, 1);
   mesh.position.set(0, 0, 0);
   
@@ -98980,9 +99837,21 @@ function sampleDEMAtCoordinate(elevationData, width, height, geoTransform, bbox,
   return elevation;
 }
 
-function initThree(sceneResolutionScale = 1, useAntialiasing = true) {
+function initThree(sceneResolutionScale, useAntialiasing) {
   if (scene) {
-    // Scene already exists, but ensure keyboard controls are initialized
+    // Clean up existing scene to prevent WebGL conflicts
+    scene.traverse((child) => {
+      if (child.isMesh) {
+        if (child.geometry) child.geometry.dispose();
+        if (child.material) {
+          if (child.material.map) child.material.map.dispose();
+          child.material.dispose();
+        }
+      }
+    });
+    scene.clear();
+    
+    // Ensure keyboard controls are initialized
     if (!keyboardControlsInitialized) {
       initKeyboardControls();
     }
@@ -98997,7 +99866,7 @@ function initThree(sceneResolutionScale = 1, useAntialiasing = true) {
   camera.position.set(0, 100, 100);
 
   const canvas = document.getElementById('three-canvas');
-  renderer = new three__WEBPACK_IMPORTED_MODULE_1__.WebGLRenderer({
+  renderer = new three__WEBPACK_IMPORTED_MODULE_0__.WebGLRenderer({
     canvas: canvas,
     antialias: useAntialiasing
   });
@@ -99019,7 +99888,7 @@ function initThree(sceneResolutionScale = 1, useAntialiasing = true) {
   
   console.log(`Scene resolution: ${renderWidth}x${renderHeight} (${(sceneResolutionScale * 100).toFixed(0)}% scale, antialiasing: ${useAntialiasing})`);
 
-  controls = new three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_2__.OrbitControls(camera, renderer.domElement);
+  controls = new three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, renderer.domElement);
   controls.target.set(0, 0, 0);
   controls.update();
 
@@ -99235,6 +100104,7 @@ function updateCompassRotation() {
   // Calculate angle from North (positive Z axis)
   // In our coordinate system, North is positive Z direction
   // But we need to calculate the angle from where North should be relative to camera
+  // Adjust for flipped X coordinate system from mesh scale
   let azimuthAngle = Math.atan2(horizontalDirection.x, horizontalDirection.z);
   
   // Convert to degrees
@@ -99290,7 +100160,6 @@ function downsampleImageData(imageData, factor) {
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   UIManager: () => (/* binding */ UIManager)
 /* harmony export */ });
@@ -99440,11 +100309,15 @@ class UIManager {
   }
 
   hideMenuAndShowControls() {
-    const { menuContainer, hamburgerBtn, speedControl } = this.elements;
+    const { menuContainer, hamburgerBtn, speedControl, advancedDialog } = this.elements;
     menuContainer.classList.add('collapsed');
     hamburgerBtn.style.display = 'flex';
     speedControl.style.display = 'block';
-    this.toggleAdvancedDialog();
+    
+    // Close advanced dialog if it's open
+    if (advancedDialog.style.display === 'block') {
+      advancedDialog.style.display = 'none';
+    }
   }
 
   // Get all form values
@@ -99492,13 +100365,9 @@ class UIManager {
 /*!***********************!*\
   !*** ./src/style.css ***!
   \***********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
@@ -99536,7 +100405,7 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+       /* unused harmony default export */ var __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
 /***/ }),
@@ -99661,7 +100530,6 @@ var __webpack_exports__ = {};
 /*!***********************!*\
   !*** ./src/js/app.js ***!
   \***********************/
-__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../style.css */ "./src/style.css");
 /* harmony import */ var _ui_manager_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ui-manager.js */ "./src/js/ui-manager.js");
 /* harmony import */ var _event_handlers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./event-handlers.js */ "./src/js/event-handlers.js");
@@ -99702,6 +100570,13 @@ class TerrainApp {
 
 // Initialize the application when DOM is loaded
 window.addEventListener('DOMContentLoaded', () => {
+  // Prevent duplicate initialization
+  if (window.terrainAppInitialized) {
+    console.warn('Terrain app already initialized, skipping duplicate initialization');
+    return;
+  }
+  
+  window.terrainAppInitialized = true;
   const app = new TerrainApp();
   app.initialize();
 });
