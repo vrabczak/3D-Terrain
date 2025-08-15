@@ -3,7 +3,7 @@
  */
 
 import { loadGeoTIFF } from './geotiff-utils.js';
-import { generateTerrain } from './terrain.js';
+import { TerrainRenderer } from './terrain.js';
 import { 
   calculateTileRange, 
   loadTileMosaicFromFiles, 
@@ -16,6 +16,7 @@ export class RenderController {
   constructor(uiManager, eventHandlers) {
     this.uiManager = uiManager;
     this.eventHandlers = eventHandlers;
+    this.terrainRenderer = null; // Will be created when needed
     this.initializeRenderButton();
   }
 
@@ -58,6 +59,14 @@ export class RenderController {
     const availableZoomLevels = this.eventHandlers.getAvailableZoomLevels();
     
     const terrainResolution = 15; // Fixed terrain resolution
+
+    // Dispose of previous terrain renderer if it exists
+    if (this.terrainRenderer) {
+      this.terrainRenderer.dispose();
+    }
+
+    // Create new terrain renderer instance
+    this.terrainRenderer = new TerrainRenderer();
 
     // Load DEM data
     this.uiManager.updateProgress(10, 'Načítám DEM soubor...');
@@ -125,8 +134,8 @@ export class RenderController {
     // Hide menu and show controls after successful model load
     this.uiManager.hideMenuAndShowControls();
 
-    // Generate the terrain
-    generateTerrain(
+    // Generate the terrain using the class instance
+    await this.terrainRenderer.generateTerrain(
       resampledDemData, 
       textureImageData, 
       formValues.heightScaleMultiplier, 
@@ -209,5 +218,22 @@ export class RenderController {
     }
 
     return { adjustedTerrainResolution, adjustedZoomLevel };
+  }
+
+  /**
+   * Get the current terrain renderer instance
+   */
+  getTerrainRenderer() {
+    return this.terrainRenderer;
+  }
+
+  /**
+   * Dispose of resources when the controller is no longer needed
+   */
+  dispose() {
+    if (this.terrainRenderer) {
+      this.terrainRenderer.dispose();
+      this.terrainRenderer = null;
+    }
   }
 }

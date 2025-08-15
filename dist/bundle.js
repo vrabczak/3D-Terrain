@@ -19397,7 +19397,7 @@ module.exports = styleTagTransform;
 /* harmony export */   MeshBasicMaterial: () => (/* binding */ MeshBasicMaterial),
 /* harmony export */   MeshDepthMaterial: () => (/* binding */ MeshDepthMaterial),
 /* harmony export */   MeshDistanceMaterial: () => (/* binding */ MeshDistanceMaterial),
-/* harmony export */   MeshPhongMaterial: () => (/* binding */ MeshPhongMaterial),
+/* harmony export */   MeshLambertMaterial: () => (/* binding */ MeshLambertMaterial),
 /* harmony export */   MinEquation: () => (/* binding */ MinEquation),
 /* harmony export */   MirroredRepeatWrapping: () => (/* binding */ MirroredRepeatWrapping),
 /* harmony export */   MixOperation: () => (/* binding */ MixOperation),
@@ -19521,7 +19521,7 @@ module.exports = styleTagTransform;
 /* harmony export */   toReversedProjectionMatrix: () => (/* binding */ toReversedProjectionMatrix),
 /* harmony export */   warnOnce: () => (/* binding */ warnOnce)
 /* harmony export */ });
-/* unused harmony exports AdditiveAnimationBlendMode, AlwaysStencilFunc, AnimationAction, AnimationClip, AnimationLoader, AnimationMixer, AnimationObjectGroup, AnimationUtils, ArcCurve, ArrowHelper, AttachedBindMode, Audio, AudioAnalyser, AudioContext, AudioListener, AudioLoader, AxesHelper, BasicDepthPacking, BasicShadowMap, BatchedMesh, Bone, BooleanKeyframeTrack, Box2, Box3, Box3Helper, BoxHelper, BufferGeometryLoader, Cache, Camera, CameraHelper, CapsuleGeometry, CatmullRomCurve3, CircleGeometry, Clock, ColorKeyframeTrack, CompressedArrayTexture, CompressedCubeTexture, CompressedTexture, CompressedTextureLoader, ConeGeometry, CubeCamera, CubeTextureLoader, CubicBezierCurve, CubicBezierCurve3, CubicInterpolant, CullFaceFrontBack, Curve, CurvePath, CylinderGeometry, Cylindrical, DataTexture, DataTextureLoader, DataUtils, DecrementStencilOp, DecrementWrapStencilOp, DefaultLoadingManager, DetachedBindMode, DirectionalLightHelper, DiscreteInterpolant, DodecahedronGeometry, DynamicCopyUsage, DynamicDrawUsage, DynamicReadUsage, EdgesGeometry, EllipseCurve, EqualStencilFunc, ExtrudeGeometry, FileLoader, Float16BufferAttribute, Float32BufferAttribute, Fog, FogExp2, FramebufferTexture, FrustumArray, GLBufferAttribute, GLSL1, GreaterEqualStencilFunc, GreaterStencilFunc, GridHelper, Group, HemisphereLight, HemisphereLightHelper, IcosahedronGeometry, ImageBitmapLoader, ImageLoader, ImageUtils, IncrementStencilOp, IncrementWrapStencilOp, InstancedBufferAttribute, InstancedBufferGeometry, InstancedInterleavedBuffer, InstancedMesh, Int16BufferAttribute, Int32BufferAttribute, Int8BufferAttribute, InterleavedBuffer, InterleavedBufferAttribute, Interpolant, InterpolateDiscrete, InterpolateLinear, InterpolateSmooth, InterpolationSamplingMode, InterpolationSamplingType, InvertStencilOp, KeepStencilOp, KeyframeTrack, LOD, LatheGeometry, LessEqualStencilFunc, LessStencilFunc, Light, LightProbe, Line, Line3, LineBasicMaterial, LineCurve, LineCurve3, LineDashedMaterial, LineLoop, LineSegments, LinearInterpolant, LinearMipMapLinearFilter, LinearMipMapNearestFilter, Loader, LoaderUtils, LoadingManager, LoopOnce, LoopPingPong, LoopRepeat, Material, MaterialLoader, Matrix2, MeshLambertMaterial, MeshMatcapMaterial, MeshNormalMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, NearestMipMapLinearFilter, NearestMipMapNearestFilter, NeverStencilFunc, NormalAnimationBlendMode, NotEqualStencilFunc, NumberKeyframeTrack, Object3D, ObjectLoader, OctahedronGeometry, Path, PlaneHelper, PointLight, PointLightHelper, Points, PointsMaterial, PolarGridHelper, PolyhedronGeometry, PositionalAudio, PropertyBinding, PropertyMixer, QuadraticBezierCurve, QuadraticBezierCurve3, QuaternionKeyframeTrack, QuaternionLinearInterpolant, RGBDepthPacking, RGBIntegerFormat, RGDepthPacking, RawShaderMaterial, Raycaster, RectAreaLight, RenderTarget, RenderTarget3D, ReplaceStencilOp, RingGeometry, ShadowMaterial, Shape, ShapeGeometry, ShapePath, ShapeUtils, Skeleton, SkeletonHelper, SkinnedMesh, Source, Sphere, SphereGeometry, SphericalHarmonics3, SplineCurve, SpotLight, SpotLightHelper, Sprite, SpriteMaterial, StaticCopyUsage, StaticDrawUsage, StaticReadUsage, StereoCamera, StreamCopyUsage, StreamDrawUsage, StreamReadUsage, StringKeyframeTrack, TetrahedronGeometry, TextureLoader, TextureUtils, TimestampQuery, TorusGeometry, TorusKnotGeometry, Triangle, TriangleFanDrawMode, TriangleStripDrawMode, TrianglesDrawMode, TubeGeometry, UVMapping, Uint8BufferAttribute, Uint8ClampedBufferAttribute, Uniform, UniformsGroup, VectorKeyframeTrack, VideoFrameTexture, VideoTexture, WebGL3DRenderTarget, WebGLArrayRenderTarget, WebGPUCoordinateSystem, WireframeGeometry, WrapAroundEnding, ZeroCurvatureEnding, ZeroSlopeEnding, ZeroStencilOp */
+/* unused harmony exports AdditiveAnimationBlendMode, AlwaysStencilFunc, AnimationAction, AnimationClip, AnimationLoader, AnimationMixer, AnimationObjectGroup, AnimationUtils, ArcCurve, ArrowHelper, AttachedBindMode, Audio, AudioAnalyser, AudioContext, AudioListener, AudioLoader, AxesHelper, BasicDepthPacking, BasicShadowMap, BatchedMesh, Bone, BooleanKeyframeTrack, Box2, Box3, Box3Helper, BoxHelper, BufferGeometryLoader, Cache, Camera, CameraHelper, CapsuleGeometry, CatmullRomCurve3, CircleGeometry, Clock, ColorKeyframeTrack, CompressedArrayTexture, CompressedCubeTexture, CompressedTexture, CompressedTextureLoader, ConeGeometry, CubeCamera, CubeTextureLoader, CubicBezierCurve, CubicBezierCurve3, CubicInterpolant, CullFaceFrontBack, Curve, CurvePath, CylinderGeometry, Cylindrical, DataTexture, DataTextureLoader, DataUtils, DecrementStencilOp, DecrementWrapStencilOp, DefaultLoadingManager, DetachedBindMode, DirectionalLightHelper, DiscreteInterpolant, DodecahedronGeometry, DynamicCopyUsage, DynamicDrawUsage, DynamicReadUsage, EdgesGeometry, EllipseCurve, EqualStencilFunc, ExtrudeGeometry, FileLoader, Float16BufferAttribute, Float32BufferAttribute, Fog, FogExp2, FramebufferTexture, FrustumArray, GLBufferAttribute, GLSL1, GreaterEqualStencilFunc, GreaterStencilFunc, GridHelper, Group, HemisphereLight, HemisphereLightHelper, IcosahedronGeometry, ImageBitmapLoader, ImageLoader, ImageUtils, IncrementStencilOp, IncrementWrapStencilOp, InstancedBufferAttribute, InstancedBufferGeometry, InstancedInterleavedBuffer, InstancedMesh, Int16BufferAttribute, Int32BufferAttribute, Int8BufferAttribute, InterleavedBuffer, InterleavedBufferAttribute, Interpolant, InterpolateDiscrete, InterpolateLinear, InterpolateSmooth, InterpolationSamplingMode, InterpolationSamplingType, InvertStencilOp, KeepStencilOp, KeyframeTrack, LOD, LatheGeometry, LessEqualStencilFunc, LessStencilFunc, Light, LightProbe, Line, Line3, LineBasicMaterial, LineCurve, LineCurve3, LineDashedMaterial, LineLoop, LineSegments, LinearInterpolant, LinearMipMapLinearFilter, LinearMipMapNearestFilter, Loader, LoaderUtils, LoadingManager, LoopOnce, LoopPingPong, LoopRepeat, Material, MaterialLoader, Matrix2, MeshMatcapMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, NearestMipMapLinearFilter, NearestMipMapNearestFilter, NeverStencilFunc, NormalAnimationBlendMode, NotEqualStencilFunc, NumberKeyframeTrack, Object3D, ObjectLoader, OctahedronGeometry, Path, PlaneHelper, PointLight, PointLightHelper, Points, PointsMaterial, PolarGridHelper, PolyhedronGeometry, PositionalAudio, PropertyBinding, PropertyMixer, QuadraticBezierCurve, QuadraticBezierCurve3, QuaternionKeyframeTrack, QuaternionLinearInterpolant, RGBDepthPacking, RGBIntegerFormat, RGDepthPacking, RawShaderMaterial, Raycaster, RectAreaLight, RenderTarget, RenderTarget3D, ReplaceStencilOp, RingGeometry, ShadowMaterial, Shape, ShapeGeometry, ShapePath, ShapeUtils, Skeleton, SkeletonHelper, SkinnedMesh, Source, Sphere, SphereGeometry, SphericalHarmonics3, SplineCurve, SpotLight, SpotLightHelper, Sprite, SpriteMaterial, StaticCopyUsage, StaticDrawUsage, StaticReadUsage, StereoCamera, StreamCopyUsage, StreamDrawUsage, StreamReadUsage, StringKeyframeTrack, TetrahedronGeometry, TextureLoader, TextureUtils, TimestampQuery, TorusGeometry, TorusKnotGeometry, Triangle, TriangleFanDrawMode, TriangleStripDrawMode, TrianglesDrawMode, TubeGeometry, UVMapping, Uint8BufferAttribute, Uint8ClampedBufferAttribute, Uniform, UniformsGroup, VectorKeyframeTrack, VideoFrameTexture, VideoTexture, WebGL3DRenderTarget, WebGLArrayRenderTarget, WebGPUCoordinateSystem, WireframeGeometry, WrapAroundEnding, ZeroCurvatureEnding, ZeroSlopeEnding, ZeroStencilOp */
 /**
  * @license
  * Copyright 2010-2025 Three.js Authors
@@ -77693,16 +77693,17 @@ if ( typeof window !== 'undefined' ) {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   AmbientLight: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.AmbientLight),
 /* harmony export */   CanvasTexture: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.CanvasTexture),
+/* harmony export */   ClampToEdgeWrapping: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.ClampToEdgeWrapping),
 /* harmony export */   Color: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Color),
 /* harmony export */   Controls: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Controls),
 /* harmony export */   DirectionalLight: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DirectionalLight),
 /* harmony export */   DoubleSide: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.DoubleSide),
-/* harmony export */   LinearFilter: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.LinearFilter),
 /* harmony export */   MOUSE: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MOUSE),
 /* harmony export */   MathUtils: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MathUtils),
 /* harmony export */   Matrix4: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Matrix4),
 /* harmony export */   Mesh: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Mesh),
-/* harmony export */   MeshPhongMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MeshPhongMaterial),
+/* harmony export */   MeshLambertMaterial: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.MeshLambertMaterial),
+/* harmony export */   PCFSoftShadowMap: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PCFSoftShadowMap),
 /* harmony export */   PerspectiveCamera: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PerspectiveCamera),
 /* harmony export */   Plane: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Plane),
 /* harmony export */   PlaneGeometry: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.PlaneGeometry),
@@ -77711,6 +77712,7 @@ if ( typeof window !== 'undefined' ) {
 /* harmony export */   Scene: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Scene),
 /* harmony export */   Spherical: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Spherical),
 /* harmony export */   TOUCH: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.TOUCH),
+/* harmony export */   Texture: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Texture),
 /* harmony export */   Vector2: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Vector2),
 /* harmony export */   Vector3: () => (/* reexport safe */ _three_core_js__WEBPACK_IMPORTED_MODULE_0__.Vector3),
 /* harmony export */   WebGLRenderer: () => (/* binding */ WebGLRenderer)
@@ -98243,6 +98245,269 @@ const wasm = 'AGFzbQEAAAABoAEUYAF/AGADf39/AGACf38AYAF/AX9gBX9/f39/AX9gA39/fwF/YA
 
 /***/ }),
 
+/***/ "./src/js/controls/KeyboardControls.js":
+/*!*********************************************!*\
+  !*** ./src/js/controls/KeyboardControls.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   KeyboardControls: () => (/* binding */ KeyboardControls)
+/* harmony export */ });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+// src/js/controls/KeyboardControls.js
+
+
+/**
+ * Modern KeyboardControls class for aircraft-style camera movement
+ * Handles keyboard input, movement calculations, and control state management
+ */
+class KeyboardControls {
+  constructor(camera, controls, renderer) {
+    this.camera = camera;
+    this.orbitControls = controls;
+    this.renderer = renderer;
+    
+    // Control state
+    this.keyStates = {};
+    this.isActive = false;
+    this.initialized = false;
+    
+    // Movement parameters
+    this.movementSpeed = 0.005; // Default from HTML
+    this.rotationSpeed = 0.01;  // Default from HTML
+    
+    // Movement vectors (reused for performance)
+    this.velocity = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
+    this.cameraDirection = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
+    this.cameraRight = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
+    this.cameraUp = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
+    
+    // Movement keys configuration
+    this.movementKeys = ['KeyW', 'KeyS', 'KeyA', 'KeyD', 'KeyQ', 'KeyE', 'KeyR', 'KeyF', 'KeyT', 'KeyG'];
+    
+    // Bind methods to preserve 'this' context
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleKeyUp = this.handleKeyUp.bind(this);
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleWindowBlur = this.handleWindowBlur.bind(this);
+  }
+  
+  /**
+   * Initialize keyboard controls and event listeners
+   */
+  init() {
+    if (this.initialized) return;
+    
+    this.setupEventListeners();
+    this.initialized = true;
+  }
+  
+  /**
+   * Setup all event listeners for keyboard and mouse input
+   */
+  setupEventListeners() {
+    // Keyboard events
+    document.addEventListener('keydown', this.handleKeyDown);
+    document.addEventListener('keyup', this.handleKeyUp);
+    
+    // Mouse click to restore mouse controls
+    this.renderer.domElement.addEventListener('mousedown', this.handleMouseDown);
+    
+    // Handle window focus/blur to reset key states
+    window.addEventListener('blur', this.handleWindowBlur);
+  }
+  
+  /**
+   * Handle keydown events
+   */
+  handleKeyDown(event) {
+    const key = event.code;
+    this.keyStates[key] = true;
+    
+    // Check if any movement keys are pressed
+    if (this.movementKeys.includes(key)) {
+      this.activateKeyboardMode();
+      event.preventDefault();
+    }
+  }
+  
+  /**
+   * Handle keyup events
+   */
+  handleKeyUp(event) {
+    const key = event.code;
+    this.keyStates[key] = false;
+    event.preventDefault();
+  }
+  
+  /**
+   * Handle mouse down events to potentially restore mouse controls
+   */
+  handleMouseDown(event) {
+    // Don't interfere with hamburger button clicks
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    if (hamburgerBtn && (event.target === hamburgerBtn || hamburgerBtn.contains(event.target))) {
+      return;
+    }
+    
+    if (this.isActive) {
+      // Check if no movement keys are currently pressed
+      const anyMovementKeyPressed = this.movementKeys.some(k => this.keyStates[k]);
+      
+      if (!anyMovementKeyPressed) {
+        this.deactivateKeyboardMode();
+      }
+    }
+  }
+  
+  /**
+   * Handle window blur to reset states
+   */
+  handleWindowBlur() {
+    this.keyStates = {};
+    this.deactivateKeyboardMode();
+  }
+  
+  /**
+   * Activate keyboard control mode
+   */
+  activateKeyboardMode() {
+    this.isActive = true;
+    this.orbitControls.enabled = false;
+  }
+  
+  /**
+   * Deactivate keyboard control mode and restore mouse controls
+   */
+  deactivateKeyboardMode() {
+    this.isActive = false;
+    this.orbitControls.enabled = true;
+    this.orbitControls.update();
+  }
+  
+  /**
+   * Update camera position and rotation based on current key states
+   * Should be called in the animation loop
+   */
+  update() {
+    if (!this.isActive) return;
+    
+    // Get camera direction and right vectors
+    this.camera.getWorldDirection(this.cameraDirection);
+    this.cameraRight.crossVectors(this.cameraDirection, this.camera.up).normalize();
+    
+    // Project camera direction onto horizontal plane (XZ plane)
+    const horizontalDirection = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3(
+      this.cameraDirection.x,
+      0,  // Zero out the vertical component
+      this.cameraDirection.z
+    ).normalize();
+    
+    // Reset velocity
+    this.velocity.set(0, 0, 0);
+    
+    // Use horizontal direction for forward/backward movement
+    if (this.keyStates['KeyW']) this.velocity.add(horizontalDirection.clone().multiplyScalar(this.movementSpeed));
+    if (this.keyStates['KeyS']) this.velocity.add(horizontalDirection.clone().multiplyScalar(-this.movementSpeed));
+    
+    // Left/right strafing remains the same
+    if (this.keyStates['KeyA']) this.velocity.add(this.cameraRight.clone().multiplyScalar(-this.movementSpeed));
+    if (this.keyStates['KeyD']) this.velocity.add(this.cameraRight.clone().multiplyScalar(this.movementSpeed));
+    
+    // Vertical movement (T/G) remains unchanged
+    if (this.keyStates['KeyT']) this.velocity.y += this.movementSpeed;
+    if (this.keyStates['KeyG']) this.velocity.y -= this.movementSpeed;
+    
+    // Apply movement
+    this.camera.position.add(this.velocity);
+    
+    // Rotation controls remain the same
+    const worldUp = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3(0, 1, 0);
+    const horizontalRight = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3().crossVectors(horizontalDirection, worldUp).normalize();
+    
+    if (this.keyStates['KeyQ']) this.camera.rotateOnWorldAxis(worldUp, this.rotationSpeed);
+    if (this.keyStates['KeyE']) this.camera.rotateOnWorldAxis(worldUp, -this.rotationSpeed);
+    if (this.keyStates['KeyR']) this.camera.rotateOnWorldAxis(horizontalRight, this.rotationSpeed);
+    if (this.keyStates['KeyF']) this.camera.rotateOnWorldAxis(horizontalRight, -this.rotationSpeed);
+  }
+  
+  /**
+   * Level camera roll to remove any unwanted rotation around the forward axis
+   */
+  levelCameraRoll() {
+    // Get the camera's current forward direction
+    const forward = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
+    this.camera.getWorldDirection(forward);
+    
+    // Create a target up vector (world up)
+    const worldUp = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3(0, 1, 0);
+    
+    // Calculate the right vector (perpendicular to forward and world up)
+    const right = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3().crossVectors(forward, worldUp).normalize();
+    
+    // Calculate the corrected up vector (perpendicular to forward and right)
+    const correctedUp = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3().crossVectors(right, forward.negate()).normalize();
+    
+    // Create a rotation matrix with the corrected orientation
+    const matrix = new three__WEBPACK_IMPORTED_MODULE_0__.Matrix4();
+    matrix.makeBasis(right, correctedUp, forward.negate());
+    
+    // Apply the rotation to the camera
+    this.camera.rotation.setFromRotationMatrix(matrix);
+  }
+  
+  /**
+   * Set movement speed
+   */
+  setMovementSpeed(speed) {
+    this.movementSpeed = speed;
+  }
+  
+  /**
+   * Set rotation speed
+   */
+  setRotationSpeed(speed) {
+    this.rotationSpeed = speed;
+  }
+  
+  /**
+   * Get current movement speed
+   */
+  getMovementSpeed() {
+    return this.movementSpeed;
+  }
+  
+  /**
+   * Get current rotation speed
+   */
+  getRotationSpeed() {
+    return this.rotationSpeed;
+  }
+  
+  /**
+   * Check if keyboard controls are currently active
+   */
+  isKeyboardActive() {
+    return this.isActive;
+  }
+  
+  /**
+   * Cleanup event listeners
+   */
+  dispose() {
+    document.removeEventListener('keydown', this.handleKeyDown);
+    document.removeEventListener('keyup', this.handleKeyUp);
+    this.renderer.domElement.removeEventListener('mousedown', this.handleMouseDown);
+    window.removeEventListener('blur', this.handleWindowBlur);
+    this.initialized = false;
+  }
+}
+
+
+/***/ }),
+
 /***/ "./src/js/data-processing.js":
 /*!***********************************!*\
   !*** ./src/js/data-processing.js ***!
@@ -99334,6 +99599,299 @@ function getOptimalZoomLevelOriginal(sizeKm, maxTiles = 100) {
 
 /***/ }),
 
+/***/ "./src/js/overlays/Overlay2D.js":
+/*!**************************************!*\
+  !*** ./src/js/overlays/Overlay2D.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Overlay2D: () => (/* binding */ Overlay2D)
+/* harmony export */ });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+// src/js/overlays/Overlay2D.js
+
+
+/**
+ * Unified Overlay2D class that manages all 2D overlay elements:
+ * - Compass/North Arrow
+ * - Speed Control Sliders
+ * - Controls Legend
+ * Uses modern JavaScript practices with proper encapsulation and event handling
+ */
+class Overlay2D {
+  constructor(camera, controls) {
+    this.camera = camera;
+    this.controls = controls;
+    
+    // DOM elements
+    this.elements = {
+      compass: document.getElementById('north-arrow'),
+      compassRose: null, // Will be found within compass
+      speedControl: document.getElementById('speed-control'),
+      movementSpeedSlider: document.getElementById('movementSpeed'),
+      movementSpeedValue: document.getElementById('speedValue'),
+      rotationSpeedSlider: document.getElementById('rotationSpeed'),
+      rotationSpeedValue: document.getElementById('rotationSpeedValue'),
+      controlsLegend: document.getElementById('controls-legend')
+    };
+    
+    // Speed values
+    this.speeds = {
+      movement: 0.005, // Default from HTML
+      rotation: 0.01   // Default from HTML
+    };
+    
+    // State
+    this.initialized = false;
+    this.visible = false;
+    
+    // Callbacks for speed changes (to communicate with KeyboardControls)
+    this.onSpeedChange = null;
+    
+    // Bind methods to preserve 'this' context
+    this.handleMovementSpeedChange = this.handleMovementSpeedChange.bind(this);
+    this.handleRotationSpeedChange = this.handleRotationSpeedChange.bind(this);
+  }
+  
+  /**
+   * Initialize all overlay components
+   */
+  init() {
+    if (this.initialized) return;
+    
+    this.initCompass();
+    this.initSpeedControls();
+    this.initControlsLegend();
+    
+    this.initialized = true;
+  }
+  
+  /**
+   * Initialize compass/north arrow component
+   */
+  initCompass() {
+    if (this.elements.compass) {
+      // Find the compass rose within the compass element
+      this.elements.compassRose = this.elements.compass.querySelector('.compass-rose');
+      
+      if (!this.elements.compassRose) {
+        console.warn('Compass rose element not found within north-arrow');
+      }
+    } else {
+      console.warn('North arrow element not found');
+    }
+  }
+  
+  /**
+   * Initialize speed control sliders
+   */
+  initSpeedControls() {
+    // Movement speed slider
+    if (this.elements.movementSpeedSlider && this.elements.movementSpeedValue) {
+      this.elements.movementSpeedSlider.addEventListener('input', this.handleMovementSpeedChange);
+      
+      // Set initial values
+      this.speeds.movement = parseFloat(this.elements.movementSpeedSlider.value);
+      this.elements.movementSpeedValue.textContent = this.speeds.movement.toFixed(3);
+    } else {
+      console.warn('Movement speed controls not found');
+    }
+    
+    // Rotation speed slider
+    if (this.elements.rotationSpeedSlider && this.elements.rotationSpeedValue) {
+      this.elements.rotationSpeedSlider.addEventListener('input', this.handleRotationSpeedChange);
+      
+      // Set initial values
+      this.speeds.rotation = parseFloat(this.elements.rotationSpeedSlider.value);
+      this.elements.rotationSpeedValue.textContent = this.speeds.rotation.toFixed(3);
+    } else {
+      console.warn('Rotation speed controls not found');
+    }
+  }
+  
+  /**
+   * Initialize controls legend
+   */
+  initControlsLegend() {
+    if (!this.elements.controlsLegend) {
+      console.warn('Controls legend element not found');
+    }
+    // Legend is static, no initialization needed beyond DOM reference
+  }
+  
+  /**
+   * Handle movement speed slider changes
+   */
+  handleMovementSpeedChange(event) {
+    this.speeds.movement = parseFloat(event.target.value);
+    this.elements.movementSpeedValue.textContent = this.speeds.movement.toFixed(3);
+    
+    // Notify external listeners (e.g., KeyboardControls)
+    if (this.onSpeedChange) {
+      this.onSpeedChange('movement', this.speeds.movement);
+    }
+  }
+  
+  /**
+   * Handle rotation speed slider changes
+   */
+  handleRotationSpeedChange(event) {
+    this.speeds.rotation = parseFloat(event.target.value);
+    this.elements.rotationSpeedValue.textContent = this.speeds.rotation.toFixed(3);
+    
+    // Notify external listeners (e.g., KeyboardControls)
+    if (this.onSpeedChange) {
+      this.onSpeedChange('rotation', this.speeds.rotation);
+    }
+  }
+  
+  /**
+   * Update compass rotation based on camera orientation
+   * Should be called in the animation loop
+   */
+  updateCompass() {
+    if (!this.elements.compassRose || !this.controls) return;
+    
+    // Calculate camera azimuth (horizontal rotation around Y axis)
+    const cameraDirection = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
+    this.camera.getWorldDirection(cameraDirection);
+    
+    // Project camera direction onto horizontal plane (ignore Y component)
+    const horizontalDirection = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3(cameraDirection.x, 0, cameraDirection.z).normalize();
+    
+    // Calculate angle from North (positive Z axis)
+    // In our coordinate system, North is positive Z direction
+    // But we need to calculate the angle from where North should be relative to camera
+    // Adjust for flipped X coordinate system from mesh scale
+    let azimuthAngle = Math.atan2(horizontalDirection.x, horizontalDirection.z);
+    
+    // Convert to degrees
+    let azimuthDegrees = azimuthAngle * (180 / Math.PI);
+    
+    // Add 180 degrees to flip the direction (since we want North relative to camera, not camera relative to North)
+    azimuthDegrees += 180;
+    
+    // Rotate the compass rose to point North correctly
+    this.elements.compassRose.style.transform = `rotate(${azimuthDegrees}deg)`;
+  }
+  
+  /**
+   * Show all overlay elements
+   */
+  show() {
+    if (!this.initialized) this.init();
+    
+    this.visible = true;
+    
+    // Show speed controls
+    if (this.elements.speedControl) {
+      this.elements.speedControl.style.display = 'block';
+    }
+    
+    // Compass and legend are typically always visible when terrain is loaded
+    // but we can control their visibility here if needed
+  }
+  
+  /**
+   * Hide all overlay elements
+   */
+  hide() {
+    this.visible = false;
+    
+    // Hide speed controls
+    if (this.elements.speedControl) {
+      this.elements.speedControl.style.display = 'none';
+    }
+  }
+  
+  /**
+   * Set callback for speed changes
+   */
+  setSpeedChangeCallback(callback) {
+    this.onSpeedChange = callback;
+  }
+  
+  /**
+   * Get current movement speed
+   */
+  getMovementSpeed() {
+    return this.speeds.movement;
+  }
+  
+  /**
+   * Get current rotation speed
+   */
+  getRotationSpeed() {
+    return this.speeds.rotation;
+  }
+  
+  /**
+   * Set movement speed programmatically
+   */
+  setMovementSpeed(speed) {
+    this.speeds.movement = speed;
+    
+    if (this.elements.movementSpeedSlider) {
+      this.elements.movementSpeedSlider.value = speed;
+    }
+    if (this.elements.movementSpeedValue) {
+      this.elements.movementSpeedValue.textContent = speed.toFixed(3);
+    }
+  }
+  
+  /**
+   * Set rotation speed programmatically
+   */
+  setRotationSpeed(speed) {
+    this.speeds.rotation = speed;
+    
+    if (this.elements.rotationSpeedSlider) {
+      this.elements.rotationSpeedSlider.value = speed;
+    }
+    if (this.elements.rotationSpeedValue) {
+      this.elements.rotationSpeedValue.textContent = speed.toFixed(3);
+    }
+  }
+  
+  /**
+   * Update all overlay components
+   * Should be called in the animation loop
+   */
+  update() {
+    if (!this.visible || !this.initialized) return;
+    
+    this.updateCompass();
+  }
+  
+  /**
+   * Check if overlays are visible
+   */
+  isVisible() {
+    return this.visible;
+  }
+  
+  /**
+   * Cleanup event listeners and resources
+   */
+  dispose() {
+    if (this.elements.movementSpeedSlider) {
+      this.elements.movementSpeedSlider.removeEventListener('input', this.handleMovementSpeedChange);
+    }
+    if (this.elements.rotationSpeedSlider) {
+      this.elements.rotationSpeedSlider.removeEventListener('input', this.handleRotationSpeedChange);
+    }
+    
+    this.initialized = false;
+    this.visible = false;
+    this.onSpeedChange = null;
+  }
+}
+
+
+/***/ }),
+
 /***/ "./src/js/render-controller.js":
 /*!*************************************!*\
   !*** ./src/js/render-controller.js ***!
@@ -99361,6 +99919,7 @@ class RenderController {
   constructor(uiManager, eventHandlers) {
     this.uiManager = uiManager;
     this.eventHandlers = eventHandlers;
+    this.terrainRenderer = null; // Will be created when needed
     this.initializeRenderButton();
   }
 
@@ -99403,6 +99962,14 @@ class RenderController {
     const availableZoomLevels = this.eventHandlers.getAvailableZoomLevels();
     
     const terrainResolution = 15; // Fixed terrain resolution
+
+    // Dispose of previous terrain renderer if it exists
+    if (this.terrainRenderer) {
+      this.terrainRenderer.dispose();
+    }
+
+    // Create new terrain renderer instance
+    this.terrainRenderer = new _terrain_js__WEBPACK_IMPORTED_MODULE_1__.TerrainRenderer();
 
     // Load DEM data
     this.uiManager.updateProgress(10, 'Načítám DEM soubor...');
@@ -99470,8 +100037,8 @@ class RenderController {
     // Hide menu and show controls after successful model load
     this.uiManager.hideMenuAndShowControls();
 
-    // Generate the terrain
-    (0,_terrain_js__WEBPACK_IMPORTED_MODULE_1__.generateTerrain)(
+    // Generate the terrain using the class instance
+    await this.terrainRenderer.generateTerrain(
       resampledDemData, 
       textureImageData, 
       formValues.heightScaleMultiplier, 
@@ -99555,6 +100122,23 @@ class RenderController {
 
     return { adjustedTerrainResolution, adjustedZoomLevel };
   }
+
+  /**
+   * Get the current terrain renderer instance
+   */
+  getTerrainRenderer() {
+    return this.terrainRenderer;
+  }
+
+  /**
+   * Dispose of resources when the controller is no longer needed
+   */
+  dispose() {
+    if (this.terrainRenderer) {
+      this.terrainRenderer.dispose();
+      this.terrainRenderer = null;
+    }
+  }
 }
 
 
@@ -99568,586 +100152,633 @@ class RenderController {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   generateTerrain: () => (/* binding */ generateTerrain)
+/* harmony export */   TerrainRenderer: () => (/* binding */ TerrainRenderer)
 /* harmony export */ });
+/* unused harmony exports terrainRenderer, generateTerrain */
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
 /* harmony import */ var three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/controls/OrbitControls.js */ "./node_modules/three/examples/jsm/controls/OrbitControls.js");
+/* harmony import */ var _controls_KeyboardControls_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./controls/KeyboardControls.js */ "./src/js/controls/KeyboardControls.js");
+/* harmony import */ var _overlays_Overlay2D_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./overlays/Overlay2D.js */ "./src/js/overlays/Overlay2D.js");
 // src/js/terrain.js
 
 
 
-let scene, camera, renderer, controls;
-let keyboardControlsInitialized = false;
 
-// Aircraft-style keyboard controls
-let keyStates = {};
-let movementSpeed = 0.1; // Changed to match HTML default
-let rotationSpeed = 0.02;
-let isKeyboardControlActive = false;
-
-// Movement vectors
-let velocity = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
-let cameraDirection = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
-let cameraRight = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
-let cameraUp = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
-
-function generateTerrain(demData, textureImageData, heightScaleMultiplier = 1, terrainResolution = 30, adjustedZoomLevel = null, sceneResolution = 1, maxTerrainDimension = 1024, textureDownsample = 1, antialiasing = 'auto') {
-  const { width, height, rasters, geoTransform, samplesPerPixel, bbox } = demData;
-
-  // Ochrany proti špatným datům
-  if (width < 2 || height < 2) {
-    console.error("DEM má neplatné rozměry:", width, height);
-    alert("DEM GeoTIFF má příliš malý rozměr (minimálně 2x2 pixelů)");
-    return;
-  }
-
-  // Pro DEM by měl být samplesPerPixel = 1
-  if (samplesPerPixel !== 1) {
-    console.error("DEM by měl mít pouze 1 band, má:", samplesPerPixel);
-    alert("Nahraný soubor není platný DEM (výškový model)");
-    return;
-  }
-
-  // DEM data jsou nyní v rasters[0] (první a jediný band)
-  const elevationData = rasters[0] || rasters;
-  
-  if (!elevationData || elevationData.length !== width * height) {
-    console.error("DEM data neodpovídají rozměrům:", elevationData?.length, width * height);
-    alert("DEM GeoTIFF má neplatná výšková data");
-    return;
-  }
-
-  // Analýza výškových dat pro lepší škálování
-  let minElevation = Infinity;
-  let maxElevation = -Infinity;
-  let validValues = 0;
-  
-  for (let i = 0; i < elevationData.length; i++) {
-    const value = elevationData[i];
-    // Ignoruj NoData hodnoty (často -9999, NaN, nebo extrémní hodnoty)
-    if (isFinite(value) && value > -1000 && value < 10000) {
-      minElevation = Math.min(minElevation, value);
-      maxElevation = Math.max(maxElevation, value);
-      validValues++;
-    }
-  }
-  
-  console.log(`DEM analýza: min=${minElevation}m, max=${maxElevation}m, platných hodnot=${validValues}/${elevationData.length}`);
-  
-  if (validValues === 0) {
-    alert("DEM neobsahuje platné výškové hodnoty");
-    return;
-  }
-
-  // Calculate terrain dimensions based on geographic bounds and user-specified resolution
-  const [west, south, east, north] = bbox;
-  const METERS_PER_DEGREE_LAT = 111000; // Latitude degrees are always ~111km
-  
-  // Calculate center latitude for longitude scaling
-  const centerLat = (north + south) / 2;
-  const METERS_PER_DEGREE_LON = 111000 * Math.cos(centerLat * Math.PI / 180); // Longitude degrees vary by latitude
-  
-  const geographicWidth = Math.abs(east - west) * METERS_PER_DEGREE_LON;
-  const geographicHeight = Math.abs(north - south) * METERS_PER_DEGREE_LAT;
-  
-  // Calculate terrain mesh dimensions based on desired resolution
-  const terrainWidth = Math.ceil(geographicWidth / terrainResolution);
-  const terrainHeight = Math.ceil(geographicHeight / terrainResolution);
-  
-  console.log(`Geografické rozměry: ${geographicWidth.toFixed(0)}m x ${geographicHeight.toFixed(0)}m`);
-  console.log(`Rozlišení terénu: ${terrainResolution}m -> mřížka ${terrainWidth}x${terrainHeight}`);
-  
-  // Build high-resolution elevation grid once based on terrainResolution
-  const highResPixelX = (east - west) / terrainWidth;
-  const highResPixelY = (north - south) / terrainHeight;
-  const highResElev = new Float32Array(terrainWidth * terrainHeight);
-  for (let r = 0; r < terrainHeight; r++) {
-    const lat = north - r * highResPixelY;
-    for (let c = 0; c < terrainWidth; c++) {
-      const lon = west + c * highResPixelX;
-      const e = sampleDEMAtCoordinate(elevationData, width, height, geoTransform, bbox, lon, lat);
-      highResElev[r * terrainWidth + c] = (isFinite(e) && e > -1000 && e < 10000) ? e : 0;
-    }
-  }
-
-  // Use provided advanced settings instead of deriving from complexity
-  console.log(`Pokročilé nastavení: rozlišení scény ${(sceneResolution * 100).toFixed(0)}%, max rozměr ${maxTerrainDimension}, texture downsample ${textureDownsample}x, antialiasing ${antialiasing}`);
-  
-  let finalTerrainWidth = terrainWidth;
-  let finalTerrainHeight = terrainHeight;
-  
-  if (terrainWidth > maxTerrainDimension || terrainHeight > maxTerrainDimension) {
-    const scaleFactor = Math.min(
-      maxTerrainDimension / terrainWidth,
-      maxTerrainDimension / terrainHeight
-    );
-    finalTerrainWidth = Math.floor(terrainWidth * scaleFactor);
-    finalTerrainHeight = Math.floor(terrainHeight * scaleFactor);
-    const actualResolution = Math.max(
-      geographicWidth / finalTerrainWidth,
-      geographicHeight / finalTerrainHeight
-    );
-    
-    console.log(`Omezuji rozměry terénu na ${finalTerrainWidth}x${finalTerrainHeight} (skutečné rozlišení: ${actualResolution.toFixed(1)}m)`);
-  }
-
-  // Determine antialiasing setting
-  let useAntialiasing;
-  if (antialiasing === 'auto') {
-    useAntialiasing = sceneResolution >= 0.75;
-  } else {
-    useAntialiasing = antialiasing === 'true';
-  }
-
-  initThree(sceneResolution, useAntialiasing);
-
-  // Create texture from ImageData with specified downsampling
-  const texture = new three__WEBPACK_IMPORTED_MODULE_0__.CanvasTexture(imageDataToCanvas(downsampleImageData(textureImageData, textureDownsample)));
-  
-  // Fix texture orientation - enable flipY to correct North-South texture mapping
-  texture.flipY = true;
-  texture.premultiplyAlpha = false;
-  texture.needsUpdate = true;
-  texture.magFilter = three__WEBPACK_IMPORTED_MODULE_0__.LinearFilter;
-  texture.minFilter = three__WEBPACK_IMPORTED_MODULE_0__.LinearFilter;
-  texture.generateMipmaps = false;
-  
-  // Create high-resolution terrain geometry
-  const geometry = new three__WEBPACK_IMPORTED_MODULE_0__.PlaneGeometry(1, 1, finalTerrainWidth - 1, finalTerrainHeight - 1);
-  const positions = geometry.attributes.position.array;
-
-  // Map high-resolution elevation to down-sampled mesh vertices
-  const scaleX = terrainWidth / finalTerrainWidth;
-  const scaleY = terrainHeight / finalTerrainHeight;
-  const smoothThreshold = Math.max(1, (maxElevation - minElevation) * 0.01); // 1 % of elev range (~small noise)
-  for (let i = 0, j = 0; i < positions.length; i += 3, j++) {
-    const row = Math.floor(j / finalTerrainWidth);
-    const col = j % finalTerrainWidth;
-
-    const srcY = row * scaleY;
-    const srcX = col * scaleX;
-    const y0 = Math.floor(srcY);
-    const x0 = Math.floor(srcX);
-    const y1 = Math.min(y0 + 1, terrainHeight - 1);
-    const x1 = Math.min(x0 + 1, terrainWidth - 1);
-    const dy = srcY - y0;
-    const dx = srcX - x0;
-
-    const e00 = highResElev[y0 * terrainWidth + x0];
-    const e10 = highResElev[y0 * terrainWidth + x1];
-    const e01 = highResElev[y1 * terrainWidth + x0];
-    const e11 = highResElev[y1 * terrainWidth + x1];
-
-    let elevation;
-    const localMin = Math.min(e00, e10, e01, e11);
-    const localMax = Math.max(e00, e10, e01, e11);
-    if (localMax - localMin < smoothThreshold) {
-      // Low local relief → average to smooth small steps
-      elevation = (e00 + e10 + e01 + e11) * 0.25;
-    } else {
-      // Significant relief → preserve detail with bilinear interpolation
-      const e0 = e00 * (1 - dx) + e10 * dx;
-      const e1 = e01 * (1 - dx) + e11 * dx;
-      elevation = e0 * (1 - dy) + e1 * dy;
-    }
-
-    positions[i + 2] = (elevation - minElevation) * getHeightScale(geographicWidth, geographicHeight, maxElevation - minElevation, heightScaleMultiplier);
-  }
-
-  geometry.computeVertexNormals();
-
-  const material = new three__WEBPACK_IMPORTED_MODULE_0__.MeshPhongMaterial({ 
-    map: texture,
-    side: three__WEBPACK_IMPORTED_MODULE_0__.DoubleSide
-  });
-  const mesh = new three__WEBPACK_IMPORTED_MODULE_0__.Mesh(geometry, material);
-  mesh.rotateX(-Math.PI / 2); // Revert to original rotation
-  
-  // Scale mesh to match geographic dimensions
-  const SCENE_SCALE = 1000;
-  const finalScaleX = geographicWidth / SCENE_SCALE;
-  const finalScaleY = geographicHeight / SCENE_SCALE;
-  
-  // Use normal positive scaling for both axes - no flipping needed
-  mesh.scale.set(finalScaleX, finalScaleY, 1);
-  mesh.position.set(0, 0, 0);
-  
-  console.log(`3D scéna škálování: ${finalScaleX.toFixed(2)} x ${finalScaleY.toFixed(2)}`);
-  
-  scene.add(mesh);
-  
-  // Position camera appropriately
-  const maxDimension = Math.max(finalScaleX, finalScaleY);
-  const cameraDistance = maxDimension * 2;
-  
-  camera.position.set(0, cameraDistance * 0.8, cameraDistance * 0.6);
-  camera.lookAt(0, 0, 0);
-  
-  controls.target.set(0, 0, 0);
-  controls.update();
-  
-  console.log(`Kamera pozice: ${camera.position.x.toFixed(2)}, ${camera.position.y.toFixed(2)}, ${camera.position.z.toFixed(2)}`);
-  console.log(`Kamera vzdálenost: ${cameraDistance.toFixed(2)} jednotek`);
-}
-
-// Helper function to calculate appropriate height scaling
-function getHeightScale(geographicWidth, geographicHeight, elevationRange, heightScaleMultiplier) {
-  const SCENE_SCALE = 1000;
-  const horizontalScale = Math.max(geographicWidth, geographicHeight) / SCENE_SCALE;
-  const baseHeightScale = elevationRange > 0 ? (horizontalScale * 0.01) / elevationRange : 0.001;
-  return baseHeightScale * heightScaleMultiplier;
-}
-
-// Helper function to sample DEM elevation at geographic coordinates
-function sampleDEMAtCoordinate(elevationData, width, height, geoTransform, bbox, lon, lat) {
-  const [west, south, east, north] = bbox;
-  
-  // Check if coordinate is within DEM bounds
-  if (lon < west || lon > east || lat < south || lat > north) {
-    return 0;
-  }
-  
-  // Convert geographic coordinates to pixel coordinates (floating point)
-  const x = (lon - geoTransform.originX) / geoTransform.pixelSizeX;
-  const y = (lat - geoTransform.originY) / geoTransform.pixelSizeY;
-  
-  // Bilinear interpolation in source DEM raster
-  const x0 = Math.floor(x);
-  const y0 = Math.floor(y);
-  const x1 = Math.min(x0 + 1, width - 1);
-  const y1 = Math.min(y0 + 1, height - 1);
-  const dx = x - x0;
-  const dy = y - y0;
-
-  const getSafe = (c, r) => {
-    if (c < 0 || c >= width || r < 0 || r >= height) return 0;
-    const val = elevationData[r * width + c];
-    return (isFinite(val) && val > -1000 && val < 10000) ? val : 0;
-  };
-
-  const e00 = getSafe(x0, y0);
-  const e10 = getSafe(x1, y0);
-  const e01 = getSafe(x0, y1);
-  const e11 = getSafe(x1, y1);
-
-  const e0 = e00 * (1 - dx) + e10 * dx;
-  const e1 = e01 * (1 - dx) + e11 * dx;
-  const elevation = e0 * (1 - dy) + e1 * dy;
-  
-  return elevation;
-}
-
-function initThree(sceneResolutionScale, useAntialiasing) {
-  if (scene) {
-    // Clean up existing scene to prevent WebGL conflicts
-    scene.traverse((child) => {
-      if (child.isMesh) {
-        if (child.geometry) child.geometry.dispose();
-        if (child.material) {
-          if (child.material.map) child.material.map.dispose();
-          child.material.dispose();
-        }
-      }
-    });
-    scene.clear();
-    
-    // Ensure keyboard controls are initialized
-    if (!keyboardControlsInitialized) {
-      initKeyboardControls();
-    }
-    return;
-  }
-
-  scene = new three__WEBPACK_IMPORTED_MODULE_0__.Scene();
-  scene.background = new three__WEBPACK_IMPORTED_MODULE_0__.Color(0xbfd1e5);
-
-  const aspect = window.innerWidth / window.innerHeight;
-  camera = new three__WEBPACK_IMPORTED_MODULE_0__.PerspectiveCamera(60, aspect, 0.1, 10000);
-  camera.position.set(0, 100, 100);
-
-  const canvas = document.getElementById('three-canvas');
-  renderer = new three__WEBPACK_IMPORTED_MODULE_0__.WebGLRenderer({
-    canvas: canvas,
-    antialias: useAntialiasing
-  });
-  
-  // Calculate actual render size based on resolution scale
-  const renderWidth = Math.floor(window.innerWidth * sceneResolutionScale);
-  const renderHeight = Math.floor(window.innerHeight * sceneResolutionScale);
-  
-  // Set renderer size to the scaled resolution
-  renderer.setSize(renderWidth, renderHeight, false);
-  
-  // Scale canvas to full window size via CSS
-  canvas.style.width = window.innerWidth + 'px';
-  canvas.style.height = window.innerHeight + 'px';
-  
-  // Adjust pixel ratio for performance
-  const pixelRatio = Math.min(window.devicePixelRatio * sceneResolutionScale, 2);
-  renderer.setPixelRatio(pixelRatio);
-  
-  console.log(`Scene resolution: ${renderWidth}x${renderHeight} (${(sceneResolutionScale * 100).toFixed(0)}% scale, antialiasing: ${useAntialiasing})`);
-
-  controls = new three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(camera, renderer.domElement);
-  controls.target.set(0, 0, 0);
-  controls.update();
-
-  const light = new three__WEBPACK_IMPORTED_MODULE_0__.DirectionalLight(0xffffff, 1);
-  light.position.set(100, 200, 100);
-  scene.add(light);
-  scene.add(new three__WEBPACK_IMPORTED_MODULE_0__.AmbientLight(0xffffff, 0.5));
-
-  // Initialize keyboard controls
-  initKeyboardControls();
-
-  animate();
-}
-
-function initKeyboardControls() {
-  keyboardControlsInitialized = true;
-  // Initialize speed slider
-  const speedSlider = document.getElementById('movementSpeed');
-  const speedValue = document.getElementById('speedValue');
-  
-  if (speedSlider && speedValue) {
-    // Update movement speed when slider changes
-    speedSlider.addEventListener('input', (event) => {
-      movementSpeed = parseFloat(event.target.value);
-      speedValue.textContent = movementSpeed.toFixed(3);
-    });
-    
-    // Set initial value
-    movementSpeed = parseFloat(speedSlider.value);
-    speedValue.textContent = movementSpeed.toFixed(3);
-  }
-
-  // Initialize rotation speed slider
-  const rotationSpeedSlider = document.getElementById('rotationSpeed');
-  const rotationSpeedValue = document.getElementById('rotationSpeedValue');
-  
-  if (rotationSpeedSlider && rotationSpeedValue) {
-    // Update rotation speed when slider changes
-    rotationSpeedSlider.addEventListener('input', (event) => {
-      rotationSpeed = parseFloat(event.target.value);
-      rotationSpeedValue.textContent = rotationSpeed.toFixed(3);
-    });
-    
-    // Set initial value
-    rotationSpeed = parseFloat(rotationSpeedSlider.value);
-    rotationSpeedValue.textContent = rotationSpeed.toFixed(3);
-  }
-
-  // Keyboard event listeners
-  document.addEventListener('keydown', (event) => {
-    const key = event.code;
-    keyStates[key] = true;
-    
-    // Check if any movement keys are pressed
-    const movementKeys = ['KeyW', 'KeyS', 'KeyA', 'KeyD', 'KeyQ', 'KeyE', 'KeyR', 'KeyF', 'KeyT', 'KeyG'];
-    if (movementKeys.includes(key)) {
-      isKeyboardControlActive = true;
-      controls.enabled = false; // Disable OrbitControls when using keyboard
-      event.preventDefault();
-    }
-  });
-
-  document.addEventListener('keyup', (event) => {
-    const key = event.code;
-    keyStates[key] = false;
-    event.preventDefault();
-  });
-
-  // Mouse click event to restore mouse controls
-  renderer.domElement.addEventListener('mousedown', (event) => {
-    // Don't interfere with hamburger button clicks
-    const hamburgerBtn = document.getElementById('hamburger-btn');
-    if (hamburgerBtn && (event.target === hamburgerBtn || hamburgerBtn.contains(event.target))) {
-      return;
-    }
-    
-    if (isKeyboardControlActive) {
-      // Check if no movement keys are currently pressed
-      const movementKeys = ['KeyW', 'KeyS', 'KeyA', 'KeyD', 'KeyQ', 'KeyE', 'KeyR', 'KeyF', 'KeyT', 'KeyG'];
-      const anyMovementKeyPressed = movementKeys.some(k => keyStates[k]);
-      
-      if (!anyMovementKeyPressed) {
-        isKeyboardControlActive = false;
-        controls.enabled = true; // Re-enable OrbitControls on mouse click
-        controls.update();
-      }
-    }
-  });
-
-  // Handle window focus/blur to reset key states
-  window.addEventListener('blur', () => {
-    keyStates = {};
-    isKeyboardControlActive = false;
-    controls.enabled = true;
-  });
-}
-
-function updateKeyboardControls() {
-  if (!isKeyboardControlActive) return;
-
-  // Level the camera (set roll to 0) before applying keyboard controls
-  // levelCameraRoll(); // Temporarily disabled to fix upside-down issue
-
-  // Reset velocity
-  velocity.set(0, 0, 0);
-
-  // Get camera direction vectors AFTER leveling
-  camera.getWorldDirection(cameraDirection);
-  
-  // Calculate horizontal right vector for consistent pitch behavior
-  const horizontalForward = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3(cameraDirection.x, 0, cameraDirection.z).normalize();
-  const horizontalRight = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3().crossVectors(horizontalForward, new three__WEBPACK_IMPORTED_MODULE_0__.Vector3(0, 1, 0)).normalize();
-  
-  // Use the leveled camera's up vector for yaw
-  cameraUp.copy(camera.up);
-
-  // Movement controls (WASD)
-  if (keyStates['KeyW']) { // Forward (horizontal movement only)
-    // Use horizontal forward direction, ignoring camera pitch
-    velocity.add(horizontalForward.clone().multiplyScalar(movementSpeed));
-  }
-  if (keyStates['KeyS']) { // Backward (horizontal movement only)
-    // Use horizontal forward direction, ignoring camera pitch
-    velocity.add(horizontalForward.clone().multiplyScalar(-movementSpeed));
-  }
-  if (keyStates['KeyA']) { // Strafe left
-    velocity.add(horizontalRight.clone().multiplyScalar(-movementSpeed));
-  }
-  if (keyStates['KeyD']) { // Strafe right
-    velocity.add(horizontalRight.clone().multiplyScalar(movementSpeed));
-  }
-
-  // Apply movement
-  camera.position.add(velocity);
-
-  // Hover controls (vertical movement)
-  const hoverMovementScale = 0.5;
-  if (keyStates['KeyT']) { // Hover up (climb)
-    camera.position.y += hoverMovementScale * movementSpeed;
-  }
-  if (keyStates['KeyG']) { // Hover down (descent)
-    camera.position.y -= hoverMovementScale * movementSpeed;
-  }
-
-  // Rotation controls using consistent vectors
-  if (keyStates['KeyQ']) { // Yaw left (around world Y-axis)
-    camera.rotateOnWorldAxis(new three__WEBPACK_IMPORTED_MODULE_0__.Vector3(0, 1, 0), rotationSpeed);
-  }
-  if (keyStates['KeyE']) { // Yaw right (around world Y-axis)
-    camera.rotateOnWorldAxis(new three__WEBPACK_IMPORTED_MODULE_0__.Vector3(0, 1, 0), -rotationSpeed);
-  }
-  if (keyStates['KeyR']) { // Pitch up (using horizontal right vector)
-    camera.rotateOnWorldAxis(horizontalRight, rotationSpeed);
-  }
-  if (keyStates['KeyF']) { // Pitch down (using horizontal right vector)
-    camera.rotateOnWorldAxis(horizontalRight, -rotationSpeed);
-  }
-}
-
-function levelCameraRoll() {
-  // Get the camera's current forward direction
-  const forward = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
-  camera.getWorldDirection(forward);
-  
-  // Create a target up vector (world up)
-  const worldUp = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3(0, 1, 0);
-  
-  // Calculate the right vector (perpendicular to forward and world up)
-  const right = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3().crossVectors(forward, worldUp).normalize();
-  
-  // Calculate the corrected up vector (perpendicular to forward and right)
-  const correctedUp = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3().crossVectors(right, forward.negate()).normalize();
-  
-  // Create a rotation matrix with the corrected orientation
-  const matrix = new three__WEBPACK_IMPORTED_MODULE_0__.Matrix4();
-  matrix.makeBasis(right, correctedUp, forward.negate());
-  
-  // Apply the rotation to the camera
-  camera.rotation.setFromRotationMatrix(matrix);
-}
-
-function animate() {
-  requestAnimationFrame(animate);
-  
-  // Update keyboard controls
-  updateKeyboardControls();
-  
-  // Update OrbitControls only when keyboard is not active
-  if (!isKeyboardControlActive) {
-    controls.update();
-  }
-  
-  // Update compass rotation based on camera azimuth
-  updateCompassRotation();
-  
-  renderer.render(scene, camera);
-}
 
 /**
- * Update the 2D compass rotation to match the camera's azimuth angle
+ * Modern TerrainRenderer class for 3D terrain visualization
+ * Handles Three.js scene setup, terrain generation, and rendering
  */
-function updateCompassRotation() {
-  const compassElement = document.getElementById('north-arrow');
-  if (!compassElement || !controls) return;
-  
-  // Calculate camera azimuth (horizontal rotation around Y axis)
-  const cameraDirection = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3();
-  camera.getWorldDirection(cameraDirection);
-  
-  // Project camera direction onto horizontal plane (ignore Y component)
-  const horizontalDirection = new three__WEBPACK_IMPORTED_MODULE_0__.Vector3(cameraDirection.x, 0, cameraDirection.z).normalize();
-  
-  // Calculate angle from North (positive Z axis)
-  // In our coordinate system, North is positive Z direction
-  // But we need to calculate the angle from where North should be relative to camera
-  // Adjust for flipped X coordinate system from mesh scale
-  let azimuthAngle = Math.atan2(horizontalDirection.x, horizontalDirection.z);
-  
-  // Convert to degrees
-  let azimuthDegrees = azimuthAngle * (180 / Math.PI);
-  
-  // Add 180 degrees to flip the direction (since we want North relative to camera, not camera relative to North)
-  azimuthDegrees += 180;
-  
-  // Rotate the compass rose to point North correctly
-  const compassRose = compassElement.querySelector('.compass-rose');
-  if (compassRose) {
-    compassRose.style.transform = `rotate(${azimuthDegrees}deg)`;
+class TerrainRenderer {
+  constructor() {
+    // Three.js core objects
+    this.scene = null;
+    this.camera = null;
+    this.renderer = null;
+    this.controls = null;
+    
+    // Control and overlay systems
+    this.keyboardControls = null;
+    this.overlay2D = null;
+    
+    // Animation state
+    this.animationId = null;
+    this.isAnimating = false;
+    
+    // Bind methods to preserve 'this' context
+    this.animate = this.animate.bind(this);
+    this.handleWindowResize = this.handleWindowResize.bind(this);
   }
-}
-
-function imageDataToCanvas(imageData) {
-  const canvas = document.createElement('canvas');
-  canvas.width = imageData.width;
-  canvas.height = imageData.height;
-  const ctx = canvas.getContext('2d');
-  ctx.putImageData(imageData, 0, 0);
-  return canvas;
-}
-
-function downsampleImageData(imageData, factor) {
-  const newWidth = Math.floor(imageData.width / factor);
-  const newHeight = Math.floor(imageData.height / factor);
-  const newImageData = new ImageData(newWidth, newHeight);
-
-  for (let y = 0; y < newHeight; y++) {
-    for (let x = 0; x < newWidth; x++) {
-      const sourceX = Math.floor(x * factor);
-      const sourceY = Math.floor(y * factor);
-      const sourceIndex = (sourceY * imageData.width * 4) + (sourceX * 4);
-      const targetIndex = (y * newWidth * 4) + (x * 4);
-      newImageData.data[targetIndex] = imageData.data[sourceIndex];
-      newImageData.data[targetIndex + 1] = imageData.data[sourceIndex + 1];
-      newImageData.data[targetIndex + 2] = imageData.data[sourceIndex + 2];
-      newImageData.data[targetIndex + 3] = imageData.data[sourceIndex + 3];
+  
+  /**
+   * Generate and display 3D terrain from DEM and texture data
+   */
+  async generateTerrain(demData, textureImageData, heightScaleMultiplier = 1, terrainResolution = 30, adjustedZoomLevel = null, sceneResolution = 1, maxTerrainDimension = 1024, textureDownsample = 1, antialiasing = 'auto') {
+    try {
+      // Validate input data
+      this.validateDEMData(demData);
+      
+      const { width, height, rasters, geoTransform, samplesPerPixel, bbox } = demData;
+      const elevationData = rasters[0] || rasters;
+      
+      // Analyze elevation data
+      const elevationStats = this.analyzeElevationData(elevationData);
+      console.log(`DEM analýza: min=${elevationStats.min}m, max=${elevationStats.max}m, platných hodnot=${elevationStats.validCount}/${elevationData.length}`);
+      
+      // Calculate terrain dimensions
+      const terrainDimensions = this.calculateTerrainDimensions(bbox, terrainResolution, maxTerrainDimension);
+      console.log(`Geografické rozměry: ${terrainDimensions.realWorldWidth.toFixed(0)}m x ${terrainDimensions.realWorldHeight.toFixed(0)}m`);
+      console.log(`Rozlišení terénu: ${terrainResolution}m -> mřížka ${terrainDimensions.terrainWidth}x${terrainDimensions.terrainHeight}`);
+      console.log(`Mesh rozměry: ${terrainDimensions.meshWidth}x${terrainDimensions.meshHeight} (omezeno ${maxTerrainDimension})`);
+      
+      // Check if DEM data is already resampled to tile bounds
+      // If the DEM dimensions match or are close to the texture dimensions, use it directly
+      const isPreResampled = textureImageData && 
+        Math.abs(width - textureImageData.width) < 100 && 
+        Math.abs(height - textureImageData.height) < 100;
+      
+      let highResElev;
+      if (isPreResampled) {
+        console.log('Using pre-resampled DEM data directly');
+        // Use the resampled DEM data directly, but resize to match terrain dimensions
+        highResElev = this.resizeElevationGrid(elevationData, width, height, terrainDimensions);
+      } else {
+        console.log('Building high-resolution elevation grid from original DEM');
+        // Build high-resolution elevation grid by sampling from original DEM
+        highResElev = this.buildHighResolutionElevationGrid(elevationData, width, height, geoTransform, bbox, terrainDimensions);
+      }
+      
+      console.log(`Built high-res elevation grid: ${highResElev.length} values`);
+      
+      // Sample a few values for debugging
+      const sampleIndices = [0, Math.floor(highResElev.length * 0.25), Math.floor(highResElev.length * 0.5), Math.floor(highResElev.length * 0.75), highResElev.length - 1];
+      const samples = sampleIndices.map(i => highResElev[i]);
+      console.log(`Sample high-res elevations:`, samples);
+      
+      console.log('About to create terrain geometry...');
+      
+      // Create terrain geometry
+      const geometry = this.createTerrainGeometry(terrainDimensions, highResElev, elevationStats, heightScaleMultiplier);
+      console.log('Terrain geometry created successfully');
+      
+      // Create terrain texture
+      const texture = this.createTerrainTexture(textureImageData, textureDownsample);
+      
+      // Initialize Three.js scene
+      this.initThreeJS(antialiasing);
+      
+      // Create and add terrain mesh
+      const terrainMesh = this.createTerrainMesh(geometry, texture, terrainDimensions);
+      this.scene.add(terrainMesh);
+      
+      // Add lighting
+      this.setupLighting();
+      
+      // Initialize controls and overlays
+      this.initControlsAndOverlays();
+      
+      // Position camera
+      this.positionCamera(terrainDimensions);
+      
+      // Start animation loop
+      this.startAnimation();
+      
+      console.log("Terén úspěšně vygenerován!");
+      
+    } catch (error) {
+      console.error("Chyba při generování terénu:", error);
+      throw error;
     }
   }
+  
+  /**
+   * Validate DEM data structure and dimensions
+   */
+  validateDEMData(demData) {
+    const { width, height, samplesPerPixel, rasters } = demData;
+    
+    if (width < 2 || height < 2) {
+      throw new Error("DEM má neplatné rozměry: minimálně 2x2 pixelů");
+    }
+    
+    if (samplesPerPixel !== 1) {
+      throw new Error("Nahraný soubor není platný DEM (výškový model)");
+    }
+    
+    // Validate elevation data array
+    const elevationData = rasters[0] || rasters;
+    if (!elevationData || elevationData.length !== width * height) {
+      throw new Error("DEM GeoTIFF má neplatná výšková data");
+    }
+  }
+  
+  /**
+   * Analyze elevation data for statistics
+   */
+  analyzeElevationData(elevationData) {
+    let minElevation = Infinity;
+    let maxElevation = -Infinity;
+    let validCount = 0;
+    
+    for (let i = 0; i < elevationData.length; i++) {
+      const value = elevationData[i];
+      // Ignore NoData values (often -9999, NaN, or extreme values)
+      if (isFinite(value) && value > -1000 && value < 10000) {
+        minElevation = Math.min(minElevation, value);
+        maxElevation = Math.max(maxElevation, value);
+        validCount++;
+      }
+    }
+    
+    return {
+      min: minElevation,
+      max: maxElevation,
+      validCount: validCount,
+      range: maxElevation - minElevation
+    };
+  }
+  
+  /**
+   * Calculate terrain dimensions based on geographic bounds and resolution
+   */
+  calculateTerrainDimensions(bbox, terrainResolution, maxTerrainDimension) {
+    const [west, south, east, north] = bbox;
+    const METERS_PER_DEGREE_LAT = 111000;
+    
+    // Calculate center latitude for longitude scaling
+    const centerLat = (north + south) / 2;
+    const METERS_PER_DEGREE_LON = 111000 * Math.cos(centerLat * Math.PI / 180);
+    
+    const geographicWidth = Math.abs(east - west) * METERS_PER_DEGREE_LON;
+    const geographicHeight = Math.abs(north - south) * METERS_PER_DEGREE_LAT;
+    
+    // Calculate terrain mesh dimensions based on desired resolution
+    const terrainWidth = Math.ceil(geographicWidth / terrainResolution);
+    const terrainHeight = Math.ceil(geographicHeight / terrainResolution);
+    
+    // Limit mesh dimensions based on maxTerrainDimension
+    const meshWidth = Math.min(terrainWidth, maxTerrainDimension);
+    const meshHeight = Math.min(terrainHeight, maxTerrainDimension);
+    
+    return {
+      realWorldWidth: geographicWidth,
+      realWorldHeight: geographicHeight,
+      terrainWidth,
+      terrainHeight,
+      meshWidth,
+      meshHeight
+    };
+  }
+  
+  /**
+   * Build high-resolution elevation grid
+   */
+  buildHighResolutionElevationGrid(elevationData, width, height, geoTransform, bbox, dimensions) {
+    const [west, south, east, north] = bbox;
+    const { terrainWidth, terrainHeight } = dimensions;
+    
+    const highResPixelX = (east - west) / terrainWidth;
+    const highResPixelY = (north - south) / terrainHeight;
+    const highResElev = new Float32Array(terrainWidth * terrainHeight);
+    
+    for (let r = 0; r < terrainHeight; r++) {
+      const lat = north - r * highResPixelY;
+      for (let c = 0; c < terrainWidth; c++) {
+        const lon = west + c * highResPixelX;
+        const elevation = this.sampleDEMAtCoordinate(elevationData, width, height, geoTransform, bbox, lon, lat);
+        highResElev[r * terrainWidth + c] = elevation;
+      }
+    }
+    
+    return highResElev;
+  }
+  
+  /**
+   * Resize elevation grid to match terrain dimensions
+   */
+  resizeElevationGrid(elevationData, width, height, dimensions) {
+    const { terrainWidth, terrainHeight } = dimensions;
+    
+    const resizedElev = new Float32Array(terrainWidth * terrainHeight);
+    
+    for (let r = 0; r < terrainHeight; r++) {
+      for (let c = 0; c < terrainWidth; c++) {
+        const sourceX = Math.floor(c * width / terrainWidth);
+        const sourceY = Math.floor(r * height / terrainHeight);
+        const sourceIndex = sourceY * width + sourceX;
+        const targetIndex = r * terrainWidth + c;
+        resizedElev[targetIndex] = elevationData[sourceIndex];
+      }
+    }
+    
+    return resizedElev;
+  }
+  
+  /**
+   * Create terrain geometry with elevation data
+   */
+  createTerrainGeometry(dimensions, highResElev, elevationStats, heightScaleMultiplier) {
+    const { realWorldWidth, realWorldHeight, meshWidth, meshHeight, terrainWidth, terrainHeight } = dimensions;
+    
+    const geometry = new three__WEBPACK_IMPORTED_MODULE_0__.PlaneGeometry(realWorldWidth, realWorldHeight, meshWidth - 1, meshHeight - 1);
+    const vertices = geometry.attributes.position.array;
+    
+    const heightScale = this.calculateHeightScale(realWorldWidth, realWorldHeight, elevationStats.range, heightScaleMultiplier);
+    
+    // Map high-resolution elevation data to mesh vertices
+    for (let r = 0; r < meshHeight; r++) {
+      for (let c = 0; c < meshWidth; c++) {
+        // Calculate corresponding position in high-res data
+        const highResR = Math.floor((r / (meshHeight - 1)) * (terrainHeight - 1));
+        const highResC = Math.floor((c / (meshWidth - 1)) * (terrainWidth - 1));
+        
+        const elevation = highResElev[highResR * terrainWidth + highResC];
+        const vertexIndex = r * meshWidth + c;
+        
+        // Set the Z coordinate (height)
+        if (isFinite(elevation)) {
+          vertices[vertexIndex * 3 + 2] = (elevation - elevationStats.min) * heightScale;
+        } else {
+          vertices[vertexIndex * 3 + 2] = 0; // Default height for invalid data
+        }
+      }
+    }
+    
+    // Update geometry after modifying vertices
+    geometry.attributes.position.needsUpdate = true;
+    geometry.computeVertexNormals();
+    
+    return geometry;
+  }
+  
+  /**
+   * Create terrain texture from image data
+   */
+  createTerrainTexture(textureImageData, textureDownsample) {
+    if (textureImageData) {
+      // Downsample texture if requested
+      let finalImageData = textureImageData;
+      if (textureDownsample > 1) {
+        finalImageData = this.downsampleImageData(textureImageData, textureDownsample);
+      }
+      
+      const canvas = this.imageDataToCanvas(finalImageData);
+      const texture = new three__WEBPACK_IMPORTED_MODULE_0__.CanvasTexture(canvas);
+      texture.wrapS = three__WEBPACK_IMPORTED_MODULE_0__.ClampToEdgeWrapping;
+      texture.wrapT = three__WEBPACK_IMPORTED_MODULE_0__.ClampToEdgeWrapping;
+      return texture;
+    } else {
+      // Default texture if no OSM tiles
+      const texture = new three__WEBPACK_IMPORTED_MODULE_0__.Texture();
+      texture.image = { width: 1, height: 1, data: new Uint8Array([128, 128, 128, 255]) };
+      texture.needsUpdate = true;
+      return texture;
+    }
+  }
+  
+  /**
+   * Create terrain mesh with geometry and texture
+   */
+  createTerrainMesh(geometry, texture, dimensions) {
+    const material = new three__WEBPACK_IMPORTED_MODULE_0__.MeshLambertMaterial({ 
+      map: texture,
+      side: three__WEBPACK_IMPORTED_MODULE_0__.DoubleSide
+    });
+    
+    const terrainMesh = new three__WEBPACK_IMPORTED_MODULE_0__.Mesh(geometry, material);
+    terrainMesh.rotation.x = -Math.PI / 2; // Rotate to make it horizontal
+    // Remove the X-axis flip that was causing west-east mirroring
+    // terrainMesh.scale.x = -1; // Flip X to match geographic orientation
+    
+    return terrainMesh;
+  }
+  
+  /**
+   * Initialize Three.js scene, camera, and renderer
+   */
+  initThreeJS(antialiasing) {
+    // Create scene
+    this.scene = new three__WEBPACK_IMPORTED_MODULE_0__.Scene();
+    this.scene.background = new three__WEBPACK_IMPORTED_MODULE_0__.Color(0x87CEEB); // Sky blue
+    
+    // Create camera
+    const canvas = document.getElementById('three-canvas');
+    const aspect = canvas.clientWidth / canvas.clientHeight;
+    this.camera = new three__WEBPACK_IMPORTED_MODULE_0__.PerspectiveCamera(75, aspect, 0.1, 100000);
+    
+    // Determine antialiasing setting
+    let antialias = false;
+    if (antialiasing === 'auto') {
+      antialias = window.devicePixelRatio <= 2;
+    } else if (antialiasing === 'true' || antialiasing === true) {
+      antialias = true;
+    }
+    
+    // Create renderer
+    this.renderer = new three__WEBPACK_IMPORTED_MODULE_0__.WebGLRenderer({ 
+      canvas: canvas,
+      antialias: antialias
+    });
+    
+    // Set size based on resolution scale
+    const width = Math.floor(canvas.clientWidth);
+    const height = Math.floor(canvas.clientHeight);
+    this.renderer.setSize(width, height, false);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    
+    // Enable shadows
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = three__WEBPACK_IMPORTED_MODULE_0__.PCFSoftShadowMap;
+    
+    // Create orbit controls
+    this.controls = new three_examples_jsm_controls_OrbitControls_js__WEBPACK_IMPORTED_MODULE_1__.OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.enableDamping = true;
+    this.controls.dampingFactor = 0.05;
+    this.controls.screenSpacePanning = false;
+    this.controls.minDistance = 1;
+    this.controls.maxDistance = 50000;
+    this.controls.maxPolarAngle = Math.PI;
+    
+    // Handle window resize
+    window.addEventListener('resize', this.handleWindowResize);
+  }
+  
+  /**
+   * Setup lighting for the scene
+   */
+  setupLighting() {
+    const ambientLight = new three__WEBPACK_IMPORTED_MODULE_0__.AmbientLight(0x404040, 0.6);
+    this.scene.add(ambientLight);
+    
+    const directionalLight = new three__WEBPACK_IMPORTED_MODULE_0__.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(1, 1, 1);
+    this.scene.add(directionalLight);
+  }
+  
+  /**
+   * Initialize keyboard controls and 2D overlays
+   */
+  initControlsAndOverlays() {
+    // Initialize keyboard controls
+    this.keyboardControls = new _controls_KeyboardControls_js__WEBPACK_IMPORTED_MODULE_2__.KeyboardControls(this.camera, this.controls, this.renderer);
+    this.keyboardControls.init();
+    
+    // Initialize 2D overlay system
+    this.overlay2D = new _overlays_Overlay2D_js__WEBPACK_IMPORTED_MODULE_3__.Overlay2D(this.camera, this.keyboardControls);
+    this.overlay2D.init();
+    this.overlay2D.show();
+    
+    // Set up communication between controls and overlays
+    this.overlay2D.setSpeedChangeCallback((type, value) => {
+      if (type === 'movement') {
+        this.keyboardControls.setMovementSpeed(value);
+      } else if (type === 'rotation') {
+        this.keyboardControls.setRotationSpeed(value);
+      }
+    });
+    
+    // Sync initial speed values
+    this.keyboardControls.setMovementSpeed(this.overlay2D.getMovementSpeed());
+    this.keyboardControls.setRotationSpeed(this.overlay2D.getRotationSpeed());
+  }
+  
+  /**
+   * Position camera appropriately for the terrain
+   */
+  positionCamera(dimensions) {
+    const maxDimension = Math.max(dimensions.realWorldWidth, dimensions.realWorldHeight);
+    this.camera.position.set(0, maxDimension * 0.5, maxDimension * 0.3);
+    this.camera.lookAt(0, 0, 0);
+  }
+  
+  /**
+   * Start the animation loop
+   */
+  startAnimation() {
+    if (!this.isAnimating) {
+      this.isAnimating = true;
+      this.animate();
+    }
+  }
+  
+  /**
+   * Stop the animation loop
+   */
+  stopAnimation() {
+    if (this.animationId) {
+      cancelAnimationFrame(this.animationId);
+      this.animationId = null;
+    }
+    this.isAnimating = false;
+  }
+  
+  /**
+   * Animation loop
+   */
+  animate() {
+    if (!this.isAnimating) return;
+    
+    this.animationId = requestAnimationFrame(this.animate);
+    
+    // Update keyboard controls
+    if (this.keyboardControls) {
+      this.keyboardControls.update();
+    }
+    
+    // Update OrbitControls only when keyboard is not active
+    if (this.controls && (!this.keyboardControls || !this.keyboardControls.isKeyboardActive())) {
+      this.controls.update();
+    }
+    
+    // Update 2D overlays (compass rotation, etc.)
+    if (this.overlay2D) {
+      this.overlay2D.update();
+    }
+    
+    this.renderer.render(this.scene, this.camera);
+  }
+  
+  /**
+   * Handle window resize events
+   */
+  handleWindowResize() {
+    if (!this.camera || !this.renderer) return;
+    
+    const canvas = document.getElementById('three-canvas');
+    this.camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+  }
+  
+  /**
+   * Calculate appropriate height scaling
+   */
+  calculateHeightScale(geographicWidth, geographicHeight, elevationRange, heightScaleMultiplier) {
+    // Ensure we don't divide by zero
+    if (elevationRange <= 0) {
+      console.warn("Elevation range is zero or negative, using default scaling");
+      return heightScaleMultiplier; // Use the multiplier directly
+    }
+    
+    // Use the heightScaleMultiplier directly as the scaling factor
+    // This makes "2x" in the UI actually mean 2x elevation scaling
+    const finalScale = heightScaleMultiplier;
+    
+    console.log(`Height scale details: terrainSize=${Math.max(geographicWidth, geographicHeight)}, elevationRange=${elevationRange}, heightScaleMultiplier=${heightScaleMultiplier}, finalScale=${finalScale}`);
+    
+    return finalScale;
+  }
+  
+  /**
+   * Sample DEM elevation at geographic coordinates
+   */
+  sampleDEMAtCoordinate(elevationData, width, height, geoTransform, bbox, lon, lat) {
+    const [west, south, east, north] = bbox;
+    
+    // Check if coordinate is within DEM bounds
+    if (lon < west || lon > east || lat < south || lat > north) {
+      return 0;
+    }
+    
+    // Convert geographic coordinates to pixel coordinates using geoTransform
+    const x = (lon - geoTransform.originX) / geoTransform.pixelSizeX;
+    const y = (lat - geoTransform.originY) / geoTransform.pixelSizeY;
+    
+    // Bilinear interpolation in source DEM raster
+    const x0 = Math.floor(x);
+    const y0 = Math.floor(y);
+    const x1 = Math.min(x0 + 1, width - 1);
+    const y1 = Math.min(y0 + 1, height - 1);
+    const dx = x - x0;
+    const dy = y - y0;
 
-  return newImageData;
+    const getSafe = (c, r) => {
+      if (c < 0 || c >= width || r < 0 || r >= height) return 0;
+      const val = elevationData[r * width + c];
+      return (isFinite(val) && val > -1000 && val < 10000) ? val : 0;
+    };
+
+    const e00 = getSafe(x0, y0);
+    const e10 = getSafe(x1, y0);
+    const e01 = getSafe(x0, y1);
+    const e11 = getSafe(x1, y1);
+
+    const e0 = e00 * (1 - dx) + e10 * dx;
+    const e1 = e01 * (1 - dx) + e11 * dx;
+    const elevation = e0 * (1 - dy) + e1 * dy;
+
+    return elevation;
+  }
+  
+  /**
+   * Convert ImageData to Canvas
+   */
+  imageDataToCanvas(imageData) {
+    const canvas = document.createElement('canvas');
+    canvas.width = imageData.width;
+    canvas.height = imageData.height;
+    const ctx = canvas.getContext('2d');
+    ctx.putImageData(imageData, 0, 0);
+    return canvas;
+  }
+  
+  /**
+   * Downsample ImageData by a given factor
+   */
+  downsampleImageData(imageData, factor) {
+    const newWidth = Math.floor(imageData.width / factor);
+    const newHeight = Math.floor(imageData.height / factor);
+    const newImageData = new ImageData(newWidth, newHeight);
+
+    for (let y = 0; y < newHeight; y++) {
+      for (let x = 0; x < newWidth; x++) {
+        const sourceX = Math.floor(x * factor);
+        const sourceY = Math.floor(y * factor);
+        const sourceIndex = (sourceY * imageData.width * 4) + (sourceX * 4);
+        const targetIndex = (y * newWidth * 4) + (x * 4);
+        newImageData.data[targetIndex] = imageData.data[sourceIndex];
+        newImageData.data[targetIndex + 1] = imageData.data[sourceIndex + 1];
+        newImageData.data[targetIndex + 2] = imageData.data[sourceIndex + 2];
+        newImageData.data[targetIndex + 3] = imageData.data[sourceIndex + 3];
+      }
+    }
+
+    return newImageData;
+  }
+  
+  /**
+   * Dispose of resources and cleanup
+   */
+  dispose() {
+    // Stop animation
+    this.stopAnimation();
+    
+    // Dispose of controls and overlays
+    if (this.keyboardControls) {
+      this.keyboardControls.dispose();
+      this.keyboardControls = null;
+    }
+    
+    if (this.overlay2D) {
+      this.overlay2D.dispose();
+      this.overlay2D = null;
+    }
+    
+    // Dispose of Three.js objects
+    if (this.scene) {
+      this.scene.traverse((child) => {
+        if (child.isMesh) {
+          if (child.geometry) child.geometry.dispose();
+          if (child.material) {
+            if (child.material.map) child.material.map.dispose();
+            child.material.dispose();
+          }
+        }
+      });
+      this.scene.clear();
+    }
+    
+    if (this.renderer) {
+      this.renderer.dispose();
+    }
+    
+    // Remove event listeners
+    window.removeEventListener('resize', this.handleWindowResize);
+    
+    // Clear references
+    this.scene = null;
+    this.camera = null;
+    this.renderer = null;
+    this.controls = null;
+  }
+}
+
+// Export both the class and a convenience function for backward compatibility
+const terrainRenderer = new TerrainRenderer();
+
+// Backward compatibility function
+function generateTerrain(...args) {
+  return terrainRenderer.generateTerrain(...args);
 }
 
 
