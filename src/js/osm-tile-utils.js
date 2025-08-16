@@ -200,13 +200,15 @@ export async function loadTileMosaicFromFiles(files, tileRange, tileSize = 256, 
   // Create file lookup map for faster access
   const fileMap = new Map();
   for (const file of files) {
-    const pathParts = file.webkitRelativePath.split('/');
-    if (pathParts.length >= 4) {
-      const z = pathParts[1];
-      const x = pathParts[2];
-      const y = pathParts[3].replace('.jpg', ''); // Remove extension
-      const key = `${z}/${x}/${y}`;
-      fileMap.set(key, file);
+    const parts = (file.webkitRelativePath || '').split('/');
+    if (parts.length >= 4) {
+      // root / z / x / y.ext
+      const z = parts[1], x = parts[2], y = parts[3].replace(/\.(png|jpg|jpeg)$/i, '');
+      fileMap.set(`${z}/${x}/${y}`, file);
+    } else if (parts.length === 3 && /^\d+$/.test(parts[0])) {
+      // single-zoom: z / x / y.ext
+      const z = parts[0], x = parts[1], y = parts[2].replace(/\.(png|jpg|jpeg)$/i, '');
+      fileMap.set(`${z}/${x}/${y}`, file);
     }
   }
   
@@ -395,4 +397,79 @@ function getOptimalZoomLevelOriginal(sizeKm, maxTiles = 100) {
   }
   
   return 10; // Fallback zoom level
+}
+
+/**
+ * Detect whether `dirHandle` is a tiles *root* (contains z-subfolders)
+ * or a *single zoom* directory (its own name is numeric, like "15").
+ * Returns { mode: 'root'|'single', zoomLevels: number[], getZoomDirHandle(z): Promise<DirectoryHandle> }
+ */
+export async function detectZoomConfig(dirHandle) {
+  const zList = [];
+
+  // Scan immediate subdirs: if there are numeric names, it's a ROOT
+  for await (const [name, handle] of dirHandle.entries?.() ?? []) {
+    if (handle.kind === 'directory' && /^\d+$/.test(name)) {
+      zList.push(Number(name));
+    }
+  }
+
+  if (zList.length > 0) {
+    zList.sort((a, b) => a - b);
+    return {
+      mode: 'root',
+      zoomLevels: zList,
+      async getZoomDirHandle(z) {
+        const h = await dirHandle.getDirectoryHandle(String(z), { create: false });
+        return h;
+      }
+    };
+  }
+
+  // No z-subdirs; if this folder *itself* is a number, treat it as single-zoom
+  if (/^\d+$/.test(dirHandle.name)) {
+    const z = Number(dirHandle.name);
+    return {
+      mode: 'single',
+      zoomLevels: [z],
+      async getZoomDirHandle() {
+        // the selected dir *is* the zoom directory
+        return dirHandle;
+      }
+    };
+  }
+
+  // Fallback: treat as single with unknown zoom (will be validated downstream)
+  // (Most realistic single-zoom folders will have a numeric name; this helps UX.)
+  return {
+    mode: 'single',
+    zoomLevels: [],
+    async getZoomDirHandle() {
+      return dirHandle;
+    }
+  };
+}
+
+/**
+ * Utility to (re)fill the <select id="zoomLevel"> element with given zooms.
+ */
+export function fillZoomSelect(zoomLevels, selectEl = document.getElementById('zoomLevel')) {
+  if (!selectEl) return;
+  selectEl.innerHTML = '';
+  if (!zoomLevels || zoomLevels.length === 0) {
+    const opt = document.createElement('option');
+    opt.value = '';
+    opt.textContent = '—';
+    selectEl.appendChild(opt);
+    selectEl.disabled = true;
+    return;
+  }
+
+  for (const z of zoomLevels) {
+    const opt = document.createElement('option');
+    opt.value = String(z);
+    opt.textContent = `z${z}`;
+    selectEl.appendChild(opt);
+  }
+  selectEl.disabled = zoomLevels.length === 1 ? false : false; // enabled; only one option if single
 }

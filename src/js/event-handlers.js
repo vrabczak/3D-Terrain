@@ -2,7 +2,7 @@
  * Event Handlers - Manages file inputs, graphics settings, and zoom level synchronization
  */
 
-import { detectAvailableZoomLevelsFromFiles, getOptimalZoomLevel } from './osm-tile-utils.js';
+import { detectAvailableZoomLevelsFromFiles } from './osm-tile-utils.js';
 
 export class EventHandlers {
   constructor(uiManager) {
@@ -10,6 +10,7 @@ export class EventHandlers {
     this.selectedFiles = null;
     this.availableZoomLevels = [];
     this.isUpdatingGraphicsSettings = false;
+    this.tilesMode = 'root'; // 'root' or 'single'
     this.initializeEventHandlers();
   }
 
@@ -21,51 +22,67 @@ export class EventHandlers {
   setupFileInputHandlers() {
     const { tileFolderInput, folderStatus } = this.uiManager.elements;
 
-    // Set loading cursor when user clicks on OSM folder input
+    // Show wait cursor while the picker is open
     tileFolderInput.addEventListener('click', () => {
       document.body.style.cursor = 'wait';
     });
 
-    // Handle folder selection
     tileFolderInput.addEventListener('change', async (event) => {
       try {
         const files = event.target.files;
         if (files && files.length > 0) {
           this.selectedFiles = files;
-          
-          // Get folder name from the first file's path
+
+          // Extract top-level folder name
           const firstFile = files[0];
-          const pathParts = firstFile.webkitRelativePath.split('/');
-          const folderName = pathParts[0];
-          
+          const pathParts = (firstFile.webkitRelativePath || '').split('/');
+          const folderName = pathParts[0] || '(unknown)';
+
           folderStatus.textContent = `Vybrána složka: ${folderName} (${files.length} souborů)`;
           folderStatus.style.color = 'green';
-          
-          // Detect available zoom levels
+
           console.log('Detekuji dostupné zoom levely...');
-          this.availableZoomLevels = await detectAvailableZoomLevelsFromFiles(files);
-          console.log('Dostupné zoom levely:', this.availableZoomLevels);
-          
-          // Update zoom level dropdown
-          this.updateZoomLevelOptions(this.availableZoomLevels);
-          
-          // Reset cursor after processing
+          let zooms = await detectAvailableZoomLevelsFromFiles(files);
+          console.log('Dostupné zoom levely:', zooms);
+
+          // If no zoom levels are found, maybe user picked a single zoom folder
+          if (!zooms || zooms.length === 0) {
+            if (/^\d+$/.test(folderName)) {
+              const singleZoom = parseInt(folderName, 10);
+              zooms = [singleZoom];
+              this.tilesMode = 'single';
+              window.__tilesMode = 'single';
+              window.__singleZoom = singleZoom;
+              console.log('Jednoúrovňová složka detekována, zoom:', singleZoom);
+            } else {
+              this.tilesMode = 'root';
+              window.__tilesMode = 'root';
+              window.__singleZoom = undefined;
+            }
+          } else {
+            this.tilesMode = 'root';
+            window.__tilesMode = 'root';
+            window.__singleZoom = undefined;
+          }
+
+          this.availableZoomLevels = zooms;
+          this.updateZoomLevelOptions(zooms);
+
           document.body.style.cursor = 'default';
         } else {
           folderStatus.textContent = 'Žádná složka nevybrána';
           folderStatus.style.color = '';
           this.availableZoomLevels = [];
           this.updateZoomLevelOptions([]);
-          
-          // Reset cursor when no files are selected (user canceled)
+          this.tilesMode = 'root';
+          window.__tilesMode = 'root';
+          window.__singleZoom = undefined;
           document.body.style.cursor = 'default';
         }
-      } catch (error) {
-        console.error('Chyba při výběru složky:', error);
+      } catch (err) {
+        console.error('Chyba při výběru složky:', err);
         folderStatus.textContent = 'Chyba při výběru složky';
         folderStatus.style.color = 'red';
-        
-        // Reset cursor on error
         document.body.style.cursor = 'default';
       }
     });
@@ -74,15 +91,12 @@ export class EventHandlers {
   setupGraphicsSettingsSync() {
     const { graphicsSettingsSelect, zoomLevelSelect } = this.uiManager.elements;
 
-    // Sync graphics settings with advanced settings
     graphicsSettingsSelect.addEventListener('change', () => {
-      if (this.isUpdatingGraphicsSettings) return; // Prevent infinite loops
-      
+      if (this.isUpdatingGraphicsSettings) return;
+
       const graphicsSettings = graphicsSettingsSelect.value;
-      
-      // Update advanced settings based on graphics settings
       const { sceneResolutionSelect, antialiasingSelect } = this.uiManager.elements;
-      
+
       switch (graphicsSettings) {
         case 'veryVeryLow':
           sceneResolutionSelect.value = '0.25';
@@ -106,146 +120,104 @@ export class EventHandlers {
           break;
       }
 
-      // Update zoom level display (if available)
-      if (zoomLevelSelect.options.length > 0) {
-        // Get all available zoom levels
+      // Adjust zoom suggestion
+      if (zoomLevelSelect && zoomLevelSelect.options.length > 0) {
         const availableZooms = Array.from(zoomLevelSelect.options)
-          .map(option => option.value)
-          .filter(value => value !== '' && !isNaN(parseInt(value)))
-          .map(value => parseInt(value))
+          .map(o => o.value)
+          .filter(v => v !== '' && v !== 'auto' && !isNaN(parseInt(v, 10)))
+          .map(v => parseInt(v, 10))
           .sort((a, b) => a - b);
-        
+
         if (availableZooms.length > 0) {
-          let targetZoomIndex;
-          
-          // Map 5 graphics settings to available zoom levels more intelligently
+          let idx;
           switch (graphicsSettings) {
-            case 'veryVeryLow':
-              targetZoomIndex = 0; // Lowest zoom
-              break;
-            case 'veryLow':
-              targetZoomIndex = Math.floor(availableZooms.length * 0.25);
-              break;
-            case 'low':
-              targetZoomIndex = Math.floor(availableZooms.length * 0.5);
-              break;
-            case 'medium':
-              targetZoomIndex = Math.floor(availableZooms.length * 0.75);
-              break;
-            case 'high':
-              targetZoomIndex = availableZooms.length - 1; // Highest zoom
-              break;
-            default:
-              targetZoomIndex = Math.floor(availableZooms.length * 0.5);
+            case 'veryVeryLow': idx = 0; break;
+            case 'veryLow':     idx = Math.floor(availableZooms.length * 0.25); break;
+            case 'low':         idx = Math.floor(availableZooms.length * 0.5);  break;
+            case 'medium':      idx = Math.floor(availableZooms.length * 0.75); break;
+            case 'high':        idx = availableZooms.length - 1; break;
+            default:            idx = Math.floor(availableZooms.length * 0.5);
           }
-          
-          // Ensure index is within bounds
-          targetZoomIndex = Math.max(0, Math.min(targetZoomIndex, availableZooms.length - 1));
-          const targetZoom = availableZooms[targetZoomIndex];
-          
-          zoomLevelSelect.value = targetZoom.toString();
-          console.log(`Graphics setting ${graphicsSettings}: Set zoom level to ${targetZoom} (index ${targetZoomIndex}/${availableZooms.length - 1}, available: ${availableZooms.join(', ')})`);
+          idx = Math.max(0, Math.min(idx, availableZooms.length - 1));
+          zoomLevelSelect.value = String(availableZooms[idx]);
+          console.log(`Graphics setting ${graphicsSettings}: Set zoom level to ${availableZooms[idx]}`);
         }
       }
-      
-      this.isUpdatingGraphicsSettings = true; // Set flag to prevent infinite loops
-      setTimeout(() => {
-        this.isUpdatingGraphicsSettings = false; // Reset flag after a short delay
-      }, 100);
+
+      this.isUpdatingGraphicsSettings = true;
+      setTimeout(() => (this.isUpdatingGraphicsSettings = false), 100);
     });
   }
 
-  // Get description for zoom level
   getZoomDescription(zoom) {
-    const descriptions = {
-      10: "Velmi nízké rozlišení (cca 150m/pixel)",
-      12: "Nízké rozlišení (cca 38m/pixel)", 
-      14: "Střední rozlišení (cca 9.5m/pixel)",
-      16: "Vysoké rozlišení (cca 2.4m/pixel)",
-      18: "Velmi vysoké rozlišení (cca 0.6m/pixel)"
+    const desc = {
+      10: 'Velmi nízké rozlišení (cca 150m/pixel)',
+      12: 'Nízké rozlišení (cca 38m/pixel)',
+      14: 'Střední rozlišení (cca 9.5m/pixel)',
+      16: 'Vysoké rozlišení (cca 2.4m/pixel)',
+      18: 'Velmi vysoké rozlišení (cca 0.6m/pixel)',
     };
-    return descriptions[zoom] || `Zoom level ${zoom}`;
+    return desc[zoom] || `Zoom level ${zoom}`;
   }
 
-  // Sync zoom level with graphics settings
-  syncZoomLevelWithGraphicsSettings(graphicsSettings, availableZooms) {
-    if (availableZooms.length === 0) return;
-    
-    let targetZoomIndex;
-    
-    switch (graphicsSettings) {
-      case 'veryVeryLow':
-        targetZoomIndex = 0;
-        break;
-      case 'veryLow':
-        targetZoomIndex = Math.floor(availableZooms.length * 0.25);
-        break;
-      case 'low':
-        targetZoomIndex = Math.floor(availableZooms.length * 0.5);
-        break;
-      case 'medium':
-        targetZoomIndex = Math.floor(availableZooms.length * 0.75);
-        break;
-      case 'high':
-        targetZoomIndex = availableZooms.length - 1;
-        break;
-      default:
-        targetZoomIndex = Math.floor(availableZooms.length * 0.5);
-    }
-    
-    targetZoomIndex = Math.max(0, Math.min(targetZoomIndex, availableZooms.length - 1));
-    const targetZoom = availableZooms[targetZoomIndex];
-    
-    this.uiManager.elements.zoomLevelSelect.value = targetZoom.toString();
-    console.log(`Synced zoom level to ${targetZoom} for graphics setting ${graphicsSettings}`);
-  }
-
-  // Update zoom level dropdown based on available levels
   updateZoomLevelOptions(availableZooms) {
     const { zoomLevelSelect, graphicsSettingsSelect } = this.uiManager.elements;
-    
-    if (availableZooms.length === 0) {
+
+    if (!availableZooms || availableZooms.length === 0) {
       zoomLevelSelect.disabled = true;
       zoomLevelSelect.innerHTML = '<option value="">Žádné zoom levely nenalezeny</option>';
       return;
     }
-    
-    // Sort zoom levels
+
     const sortedZooms = [...availableZooms].sort((a, b) => a - b);
-    
-    // Clear existing options
     zoomLevelSelect.innerHTML = '';
-    
-    // Add auto option
-    const autoOption = document.createElement('option');
-    autoOption.value = 'auto';
-    autoOption.textContent = 'Automaticky (doporučeno)';
-    zoomLevelSelect.appendChild(autoOption);
-    
-    // Add available zoom levels
-    sortedZooms.forEach(zoom => {
-      const option = document.createElement('option');
-      option.value = zoom.toString();
-      option.textContent = `${zoom} - ${this.getZoomDescription(zoom)}`;
-      zoomLevelSelect.appendChild(option);
-    });
-    
-    // Enable the select
-    zoomLevelSelect.disabled = false;
-    
-    // Set default to auto
-    zoomLevelSelect.value = 'auto';
-    
-    // Sync with current graphics settings
-    const currentGraphicsSettings = graphicsSettingsSelect.value;
-    if (currentGraphicsSettings) {
-      this.syncZoomLevelWithGraphicsSettings(currentGraphicsSettings, sortedZooms);
+
+    if (sortedZooms.length > 1) {
+      const auto = document.createElement('option');
+      auto.value = 'auto';
+      auto.textContent = 'Automaticky (doporučeno)';
+      zoomLevelSelect.appendChild(auto);
     }
-    
+
+    for (const z of sortedZooms) {
+      const opt = document.createElement('option');
+      opt.value = String(z);
+      opt.textContent = `${z} - ${this.getZoomDescription(z)}`;
+      zoomLevelSelect.appendChild(opt);
+    }
+
+    zoomLevelSelect.disabled = false;
+
+    if (sortedZooms.length > 1) {
+      zoomLevelSelect.value = 'auto';
+      const current = graphicsSettingsSelect.value;
+      if (current) this.syncZoomLevelWithGraphicsSettings(current, sortedZooms);
+    } else {
+      // Single zoom → select directly
+      zoomLevelSelect.value = String(sortedZooms[0]);
+    }
+
     console.log(`Updated zoom level options: [${sortedZooms.join(', ')}]`);
   }
 
-  // Getters for external access
+  syncZoomLevelWithGraphicsSettings(graphicsSettings, availableZooms) {
+    if (!availableZooms || availableZooms.length === 0) return;
+    let idx;
+    switch (graphicsSettings) {
+      case 'veryVeryLow': idx = 0; break;
+      case 'veryLow':     idx = Math.floor(availableZooms.length * 0.25); break;
+      case 'low':         idx = Math.floor(availableZooms.length * 0.5);  break;
+      case 'medium':      idx = Math.floor(availableZooms.length * 0.75); break;
+      case 'high':        idx = availableZooms.length - 1; break;
+      default:            idx = Math.floor(availableZooms.length * 0.5);
+    }
+    idx = Math.max(0, Math.min(idx, availableZooms.length - 1));
+    const targetZoom = availableZooms[idx];
+    this.uiManager.elements.zoomLevelSelect.value = String(targetZoom);
+    console.log(`Synced zoom level to ${targetZoom} for graphics setting ${graphicsSettings}`);
+  }
+
+  // Getters
   getSelectedFiles() {
     return this.selectedFiles;
   }

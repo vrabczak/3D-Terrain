@@ -2290,14 +2290,14 @@ function isTypedArray(target) {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../node_modules/css-loader/dist/runtime/sourceMaps.js */ "./node_modules/css-loader/dist/runtime/sourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
 // Imports
 
 
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, `/* style.css */
 body {
@@ -2884,7 +2884,7 @@ input[title], button[title] {
     margin: 3px 0;
   }
 }
-`, ""]);
+`, "",{"version":3,"sources":["webpack://./src/style.css"],"names":[],"mappings":"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","sourcesContent":["/* style.css */\r\nbody {\r\n  margin: 0;\r\n  font-family: sans-serif;\r\n  background-color: #e0e7ef;\r\n  overflow: hidden;\r\n}\r\n\r\n#upload-container {\r\n  position: absolute;\r\n  z-index: 10;\r\n  background: rgba(255, 255, 255, 0.95);\r\n  padding: 1rem;\r\n  margin: 1rem;\r\n  border-radius: 8px;\r\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);\r\n  max-width: 300px;\r\n}\r\n\r\n#upload-container h1 {\r\n  font-size: 1.2rem;\r\n  margin-top: 0;\r\n}\r\n\r\n#upload-container label {\r\n  display: block;\r\n  margin-bottom: 0.5rem;\r\n}\r\n\r\n#upload-container button {\r\n  margin-top: 0.5rem;\r\n  padding: 0.5rem 1rem;\r\n  background: #1976d2;\r\n  color: white;\r\n  border: none;\r\n  border-radius: 4px;\r\n  cursor: pointer;\r\n}\r\n\r\n#upload-container button:hover {\r\n  background: #125ea7;\r\n}\r\n\r\n#viewer-container {\r\n  width: 100vw;\r\n  height: 100vh;\r\n  position: relative;\r\n}\r\n\r\ncanvas#three-canvas {\r\n  width: 100%;\r\n  height: 100%;\r\n  display: block;\r\n}\r\n\r\n/* North Arrow Overlay Styles */\r\n.north-arrow {\r\n  position: absolute;\r\n  top: 20px;\r\n  right: 20px;\r\n  z-index: 100;\r\n  background: rgba(255, 255, 255, 0.9);\r\n  border: 2px solid #333;\r\n  border-radius: 50%;\r\n  width: 80px;\r\n  height: 80px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);\r\n  pointer-events: none;\r\n}\r\n\r\n.compass-rose {\r\n  position: relative;\r\n  width: 60px;\r\n  height: 60px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n}\r\n\r\n.arrow-shaft {\r\n  position: absolute;\r\n  width: 3px;\r\n  height: 30px;\r\n  background: #d32f2f;\r\n  top: 15px;\r\n  left: 50%;\r\n  transform: translateX(-50%);\r\n  border-radius: 2px;\r\n}\r\n\r\n.arrow-head {\r\n  position: absolute;\r\n  width: 0;\r\n  height: 0;\r\n  border-left: 8px solid transparent;\r\n  border-right: 8px solid transparent;\r\n  border-bottom: 12px solid #d32f2f;\r\n  top: 8px;\r\n  left: 50%;\r\n  transform: translateX(-50%);\r\n}\r\n\r\n.north-label {\r\n  position: absolute;\r\n  top: -2px;\r\n  left: 50%;\r\n  transform: translateX(-50%);\r\n  font-weight: bold;\r\n  font-size: 14px;\r\n  color: #333;\r\n  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);\r\n}\r\n\r\n/* Controls Legend */\r\n.controls-legend {\r\n  position: absolute;\r\n  bottom: 20px;\r\n  right: 20px;\r\n  background: rgba(0, 0, 0, 0.8);\r\n  color: white;\r\n  padding: 15px;\r\n  border-radius: 8px;\r\n  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n  font-size: 12px;\r\n  line-height: 1.4;\r\n  max-width: 200px;\r\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);\r\n  z-index: 1000;\r\n}\r\n\r\n.controls-legend h4 {\r\n  margin: 0 0 10px 0;\r\n  font-size: 14px;\r\n  color: #4CAF50;\r\n  text-align: center;\r\n  border-bottom: 1px solid #333;\r\n  padding-bottom: 5px;\r\n}\r\n\r\n.legend-section {\r\n  margin-bottom: 12px;\r\n}\r\n\r\n.legend-section strong {\r\n  display: block;\r\n  color: #FFA726;\r\n  margin-bottom: 4px;\r\n  font-size: 11px;\r\n  text-transform: uppercase;\r\n  letter-spacing: 0.5px;\r\n}\r\n\r\n.legend-section div {\r\n  margin-left: 8px;\r\n  margin-bottom: 2px;\r\n  color: #E0E0E0;\r\n}\r\n\r\n.legend-note {\r\n  margin-top: 10px;\r\n  padding-top: 8px;\r\n  border-top: 1px solid #333;\r\n  font-size: 10px;\r\n  color: #BDBDBD;\r\n  font-style: italic;\r\n  text-align: center;\r\n}\r\n\r\n/* Hamburger Menu Button */\r\n.hamburger-btn {\r\n  position: fixed;\r\n  top: 20px;\r\n  left: 20px;\r\n  width: 40px;\r\n  height: 40px;\r\n  background: rgba(0, 0, 0, 0.8);\r\n  border-radius: 8px;\r\n  cursor: pointer;\r\n  z-index: 1001;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  align-items: center;\r\n  gap: 4px;\r\n  transition: background-color 0.3s ease;\r\n  pointer-events: auto;\r\n}\r\n\r\n.hamburger-btn:hover {\r\n  background: rgba(0, 0, 0, 0.9);\r\n}\r\n\r\n.hamburger-line {\r\n  width: 20px;\r\n  height: 2px;\r\n  background: white;\r\n  border-radius: 1px;\r\n  transition: all 0.3s ease;\r\n}\r\n\r\n.hamburger-btn.active .hamburger-line:nth-child(1) {\r\n  transform: rotate(45deg) translate(5px, 5px);\r\n}\r\n\r\n.hamburger-btn.active .hamburger-line:nth-child(2) {\r\n  opacity: 0;\r\n}\r\n\r\n.hamburger-btn.active .hamburger-line:nth-child(3) {\r\n  transform: rotate(-45deg) translate(7px, -6px);\r\n}\r\n\r\n/* Menu Container */\r\n.menu-container {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 350px;\r\n  height: 100vh;\r\n  background: rgba(255, 255, 255, 0.95);\r\n  backdrop-filter: blur(10px);\r\n  padding: 20px;\r\n  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);\r\n  overflow-y: auto;\r\n  z-index: 1000;\r\n  transition: transform 0.3s ease;\r\n  transform: translateX(0px);\r\n}\r\n\r\n.menu-container.collapsed {\r\n  transform: translateX(-370px) !important;\r\n}\r\n\r\n.menu-container h1 {\r\n  margin-top: 0;\r\n  color: #333;\r\n  font-size: 1.5em;\r\n  border-bottom: 2px solid #4CAF50;\r\n  padding-bottom: 10px;\r\n}\r\n\r\n/* Speed Control (Bottom Left) */\r\n.speed-control {\r\n  position: absolute;\r\n  bottom: 20px;\r\n  left: 20px;\r\n  background: rgba(0, 0, 0, 0.8);\r\n  color: white;\r\n  padding: 10px 15px;\r\n  border-radius: 8px;\r\n  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n  font-size: 12px;\r\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);\r\n  z-index: 1000;\r\n}\r\n\r\n.speed-control label {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 8px;\r\n  color: white;\r\n}\r\n\r\n.speed-control input[type=\"range\"] {\r\n  width: 80px;\r\n  height: 4px;\r\n  background: #333;\r\n  outline: none;\r\n  border-radius: 2px;\r\n}\r\n\r\n.speed-control input[type=\"range\"]::-webkit-slider-thumb {\r\n  appearance: none;\r\n  width: 12px;\r\n  height: 12px;\r\n  background: #4CAF50;\r\n  border-radius: 50%;\r\n  cursor: pointer;\r\n}\r\n\r\n.speed-control input[type=\"range\"]::-moz-range-thumb {\r\n  width: 12px;\r\n  height: 12px;\r\n  background: #4CAF50;\r\n  border-radius: 50%;\r\n  cursor: pointer;\r\n  border: none;\r\n}\r\n\r\n.speed-control span {\r\n  min-width: 30px;\r\n  text-align: center;\r\n  font-weight: bold;\r\n  color: #4CAF50;\r\n}\r\n\r\n/* Progress Bar Styles */\r\n.progress-container {\r\n  margin-top: 15px;\r\n  padding: 15px;\r\n  background: rgba(76, 175, 80, 0.1);\r\n  border-radius: 8px;\r\n  border: 1px solid rgba(76, 175, 80, 0.3);\r\n}\r\n\r\n.progress-text {\r\n  font-size: 14px;\r\n  color: #333;\r\n  margin-bottom: 8px;\r\n  font-weight: 500;\r\n  text-align: center;\r\n}\r\n\r\n.progress-bar-wrapper {\r\n  width: 100%;\r\n  height: 8px;\r\n  background: rgba(0, 0, 0, 0.1);\r\n  border-radius: 4px;\r\n  overflow: hidden;\r\n  margin-bottom: 8px;\r\n}\r\n\r\n.progress-bar {\r\n  height: 100%;\r\n  background: linear-gradient(90deg, #4CAF50, #66BB6A);\r\n  border-radius: 4px;\r\n  width: 0%;\r\n  transition: width 0.3s ease;\r\n  position: relative;\r\n}\r\n\r\n.progress-bar::after {\r\n  content: '';\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background: linear-gradient(\r\n    90deg,\r\n    transparent,\r\n    rgba(255, 255, 255, 0.3),\r\n    transparent\r\n  );\r\n  animation: progress-shine 2s infinite;\r\n}\r\n\r\n@keyframes progress-shine {\r\n  0% { transform: translateX(-100%); }\r\n  100% { transform: translateX(100%); }\r\n}\r\n\r\n.progress-percentage {\r\n  font-size: 12px;\r\n  color: #666;\r\n  text-align: center;\r\n  font-weight: 600;\r\n}\r\n\r\n/* Custom Tooltip Styles */\r\ninput[title], button[title] {\r\n  position: relative;\r\n  cursor: help;\r\n}\r\n\r\n/* Settings Sections */\r\n.settings-section {\r\n  margin-bottom: 20px;\r\n  border: 1px solid #e0e0e0;\r\n  border-radius: 8px;\r\n  overflow: hidden;\r\n}\r\n\r\n.settings-section h3 {\r\n  margin: 0;\r\n  padding: 12px 15px;\r\n  background: linear-gradient(135deg, #2196F3, #1976D2);\r\n  color: white;\r\n  font-size: 16px;\r\n  font-weight: 600;\r\n  border-bottom: 1px solid #e0e0e0;\r\n}\r\n\r\n.settings-section > div:not(.settings-header) {\r\n  padding: 15px;\r\n}\r\n\r\n/* Advanced Settings Button */\r\n#advancedBtn {\r\n  margin-top: 10px;\r\n  padding: 10px 15px;\r\n  background: linear-gradient(135deg, #4CAF50, #45a049);\r\n  color: white;\r\n  border: none;\r\n  border-radius: 6px;\r\n  cursor: pointer;\r\n  font-size: 14px;\r\n  font-weight: 500;\r\n  width: 100%;\r\n  transition: background 0.2s ease;\r\n}\r\n\r\n#advancedBtn:hover {\r\n  background: linear-gradient(135deg, #45a049, #3d8b40);\r\n}\r\n\r\n/* Advanced Settings Dialog */\r\n.advanced-dialog {\r\n  position: fixed;\r\n  top: 20px;\r\n  right: 20px;\r\n  width: 350px;\r\n  max-height: calc(100vh - 40px);\r\n  background: rgba(255, 255, 255, 0.95);\r\n  backdrop-filter: blur(10px);\r\n  border: 1px solid #e0e0e0;\r\n  border-radius: 12px;\r\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);\r\n  z-index: 1002;\r\n  overflow: hidden;\r\n  animation: slideInRight 0.3s ease;\r\n}\r\n\r\n@keyframes slideInRight {\r\n  from {\r\n    transform: translateX(100%);\r\n    opacity: 0;\r\n  }\r\n  to {\r\n    transform: translateX(0);\r\n    opacity: 1;\r\n  }\r\n}\r\n\r\n.dialog-header {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  padding: 15px 20px;\r\n  background: linear-gradient(135deg, #4CAF50, #45a049);\r\n  color: white;\r\n  border-bottom: 1px solid #e0e0e0;\r\n}\r\n\r\n.dialog-header h3 {\r\n  margin: 0;\r\n  font-size: 16px;\r\n  font-weight: 600;\r\n}\r\n\r\n.close-btn {\r\n  background: none;\r\n  border: none;\r\n  color: white;\r\n  font-size: 24px;\r\n  font-weight: bold;\r\n  cursor: pointer;\r\n  padding: 0;\r\n  width: 30px;\r\n  height: 30px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  border-radius: 50%;\r\n  transition: background-color 0.2s ease;\r\n}\r\n\r\n.close-btn:hover {\r\n  background: rgba(255, 255, 255, 0.2);\r\n}\r\n\r\n.dialog-content {\r\n  padding: 20px;\r\n  max-height: calc(100vh - 120px);\r\n  overflow-y: auto;\r\n}\r\n\r\n/* Setting Groups */\r\n.setting-group {\r\n  margin-bottom: 20px;\r\n  padding: 15px;\r\n  background: #f8f9fa;\r\n  border-radius: 6px;\r\n  border-left: 4px solid #4CAF50;\r\n}\r\n\r\n.setting-group:last-child {\r\n  margin-bottom: 0;\r\n}\r\n\r\n.setting-group h4 {\r\n  margin: 0 0 12px 0;\r\n  color: #333;\r\n  font-size: 14px;\r\n  font-weight: 600;\r\n  text-transform: uppercase;\r\n  letter-spacing: 0.5px;\r\n}\r\n\r\n.setting-group label {\r\n  display: block;\r\n  margin-bottom: 8px;\r\n  font-size: 13px;\r\n  color: #555;\r\n}\r\n\r\n.setting-group select {\r\n  width: 100%;\r\n  padding: 6px 8px;\r\n  border: 1px solid #ddd;\r\n  border-radius: 4px;\r\n  background: white;\r\n  font-size: 13px;\r\n}\r\n\r\n.setting-group select:focus {\r\n  outline: none;\r\n  border-color: #4CAF50;\r\n  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);\r\n}\r\n\r\n/* Preset Buttons */\r\n.setting-group button {\r\n  margin: 5px 5px 5px 0;\r\n  padding: 8px 12px;\r\n  background: #2196F3;\r\n  color: white;\r\n  border: none;\r\n  border-radius: 4px;\r\n  cursor: pointer;\r\n  font-size: 12px;\r\n  font-weight: 500;\r\n  transition: background-color 0.2s ease;\r\n}\r\n\r\n.setting-group button:hover {\r\n  background: #1976D2;\r\n}\r\n\r\n.setting-group button:active {\r\n  transform: translateY(1px);\r\n}\r\n\r\n/* Responsive adjustments */\r\n@media (max-width: 800px) {\r\n  .advanced-dialog {\r\n    position: fixed;\r\n    top: 0;\r\n    right: 0;\r\n    left: 0;\r\n    bottom: 0;\r\n    width: 100%;\r\n    max-height: 100vh;\r\n    border-radius: 0;\r\n    animation: slideInUp 0.3s ease;\r\n  }\r\n  \r\n  @keyframes slideInUp {\r\n    from {\r\n      transform: translateY(100%);\r\n      opacity: 0;\r\n    }\r\n    to {\r\n      transform: translateY(0);\r\n      opacity: 1;\r\n    }\r\n  }\r\n  \r\n  .menu-container {\r\n    width: 100vw;\r\n    padding: 15px;\r\n  }\r\n  \r\n  .setting-group {\r\n    padding: 10px;\r\n  }\r\n  \r\n  .setting-group button {\r\n    width: 100%;\r\n    margin: 3px 0;\r\n  }\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -2986,17 +2986,28 @@ module.exports = function (cssWithMappingToString) {
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/runtime/noSourceMaps.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/css-loader/dist/runtime/noSourceMaps.js ***!
-  \**************************************************************/
+/***/ "./node_modules/css-loader/dist/runtime/sourceMaps.js":
+/*!************************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/sourceMaps.js ***!
+  \************************************************************/
 /***/ ((module) => {
 
 "use strict";
 
 
-module.exports = function (i) {
-  return i[1];
+module.exports = function (item) {
+  var content = item[1];
+  var cssMapping = item[3];
+  if (!cssMapping) {
+    return content;
+  }
+  if (typeof btoa === "function") {
+    var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(cssMapping))));
+    var data = "sourceMappingURL=data:application/json;charset=utf-8;base64,".concat(base64);
+    var sourceMapping = "/*# ".concat(data, " */");
+    return [content].concat([sourceMapping]).join("\n");
+  }
+  return [content].join("\n");
 };
 
 /***/ }),
@@ -98643,6 +98654,7 @@ class EventHandlers {
     this.selectedFiles = null;
     this.availableZoomLevels = [];
     this.isUpdatingGraphicsSettings = false;
+    this.tilesMode = 'root'; // 'root' or 'single'
     this.initializeEventHandlers();
   }
 
@@ -98654,51 +98666,67 @@ class EventHandlers {
   setupFileInputHandlers() {
     const { tileFolderInput, folderStatus } = this.uiManager.elements;
 
-    // Set loading cursor when user clicks on OSM folder input
+    // Show wait cursor while the picker is open
     tileFolderInput.addEventListener('click', () => {
       document.body.style.cursor = 'wait';
     });
 
-    // Handle folder selection
     tileFolderInput.addEventListener('change', async (event) => {
       try {
         const files = event.target.files;
         if (files && files.length > 0) {
           this.selectedFiles = files;
-          
-          // Get folder name from the first file's path
+
+          // Extract top-level folder name
           const firstFile = files[0];
-          const pathParts = firstFile.webkitRelativePath.split('/');
-          const folderName = pathParts[0];
-          
+          const pathParts = (firstFile.webkitRelativePath || '').split('/');
+          const folderName = pathParts[0] || '(unknown)';
+
           folderStatus.textContent = `Vybrána složka: ${folderName} (${files.length} souborů)`;
           folderStatus.style.color = 'green';
-          
-          // Detect available zoom levels
+
           console.log('Detekuji dostupné zoom levely...');
-          this.availableZoomLevels = await (0,_osm_tile_utils_js__WEBPACK_IMPORTED_MODULE_0__.detectAvailableZoomLevelsFromFiles)(files);
-          console.log('Dostupné zoom levely:', this.availableZoomLevels);
-          
-          // Update zoom level dropdown
-          this.updateZoomLevelOptions(this.availableZoomLevels);
-          
-          // Reset cursor after processing
+          let zooms = await (0,_osm_tile_utils_js__WEBPACK_IMPORTED_MODULE_0__.detectAvailableZoomLevelsFromFiles)(files);
+          console.log('Dostupné zoom levely:', zooms);
+
+          // If no zoom levels are found, maybe user picked a single zoom folder
+          if (!zooms || zooms.length === 0) {
+            if (/^\d+$/.test(folderName)) {
+              const singleZoom = parseInt(folderName, 10);
+              zooms = [singleZoom];
+              this.tilesMode = 'single';
+              window.__tilesMode = 'single';
+              window.__singleZoom = singleZoom;
+              console.log('Jednoúrovňová složka detekována, zoom:', singleZoom);
+            } else {
+              this.tilesMode = 'root';
+              window.__tilesMode = 'root';
+              window.__singleZoom = undefined;
+            }
+          } else {
+            this.tilesMode = 'root';
+            window.__tilesMode = 'root';
+            window.__singleZoom = undefined;
+          }
+
+          this.availableZoomLevels = zooms;
+          this.updateZoomLevelOptions(zooms);
+
           document.body.style.cursor = 'default';
         } else {
           folderStatus.textContent = 'Žádná složka nevybrána';
           folderStatus.style.color = '';
           this.availableZoomLevels = [];
           this.updateZoomLevelOptions([]);
-          
-          // Reset cursor when no files are selected (user canceled)
+          this.tilesMode = 'root';
+          window.__tilesMode = 'root';
+          window.__singleZoom = undefined;
           document.body.style.cursor = 'default';
         }
-      } catch (error) {
-        console.error('Chyba při výběru složky:', error);
+      } catch (err) {
+        console.error('Chyba při výběru složky:', err);
         folderStatus.textContent = 'Chyba při výběru složky';
         folderStatus.style.color = 'red';
-        
-        // Reset cursor on error
         document.body.style.cursor = 'default';
       }
     });
@@ -98707,15 +98735,12 @@ class EventHandlers {
   setupGraphicsSettingsSync() {
     const { graphicsSettingsSelect, zoomLevelSelect } = this.uiManager.elements;
 
-    // Sync graphics settings with advanced settings
     graphicsSettingsSelect.addEventListener('change', () => {
-      if (this.isUpdatingGraphicsSettings) return; // Prevent infinite loops
-      
+      if (this.isUpdatingGraphicsSettings) return;
+
       const graphicsSettings = graphicsSettingsSelect.value;
-      
-      // Update advanced settings based on graphics settings
       const { sceneResolutionSelect, antialiasingSelect } = this.uiManager.elements;
-      
+
       switch (graphicsSettings) {
         case 'veryVeryLow':
           sceneResolutionSelect.value = '0.25';
@@ -98739,146 +98764,104 @@ class EventHandlers {
           break;
       }
 
-      // Update zoom level display (if available)
-      if (zoomLevelSelect.options.length > 0) {
-        // Get all available zoom levels
+      // Adjust zoom suggestion
+      if (zoomLevelSelect && zoomLevelSelect.options.length > 0) {
         const availableZooms = Array.from(zoomLevelSelect.options)
-          .map(option => option.value)
-          .filter(value => value !== '' && !isNaN(parseInt(value)))
-          .map(value => parseInt(value))
+          .map(o => o.value)
+          .filter(v => v !== '' && v !== 'auto' && !isNaN(parseInt(v, 10)))
+          .map(v => parseInt(v, 10))
           .sort((a, b) => a - b);
-        
+
         if (availableZooms.length > 0) {
-          let targetZoomIndex;
-          
-          // Map 5 graphics settings to available zoom levels more intelligently
+          let idx;
           switch (graphicsSettings) {
-            case 'veryVeryLow':
-              targetZoomIndex = 0; // Lowest zoom
-              break;
-            case 'veryLow':
-              targetZoomIndex = Math.floor(availableZooms.length * 0.25);
-              break;
-            case 'low':
-              targetZoomIndex = Math.floor(availableZooms.length * 0.5);
-              break;
-            case 'medium':
-              targetZoomIndex = Math.floor(availableZooms.length * 0.75);
-              break;
-            case 'high':
-              targetZoomIndex = availableZooms.length - 1; // Highest zoom
-              break;
-            default:
-              targetZoomIndex = Math.floor(availableZooms.length * 0.5);
+            case 'veryVeryLow': idx = 0; break;
+            case 'veryLow':     idx = Math.floor(availableZooms.length * 0.25); break;
+            case 'low':         idx = Math.floor(availableZooms.length * 0.5);  break;
+            case 'medium':      idx = Math.floor(availableZooms.length * 0.75); break;
+            case 'high':        idx = availableZooms.length - 1; break;
+            default:            idx = Math.floor(availableZooms.length * 0.5);
           }
-          
-          // Ensure index is within bounds
-          targetZoomIndex = Math.max(0, Math.min(targetZoomIndex, availableZooms.length - 1));
-          const targetZoom = availableZooms[targetZoomIndex];
-          
-          zoomLevelSelect.value = targetZoom.toString();
-          console.log(`Graphics setting ${graphicsSettings}: Set zoom level to ${targetZoom} (index ${targetZoomIndex}/${availableZooms.length - 1}, available: ${availableZooms.join(', ')})`);
+          idx = Math.max(0, Math.min(idx, availableZooms.length - 1));
+          zoomLevelSelect.value = String(availableZooms[idx]);
+          console.log(`Graphics setting ${graphicsSettings}: Set zoom level to ${availableZooms[idx]}`);
         }
       }
-      
-      this.isUpdatingGraphicsSettings = true; // Set flag to prevent infinite loops
-      setTimeout(() => {
-        this.isUpdatingGraphicsSettings = false; // Reset flag after a short delay
-      }, 100);
+
+      this.isUpdatingGraphicsSettings = true;
+      setTimeout(() => (this.isUpdatingGraphicsSettings = false), 100);
     });
   }
 
-  // Get description for zoom level
   getZoomDescription(zoom) {
-    const descriptions = {
-      10: "Velmi nízké rozlišení (cca 150m/pixel)",
-      12: "Nízké rozlišení (cca 38m/pixel)", 
-      14: "Střední rozlišení (cca 9.5m/pixel)",
-      16: "Vysoké rozlišení (cca 2.4m/pixel)",
-      18: "Velmi vysoké rozlišení (cca 0.6m/pixel)"
+    const desc = {
+      10: 'Velmi nízké rozlišení (cca 150m/pixel)',
+      12: 'Nízké rozlišení (cca 38m/pixel)',
+      14: 'Střední rozlišení (cca 9.5m/pixel)',
+      16: 'Vysoké rozlišení (cca 2.4m/pixel)',
+      18: 'Velmi vysoké rozlišení (cca 0.6m/pixel)',
     };
-    return descriptions[zoom] || `Zoom level ${zoom}`;
+    return desc[zoom] || `Zoom level ${zoom}`;
   }
 
-  // Sync zoom level with graphics settings
-  syncZoomLevelWithGraphicsSettings(graphicsSettings, availableZooms) {
-    if (availableZooms.length === 0) return;
-    
-    let targetZoomIndex;
-    
-    switch (graphicsSettings) {
-      case 'veryVeryLow':
-        targetZoomIndex = 0;
-        break;
-      case 'veryLow':
-        targetZoomIndex = Math.floor(availableZooms.length * 0.25);
-        break;
-      case 'low':
-        targetZoomIndex = Math.floor(availableZooms.length * 0.5);
-        break;
-      case 'medium':
-        targetZoomIndex = Math.floor(availableZooms.length * 0.75);
-        break;
-      case 'high':
-        targetZoomIndex = availableZooms.length - 1;
-        break;
-      default:
-        targetZoomIndex = Math.floor(availableZooms.length * 0.5);
-    }
-    
-    targetZoomIndex = Math.max(0, Math.min(targetZoomIndex, availableZooms.length - 1));
-    const targetZoom = availableZooms[targetZoomIndex];
-    
-    this.uiManager.elements.zoomLevelSelect.value = targetZoom.toString();
-    console.log(`Synced zoom level to ${targetZoom} for graphics setting ${graphicsSettings}`);
-  }
-
-  // Update zoom level dropdown based on available levels
   updateZoomLevelOptions(availableZooms) {
     const { zoomLevelSelect, graphicsSettingsSelect } = this.uiManager.elements;
-    
-    if (availableZooms.length === 0) {
+
+    if (!availableZooms || availableZooms.length === 0) {
       zoomLevelSelect.disabled = true;
       zoomLevelSelect.innerHTML = '<option value="">Žádné zoom levely nenalezeny</option>';
       return;
     }
-    
-    // Sort zoom levels
+
     const sortedZooms = [...availableZooms].sort((a, b) => a - b);
-    
-    // Clear existing options
     zoomLevelSelect.innerHTML = '';
-    
-    // Add auto option
-    const autoOption = document.createElement('option');
-    autoOption.value = 'auto';
-    autoOption.textContent = 'Automaticky (doporučeno)';
-    zoomLevelSelect.appendChild(autoOption);
-    
-    // Add available zoom levels
-    sortedZooms.forEach(zoom => {
-      const option = document.createElement('option');
-      option.value = zoom.toString();
-      option.textContent = `${zoom} - ${this.getZoomDescription(zoom)}`;
-      zoomLevelSelect.appendChild(option);
-    });
-    
-    // Enable the select
-    zoomLevelSelect.disabled = false;
-    
-    // Set default to auto
-    zoomLevelSelect.value = 'auto';
-    
-    // Sync with current graphics settings
-    const currentGraphicsSettings = graphicsSettingsSelect.value;
-    if (currentGraphicsSettings) {
-      this.syncZoomLevelWithGraphicsSettings(currentGraphicsSettings, sortedZooms);
+
+    if (sortedZooms.length > 1) {
+      const auto = document.createElement('option');
+      auto.value = 'auto';
+      auto.textContent = 'Automaticky (doporučeno)';
+      zoomLevelSelect.appendChild(auto);
     }
-    
+
+    for (const z of sortedZooms) {
+      const opt = document.createElement('option');
+      opt.value = String(z);
+      opt.textContent = `${z} - ${this.getZoomDescription(z)}`;
+      zoomLevelSelect.appendChild(opt);
+    }
+
+    zoomLevelSelect.disabled = false;
+
+    if (sortedZooms.length > 1) {
+      zoomLevelSelect.value = 'auto';
+      const current = graphicsSettingsSelect.value;
+      if (current) this.syncZoomLevelWithGraphicsSettings(current, sortedZooms);
+    } else {
+      // Single zoom → select directly
+      zoomLevelSelect.value = String(sortedZooms[0]);
+    }
+
     console.log(`Updated zoom level options: [${sortedZooms.join(', ')}]`);
   }
 
-  // Getters for external access
+  syncZoomLevelWithGraphicsSettings(graphicsSettings, availableZooms) {
+    if (!availableZooms || availableZooms.length === 0) return;
+    let idx;
+    switch (graphicsSettings) {
+      case 'veryVeryLow': idx = 0; break;
+      case 'veryLow':     idx = Math.floor(availableZooms.length * 0.25); break;
+      case 'low':         idx = Math.floor(availableZooms.length * 0.5);  break;
+      case 'medium':      idx = Math.floor(availableZooms.length * 0.75); break;
+      case 'high':        idx = availableZooms.length - 1; break;
+      default:            idx = Math.floor(availableZooms.length * 0.5);
+    }
+    idx = Math.max(0, Math.min(idx, availableZooms.length - 1));
+    const targetZoom = availableZooms[idx];
+    this.uiManager.elements.zoomLevelSelect.value = String(targetZoom);
+    console.log(`Synced zoom level to ${targetZoom} for graphics setting ${graphicsSettings}`);
+  }
+
+  // Getters
   getSelectedFiles() {
     return this.selectedFiles;
   }
@@ -99196,7 +99179,7 @@ function cropDEMToOrthophoto(demData, orthoData) {
 /* harmony export */   getTileAreaBounds: () => (/* binding */ getTileAreaBounds),
 /* harmony export */   loadTileMosaicFromFiles: () => (/* binding */ loadTileMosaicFromFiles)
 /* harmony export */ });
-/* unused harmony exports latLonToTile, tileToBounds, detectAvailableZoomLevels, loadTileMosaic */
+/* unused harmony exports latLonToTile, tileToBounds, detectAvailableZoomLevels, loadTileMosaic, detectZoomConfig, fillZoomSelect */
 // js/osm-tile-utils.js
 // Utilities for loading and processing OpenStreetMap tiles in z/y/x format
 
@@ -99399,13 +99382,15 @@ async function loadTileMosaicFromFiles(files, tileRange, tileSize = 256, onProgr
   // Create file lookup map for faster access
   const fileMap = new Map();
   for (const file of files) {
-    const pathParts = file.webkitRelativePath.split('/');
-    if (pathParts.length >= 4) {
-      const z = pathParts[1];
-      const x = pathParts[2];
-      const y = pathParts[3].replace('.jpg', ''); // Remove extension
-      const key = `${z}/${x}/${y}`;
-      fileMap.set(key, file);
+    const parts = (file.webkitRelativePath || '').split('/');
+    if (parts.length >= 4) {
+      // root / z / x / y.ext
+      const z = parts[1], x = parts[2], y = parts[3].replace(/\.(png|jpg|jpeg)$/i, '');
+      fileMap.set(`${z}/${x}/${y}`, file);
+    } else if (parts.length === 3 && /^\d+$/.test(parts[0])) {
+      // single-zoom: z / x / y.ext
+      const z = parts[0], x = parts[1], y = parts[2].replace(/\.(png|jpg|jpeg)$/i, '');
+      fileMap.set(`${z}/${x}/${y}`, file);
     }
   }
   
@@ -99594,6 +99579,81 @@ function getOptimalZoomLevelOriginal(sizeKm, maxTiles = 100) {
   }
   
   return 10; // Fallback zoom level
+}
+
+/**
+ * Detect whether `dirHandle` is a tiles *root* (contains z-subfolders)
+ * or a *single zoom* directory (its own name is numeric, like "15").
+ * Returns { mode: 'root'|'single', zoomLevels: number[], getZoomDirHandle(z): Promise<DirectoryHandle> }
+ */
+async function detectZoomConfig(dirHandle) {
+  const zList = [];
+
+  // Scan immediate subdirs: if there are numeric names, it's a ROOT
+  for await (const [name, handle] of dirHandle.entries?.() ?? []) {
+    if (handle.kind === 'directory' && /^\d+$/.test(name)) {
+      zList.push(Number(name));
+    }
+  }
+
+  if (zList.length > 0) {
+    zList.sort((a, b) => a - b);
+    return {
+      mode: 'root',
+      zoomLevels: zList,
+      async getZoomDirHandle(z) {
+        const h = await dirHandle.getDirectoryHandle(String(z), { create: false });
+        return h;
+      }
+    };
+  }
+
+  // No z-subdirs; if this folder *itself* is a number, treat it as single-zoom
+  if (/^\d+$/.test(dirHandle.name)) {
+    const z = Number(dirHandle.name);
+    return {
+      mode: 'single',
+      zoomLevels: [z],
+      async getZoomDirHandle() {
+        // the selected dir *is* the zoom directory
+        return dirHandle;
+      }
+    };
+  }
+
+  // Fallback: treat as single with unknown zoom (will be validated downstream)
+  // (Most realistic single-zoom folders will have a numeric name; this helps UX.)
+  return {
+    mode: 'single',
+    zoomLevels: [],
+    async getZoomDirHandle() {
+      return dirHandle;
+    }
+  };
+}
+
+/**
+ * Utility to (re)fill the <select id="zoomLevel"> element with given zooms.
+ */
+function fillZoomSelect(zoomLevels, selectEl = document.getElementById('zoomLevel')) {
+  if (!selectEl) return;
+  selectEl.innerHTML = '';
+  if (!zoomLevels || zoomLevels.length === 0) {
+    const opt = document.createElement('option');
+    opt.value = '';
+    opt.textContent = '—';
+    selectEl.appendChild(opt);
+    selectEl.disabled = true;
+    return;
+  }
+
+  for (const z of zoomLevels) {
+    const opt = document.createElement('option');
+    opt.value = String(z);
+    opt.textContent = `z${z}`;
+    selectEl.appendChild(opt);
+  }
+  selectEl.disabled = zoomLevels.length === 1 ? false : false; // enabled; only one option if single
 }
 
 
@@ -101216,3 +101276,4 @@ window.addEventListener('DOMContentLoaded', () => {
 
 /******/ })()
 ;
+//# sourceMappingURL=bundle.js.map
