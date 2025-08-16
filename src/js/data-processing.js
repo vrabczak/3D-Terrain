@@ -77,11 +77,11 @@ export function sampleDEMAtCoordinate(elevationData, width, height, geoTransform
   }
 
   // Convert geographic coordinates to pixel coordinates
-  const x = (lon - geoTransform.originX) / geoTransform.pixelSizeX;
-  const y = (lat - geoTransform.originY) / geoTransform.pixelSizeY;
+  const x = (lon - geoTransform.originX) / geoTransform.pixelSizeX + 0.5;
+  const y = (lat - geoTransform.originY) / geoTransform.pixelSizeY + 0.5;
 
-  const col = Math.floor(x);
-  const row = Math.floor(y);
+  const col = Math.round(x);
+  const row = Math.round(y);
 
   // Check pixel bounds
   if (col < 0 || col >= width || row < 0 || row >= height) {
