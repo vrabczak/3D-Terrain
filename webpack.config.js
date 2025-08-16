@@ -15,9 +15,9 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      inject: 'body'
+      inject: 'body'  
     }),
-    new LimitChunkCountPlugin({ maxChunks: 1 })
+    new LimitChunkCountPlugin({ maxChunks: 1 }),
   ],
   module: {
     rules: [
@@ -29,9 +29,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      // Force only exact 'three' imports to use the same instance ($ means exact match)
-      'three$': path.resolve(__dirname, 'node_modules/three/build/three.module.js'),
-      // Alias examples directory
+      three: path.resolve(__dirname, 'node_modules/three'),
       'three/examples/jsm': path.resolve(__dirname, 'node_modules/three/examples/jsm')
     },
     extensions: ['.js']
