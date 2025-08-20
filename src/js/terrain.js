@@ -160,34 +160,55 @@ export class TerrainRenderer {
   /**
    * Calculate terrain dimensions based on geographic bounds and resolution
    */
-  calculateTerrainDimensions(bbox, terrainResolution, maxTerrainDimension) {
-    const [west, south, east, north] = bbox;
-    const METERS_PER_DEGREE_LAT = 111000;
-    
-    // Calculate center latitude for longitude scaling
-    const centerLat = (north + south) / 2;
-    const METERS_PER_DEGREE_LON = 111000 * Math.cos(centerLat * Math.PI / 180);
-    
-    const geographicWidth = Math.abs(east - west) * METERS_PER_DEGREE_LON;
-    const geographicHeight = Math.abs(north - south) * METERS_PER_DEGREE_LAT;
-    
-    // Calculate terrain mesh dimensions based on desired resolution
-    const terrainWidth = Math.ceil(geographicWidth / terrainResolution);
-    const terrainHeight = Math.ceil(geographicHeight / terrainResolution);
-    
-    // Limit mesh dimensions based on maxTerrainDimension
-    const meshWidth = Math.min(terrainWidth, maxTerrainDimension);
-    const meshHeight = Math.min(terrainHeight, maxTerrainDimension);
-    
-    return {
-      realWorldWidth: geographicWidth,
-      realWorldHeight: geographicHeight,
-      terrainWidth,
-      terrainHeight,
-      meshWidth,
-      meshHeight
-    };
+calculateTerrainDimensions(bbox, terrainResolution, maxTerrainDimension) {
+  const [west, south, east, north] = bbox;
+
+  // Web Mercator (EPSG:3857) helpers
+  const R = 6378137;
+  const degToRad = (d) => d * Math.PI / 180;
+  const lonToX = (lon) => R * degToRad(lon);
+  const latToY = (lat) => {
+    const φ = degToRad(lat);
+    // clamp to Mercator latitude limit to avoid infs
+    const maxφ = degToRad(85.05112878);
+    const clamped = Math.max(Math.min(φ, maxφ), -maxφ);
+    return R * Math.log(Math.tan(Math.PI / 4 + clamped / 2));
+  };
+
+  // Real-world size in meters derived from bbox in geographic degrees
+  const realWorldWidth  = Math.abs(lonToX(east)  - lonToX(west));
+  const realWorldHeight = Math.abs(latToY(north) - latToY(south));
+
+  // Mesh density from desired ground resolution (meters per grid cell)
+  let terrainWidth  = Math.max(2, Math.ceil(realWorldWidth  / terrainResolution));
+  let terrainHeight = Math.max(2, Math.ceil(realWorldHeight / terrainResolution));
+
+  // Cap triangles to keep things sane
+  const maxDim = Math.max(2, maxTerrainDimension | 0);
+  const scale = Math.max(terrainWidth / maxDim, terrainHeight / maxDim, 1);
+  if (scale > 1) {
+    terrainWidth  = Math.max(2, Math.floor(terrainWidth  / scale));
+    terrainHeight = Math.max(2, Math.floor(terrainHeight / scale));
   }
+
+  // Optionally thin mesh segments (PlaneGeometry segments = cells - 1)
+  const meshWidth  = terrainWidth;
+  const meshHeight = terrainHeight;
+
+  return {
+    // real-world sizes for PlaneGeometry(width, height, ...)
+    realWorldWidth,
+    realWorldHeight,
+
+    // cells (also used to sample high-res elevation grid)
+    terrainWidth,
+    terrainHeight,
+
+    // segments in PlaneGeometry
+    meshWidth,
+    meshHeight,
+  };
+}
   
   /**
    * Build high-resolution elevation grid
