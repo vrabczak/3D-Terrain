@@ -387,10 +387,10 @@ calculateTerrainDimensions(bbox, terrainResolution, maxTerrainDimension) {
    * Setup lighting for the scene
    */
   setupLighting() {
-    const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+    const ambientLight = new THREE.AmbientLight(0x404040, 1);
     this.scene.add(ambientLight);
     
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
     directionalLight.position.set(1, 1, 1);
     this.scene.add(directionalLight);
   }
