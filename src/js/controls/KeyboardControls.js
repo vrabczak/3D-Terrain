@@ -60,11 +60,12 @@ export class KeyboardControls {
     this.movementKeys = ['KeyW','KeyS','KeyA','KeyD','KeyQ','KeyE','KeyR','KeyF','KeyT','KeyG'];
 
     // Bind methods so they can be safely used as event listeners
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleKeyUp   = this.handleKeyUp.bind(this);
-    this.handleMouseDown = this.handleMouseDown.bind(this);
-    this.handlePointerDownCapture = this.handlePointerDownCapture.bind(this);
-    this.handleWindowBlur = this.handleWindowBlur.bind(this);
+    this.handleKeyDown = this.#handleKeyDown.bind(this);
+    this.handleKeyUp   = this.#handleKeyUp.bind(this);
+    this.handleMouseDown = this.#handleMouseDown.bind(this);
+    this.handlePointerDownCapture = this.#handlePointerDownCapture.bind(this);
+    this.handleWindowBlur = this.#handleWindowBlur.bind(this);
+    this.flushOrbitMomentum = this.#flushOrbitMomentum.bind(this);
   }
 
   /**
@@ -72,7 +73,7 @@ export class KeyboardControls {
    */
   init() {
     if (this.initialized) return;
-    this.setupEventListeners();
+    this.#setupEventListeners();
     this.initialized = true;
   }
 
@@ -80,7 +81,7 @@ export class KeyboardControls {
    * Attach all required event listeners for keyboard/mouse control.
    * Uses capture-phase pointerdown to switch back to OrbitControls immediately.
    */
-  setupEventListeners() {
+  #setupEventListeners() {
     document.addEventListener('keydown', this.handleKeyDown);
     document.addEventListener('keyup',   this.handleKeyUp);
 
@@ -92,14 +93,18 @@ export class KeyboardControls {
     // Legacy fallback
     el.addEventListener('mousedown', this.handleMouseDown);
 
+    // stop inertia right when OrbitControls finishes a gesture
+    this.orbitControls.addEventListener('end', this.flushOrbitMomentum);
+
     window.addEventListener('blur', this.handleWindowBlur);
+
   }
 
   /**
    * Handle key down events, activating keyboard mode when a movement key is pressed.
    * @param {KeyboardEvent} event
    */
-  handleKeyDown(event) {
+  #handleKeyDown(event) {
     const key = event.code;
     this.keyStates[key] = true;
 
@@ -113,7 +118,7 @@ export class KeyboardControls {
    * Handle key up events.
    * @param {KeyboardEvent} event
    */
-  handleKeyUp(event) {
+  #handleKeyUp(event) {
     const key = event.code;
     this.keyStates[key] = false;
     event.preventDefault();
@@ -125,7 +130,7 @@ export class KeyboardControls {
    * deactivate keyboard mode so OrbitControls consumes this very event.
    * @param {PointerEvent} event
    */
-  handlePointerDownCapture(event) {
+  #handlePointerDownCapture(event) {
     const hamburgerBtn = document.getElementById('hamburger-btn');
     if (hamburgerBtn && (event.target === hamburgerBtn || hamburgerBtn.contains(event.target))) {
       return; // allow UI interaction
@@ -140,7 +145,7 @@ export class KeyboardControls {
    * Fallback mousedown handler (legacy).
    * @param {MouseEvent} event
    */
-  handleMouseDown(event) {
+  #handleMouseDown(event) {
     const hamburgerBtn = document.getElementById('hamburger-btn');
     if (hamburgerBtn && (event.target === hamburgerBtn || hamburgerBtn.contains(event.target))) {
       return;
@@ -154,7 +159,7 @@ export class KeyboardControls {
   /**
    * Reset key states and deactivate keyboard mode when window loses focus.
    */
-  handleWindowBlur() {
+  #handleWindowBlur() {
     this.keyStates = {};
     this.deactivateKeyboardMode();
   }
@@ -173,7 +178,7 @@ export class KeyboardControls {
    */
   deactivateKeyboardMode() {
     this.isActive = false;
-    this.syncOrbitToCamera();
+    this.#syncOrbitToCamera();
     this.orbitControls.enabled = true;
     this.orbitControls.update();
   }
@@ -274,7 +279,7 @@ export class KeyboardControls {
    * Synchronize OrbitControls target to match current camera orientation/position.
    * Prevents teleporting when switching back to mouse control.
    */
-  syncOrbitToCamera() {
+  #syncOrbitToCamera() {
     this.camera.getWorldDirection(this.cameraDirection);
 
     const dist =
@@ -300,6 +305,29 @@ export class KeyboardControls {
       this.orbitControls.update();
     }
   }
+  
+  /**
+   * Immediately stop OrbitControls' residual motion (damping tail).
+   * Called on OrbitControls 'end' event.
+   */
+  #flushOrbitMomentum() {
+    const oc = this.orbitControls;
+
+    // Zero internal deltas (private but stable across Three versions)
+    if (oc.sphericalDelta && typeof oc.sphericalDelta.set === 'function') {
+      oc.sphericalDelta.set(0, 0, 0);
+    }
+    if (oc.panOffset && typeof oc.panOffset.set === 'function') {
+      oc.panOffset.set(0, 0, 0);
+    }
+    if ('scale' in oc) oc.scale = 1;   // cancel any dolly momentum
+
+    // Flush one frame without damping so nothing eases further
+    const hadDamping = oc.enableDamping;
+    if (hadDamping) oc.enableDamping = false;
+    oc.update();
+    if (hadDamping) oc.enableDamping = true;
+  }
 
   /**
    * Remove all event listeners and reset internal state.
@@ -311,6 +339,8 @@ export class KeyboardControls {
     const el = this.orbitControls?.domElement || this.renderer.domElement;
     el.removeEventListener('pointerdown', this.handlePointerDownCapture, { capture: true });
     el.removeEventListener('mousedown',   this.handleMouseDown);
+    
+    this.orbitControls.removeEventListener('end', this.flushOrbitMomentum);
 
     window.removeEventListener('blur', this.handleWindowBlur);
     this.initialized = false;
