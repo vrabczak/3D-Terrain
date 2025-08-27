@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { KeyboardControls } from './controls/KeyboardControls.js';
 import { Overlay2D } from './overlays/Overlay2D.js';
 import { MeshFactory } from './MeshFactory.js';
+import { ObstaclesManager } from './obstacles.js';
 
 /**
  * TerrainRenderer — orchestrates the app pipeline (scene, IO, camera, controls, render loop)
@@ -29,6 +30,8 @@ export class TerrainRenderer {
 
     this.animate = this.animate.bind(this);
     this.handleWindowResize = this.handleWindowResize.bind(this);
+
+    this.heightScaleMultiplier = null;
   }
 
   // ---------------------------------------------------------------------------
@@ -68,6 +71,8 @@ export class TerrainRenderer {
     antialiasing = 'auto'
   ) {
     try {
+      this.heightScaleMultiplier = heightScaleMultiplier;
+      
       // Build terrain mesh via MeshFactory
       const { mesh, dimensions, elevationStats } = this.meshFactory.build(demData, textureImageData, {
         heightScaleMultiplier,
@@ -100,6 +105,17 @@ export class TerrainRenderer {
       if (!this._lightingReady) { this.setupLighting(); this._lightingReady = true; }
       if (!this.overlay2D) { this.initControlsAndOverlays(); }
       this.positionCamera(dimensions);
+
+      this.obstaclesManager = new ObstaclesManager({
+        scene: this.scene,
+        latLonToModelXYZ: this.latLonToModelXYZ.bind(this),
+        metersToModelUnits: this.metersToModelUnits.bind(this),
+        getHeightScaleMultiplier: () => this.heightScaleMultiplier ?? 1, // <- from your terrain params
+      });
+      this.obstaclesManager.init();
+
+      window.terrainApp = window.terrainApp || this;
+      window.terrainApp.obstaclesManager = this.obstaclesManager;
 
       //test object
       //await this.addTestBall(49.16661,16.12393);
@@ -281,6 +297,11 @@ export class TerrainRenderer {
    */
   metersToModelUnits(meters, axis = 'horizontal', lat) {
     return this.meshFactory.metersToModelUnits(meters, axis, lat);
+  }
+
+  renderObstacles(obstaclesArray) {
+    if (!this.obstaclesManager) return;
+    this.obstaclesManager.renderObstacles(obstaclesArray);
   }
 
   /**

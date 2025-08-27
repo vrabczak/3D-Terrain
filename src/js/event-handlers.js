@@ -1,26 +1,85 @@
 /**
- * Event Handlers - Manages file inputs, graphics settings, and zoom level synchronization
+ * Event Handlers - Manages file inputs, graphics settings, and zoom level synchronization.
+ * Stores user selections (OSM folder, obstacles ZIP) and exposes getters
+ * that the RenderController reads during the render workflow.
+ *
+ * @module event-handlers
  */
 
 import { detectAvailableZoomLevelsFromFiles } from './osm-tile-utils.js';
 
+/**
+ * @typedef {Object} UIElements
+ * @property {HTMLInputElement} tileFolderInput
+ * @property {HTMLElement} folderStatus
+ * @property {HTMLSelectElement} graphicsSettingsSelect
+ * @property {HTMLSelectElement} zoomLevelSelect
+ * @property {HTMLSelectElement} sceneResolutionSelect
+ * @property {HTMLSelectElement} antialiasingSelect
+ * @property {HTMLElement} [obstaclesStatus]
+ */
+
+/**
+ * @typedef {Object} UIManager
+ * @property {UIElements} elements
+ * @property {() => boolean} validateForm
+ * @property {() => void} setLoadingState
+ * @property {() => void} showProgress
+ * @property {(progress:number, message?:string) => void} updateProgress
+ * @property {() => void} hideMenuAndShowControls
+ * @property {() => void} hideProgress
+ * @property {() => {
+ *   demFile: File,
+ *   zoomLevel: string|number,
+ *   modelSize: number,
+ *   latitude: number,
+ *   longitude: number,
+ *   heightScaleMultiplier: number,
+ *   graphicsSettings: 'veryVeryLow'|'veryLow'|'low'|'medium'|'high',
+ *   sceneResolution: number|string,
+ *   antialiasing: 'true'|'false'|'auto'
+ * }} getFormValues
+ */
+
+/**
+ * Manages DOM event wiring and keeps user selections in memory.
+ */
 export class EventHandlers {
+  /**
+   * @param {UIManager} uiManager
+   */
   constructor(uiManager) {
+    /** @type {UIManager} */
     this.uiManager = uiManager;
+
+    /** @type {FileList|null} */
     this.selectedFiles = null;
+
+    /** @type {number[]} */
     this.availableZoomLevels = [];
+
+    /** @type {boolean} */
     this.isUpdatingGraphicsSettings = false;
+
+    /** @type {'root'|'single'} */
     this.tilesMode = 'root'; // 'root' or 'single'
+
+    // keep obstacles ZIP like we keep OSM folder/DEM in UI manager
+    /** @type {File|null} */
+    this.obstaclesZipFile = null;
+
     this.initializeEventHandlers();
   }
 
+  /** Wire up all initial event handlers. */
   initializeEventHandlers() {
     this.setupFileInputHandlers();
     this.setupGraphicsSettingsSync();
   }
 
+  /** Set up OSM folder and obstacles ZIP input handlers. */
   setupFileInputHandlers() {
-    const { tileFolderInput, folderStatus } = this.uiManager.elements;
+    const { tileFolderInput, folderStatus } = /** @type {UIElements} */ (this.uiManager.elements);
 
     // Show wait cursor while the picker is open
     tileFolderInput.addEventListener('click', () => {
@@ -29,7 +88,8 @@ export class EventHandlers {
 
     tileFolderInput.addEventListener('change', async (event) => {
       try {
-        const files = event.target.files;
+        /** @type {FileList|null} */
+        const files = /** @type {HTMLInputElement} */(event.target).files;
         if (files && files.length > 0) {
           this.selectedFiles = files;
 
@@ -51,6 +111,7 @@ export class EventHandlers {
               const singleZoom = parseInt(folderName, 10);
               zooms = [singleZoom];
               this.tilesMode = 'single';
+              // legacy globals kept if other parts rely on them
               window.__tilesMode = 'single';
               window.__singleZoom = singleZoom;
               console.log('Jednoúrovňová složka detekována, zoom:', singleZoom);
@@ -86,16 +147,41 @@ export class EventHandlers {
         document.body.style.cursor = 'default';
       }
     });
+
+    // Obstacles ZIP input (no controller reference; we just store the File)
+    const obstaclesZipInput = document.getElementById('obstaclesZipInput');
+    if (obstaclesZipInput) {
+      obstaclesZipInput.addEventListener('change', (e) => {
+        const file = /** @type {HTMLInputElement} */(e.target).files && /** @type {HTMLInputElement} */(e.target).files[0];
+        if (file) {
+          this.obstaclesZipFile = file;
+          console.log(`Vybrán soubor překážek: ${file.name}`);
+          const status = this.uiManager?.elements?.obstaclesStatus;
+          if (status) {
+            status.textContent = `Překážky: ${file.name}`;
+            status.style.color = 'green';
+          }
+        } else {
+          this.obstaclesZipFile = null;
+          const status = this.uiManager?.elements?.obstaclesStatus;
+          if (status) {
+            status.textContent = 'Překážky: nevybráno';
+            status.style.color = '';
+          }
+        }
+      });
+    }
   }
 
+  /** Synchronize graphics preset with other UI settings and suggested zoom. */
   setupGraphicsSettingsSync() {
-    const { graphicsSettingsSelect, zoomLevelSelect } = this.uiManager.elements;
+    const { graphicsSettingsSelect, zoomLevelSelect } = /** @type {UIElements} */ (this.uiManager.elements);
 
     graphicsSettingsSelect.addEventListener('change', () => {
       if (this.isUpdatingGraphicsSettings) return;
 
-      const graphicsSettings = graphicsSettingsSelect.value;
-      const { sceneResolutionSelect, antialiasingSelect } = this.uiManager.elements;
+      const graphicsSettings = /** @type {UIElements} */ (this.uiManager.elements).graphicsSettingsSelect.value;
+      const { sceneResolutionSelect, antialiasingSelect } = /** @type {UIElements} */ (this.uiManager.elements);
 
       switch (graphicsSettings) {
         case 'veryVeryLow':
@@ -149,6 +235,11 @@ export class EventHandlers {
     });
   }
 
+  /**
+   * Human-readable description for zoom levels (approximate GSD).
+   * @param {number} zoom
+   * @returns {string}
+   */
   getZoomDescription(zoom) {
     const desc = {
       10: 'Velmi nízké rozlišení (cca 150m/pixel)',
@@ -160,8 +251,12 @@ export class EventHandlers {
     return desc[zoom] || `Zoom level ${zoom}`;
   }
 
+  /**
+   * Replace the zoom level <select> options based on available tile zooms.
+   * @param {number[]} availableZooms
+   */
   updateZoomLevelOptions(availableZooms) {
-    const { zoomLevelSelect, graphicsSettingsSelect } = this.uiManager.elements;
+    const { zoomLevelSelect, graphicsSettingsSelect } = /** @type {UIElements} */ (this.uiManager.elements);
 
     if (!availableZooms || availableZooms.length === 0) {
       zoomLevelSelect.disabled = true;
@@ -200,6 +295,12 @@ export class EventHandlers {
     console.log(`Updated zoom level options: [${sortedZooms.join(', ')}]`);
   }
 
+  /**
+   * Suggest an appropriate zoom based on the graphics preset.
+   * @param {'veryVeryLow'|'veryLow'|'low'|'medium'|'high'} graphicsSettings
+   * @param {number[]} availableZooms
+   * @returns {void}
+   */
   syncZoomLevelWithGraphicsSettings(graphicsSettings, availableZooms) {
     if (!availableZooms || availableZooms.length === 0) return;
     let idx;
@@ -217,12 +318,29 @@ export class EventHandlers {
     console.log(`Synced zoom level to ${targetZoom} for graphics setting ${graphicsSettings}`);
   }
 
-  // Getters
+  // ----- Getters -----
+
+  /**
+   * The user-selected OSM tiles (folder) as a FileList, if any.
+   * @returns {FileList|null}
+   */
   getSelectedFiles() {
     return this.selectedFiles;
   }
 
+  /**
+   * The available tile zoom levels detected from the folder.
+   * @returns {number[]}
+   */
   getAvailableZoomLevels() {
     return this.availableZoomLevels;
+  }
+
+  /**
+   * The user-selected obstacles ZIP file, if any.
+   * @returns {File|null}
+   */
+  getObstaclesZipFile() {
+    return this.obstaclesZipFile;
   }
 }
