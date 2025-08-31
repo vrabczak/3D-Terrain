@@ -129,11 +129,38 @@ export class MeshFactory {
 
     const fx = u * (gridW - 1);
     const fy = v * (gridH - 1);
-    const elevMeters = this.#bilinearElevation(fx, fy) ?? elevMin;
+    const elevMeters = this.#getElevation(fx, fy) ?? elevMin;
 
     const zLocalBeforeRotation = (elevMeters - elevMin) * verticalScale;
 
     return { x: xLocal, y: zLocalBeforeRotation, z: -yLocal };
+  }
+
+  /**
+   * Simple elevation lookup that fixes the Y-orientation mismatch.
+   * Our highResElev is row-major with r=0 at the **north** edge.
+   * In latLonToModelXYZ, v=0 is **south** and v=1 is **north**.
+   * Therefore we must flip Y when indexing into the raster.
+   *
+   * @param {number} fx - fractional column in [0, gridW-1]
+   * @param {number} fy - fractional row in [0, gridH-1] where 0 = SOUTH, gridH-1 = NORTH
+   * @returns {number|null} elevation in meters or null if unavailable
+   */
+  #getElevation(fx, fy) {
+    if (!this.highResElev || !this.modelMap) return null;
+    const { gridW, gridH } = this.modelMap;
+
+    // Clamp to valid sample range
+    const cx = Math.max(0, Math.min(gridW - 1, Math.round(fx)));
+
+    // IMPORTANT: flip Y because our raster stores r=0 at NORTH,
+    // while fy=0 corresponds to SOUTH (v=0 -> south, v=1 -> north).
+    const fyClamped = Math.max(0, Math.min(gridH - 1, Math.round(fy)));
+    const ry = (gridH - 1) - fyClamped; // flip
+
+    const idx = ry * gridW + cx;
+    const z = this.highResElev[idx];
+    return Number.isFinite(z) ? z : null;
   }
 
   /** Convert real meters to model units. */
@@ -320,25 +347,6 @@ export class MeshFactory {
   #mercatorScaleAtLat(latDeg) { const φ = (latDeg * Math.PI) / 180; const c = Math.cos(φ); return (c === 0) ? Infinity : 1 / c; }
 
   #calculateHeightScale(_w, _h, elevationRange, heightScaleMultiplier) { return (elevationRange <= 0) ? heightScaleMultiplier : heightScaleMultiplier; }
-
-  #bilinearElevation(x, y) {
-    if (!this.highResElev || !this.modelMap) return null;
-    const { gridW, gridH } = this.modelMap;
-    const x0 = Math.max(0, Math.min(gridW - 1, Math.floor(x)));
-    const y0 = Math.max(0, Math.min(gridH - 1, Math.floor(y)));
-    const x1 = Math.max(0, Math.min(gridW - 1, x0 + 1));
-    const y1 = Math.max(0, Math.min(gridH - 1, y0 + 1));
-    const tx = Math.max(0, Math.min(1, x - x0));
-    const ty = Math.max(0, Math.min(1, y - y0));
-    const idx = (ix, iy) => iy * gridW + ix;
-    const z00 = this.highResElev[idx(x0, y0)];
-    const z10 = this.highResElev[idx(x1, y0)];
-    const z01 = this.highResElev[idx(x0, y1)];
-    const z11 = this.highResElev[idx(x1, y1)];
-    const z0 = z00 * (1 - tx) + z10 * tx;
-    const z1 = z01 * (1 - tx) + z11 * tx;
-    return z0 * (1 - ty) + z1 * ty;
-  }
 
   #imageDataToCanvas(imageData) {
     const canvas = document.createElement('canvas');
