@@ -118,7 +118,7 @@ export class TerrainRenderer {
       window.terrainApp.obstaclesManager = this.obstaclesManager;
 
       //test object
-      //await this.addTestBall(49.16661,16.12393);
+      await this.addTestBall(49.1215522,16.1296492);
       
       // Animate
       this.startAnimation();

@@ -59,12 +59,7 @@ function collectFeatures(geo) {
 
 function readHeightMeters(props) {
   const keys = Object.keys(props || {});
-  const wanted = [
-    'PREVYSENI','Prevyseni','prevyseni',
-    'HEIGHT','Height','height',
-    'HEIGHT_M','height_m',
-    'VYSKA','Vyska','vyska'
-  ];
+  const wanted = ['PREVYSENI'];
   for (const label of wanted) {
     const k = keys.find(x => x.toLowerCase() === label.toLowerCase());
     if (k) {
