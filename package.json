@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "geotiff": "^2.1.4-beta.0",
+    "shpjs": "^6.2.0",
     "three": "^0.178.0"
   },
   "description": "",
